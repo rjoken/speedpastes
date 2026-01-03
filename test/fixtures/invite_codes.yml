@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  code: MyString
+  created_by_id: 
+  used_by_id: 
+  used_at: 2026-01-03 17:23:51
+  max_uses: 1
+  uses_count: 1
+
+two:
+  code: MyString
+  created_by_id: 
+  used_by_id: 
+  used_at: 2026-01-03 17:23:51
+  max_uses: 1
+  uses_count: 1

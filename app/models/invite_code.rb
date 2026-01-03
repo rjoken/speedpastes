@@ -1,0 +1,2 @@
+class InviteCode < ApplicationRecord
+end
