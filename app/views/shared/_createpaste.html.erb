@@ -6,7 +6,7 @@
         </div>
         <div>
             <%= f.label :body, "Paste", class: "block text-sm font-semibold" %>
-            <%= f.text_area :body, rows: 10, class: "mt-1 w-full border border-slate-300 px-3 py-2 font-mono text-sm" %>
+            <%= render "shared/paste_editor", f: f, field: :body, rows: 14 %>
             <div class="text-xs text-slate-500 mt-1">Plaintext only for now. Markdown support coming soon!</div>
         </div>
 

@@ -1,0 +1,20 @@
+<%# locals: text:, max_height: (optional) %>
+<% max_height = local_assigns[:max_height] || "480px" %>
+
+<div class="border border-slate-300 bg-white shadow-sm overflow-hidden"
+    data-controller="linenumbers-viewer"
+    data-action="turbo:load@window->linenumbers-viewer#update"
+>
+    <div class="flex" style="max-height: <%= max_height %>;">
+        <pre class="select-none shrink-0 w-14 overflow-hidden bg-slate-50 border-r border-slate-200 text-right pr-2 pl-2 py-3 font-mono text-sm leading-5 text-slate-500"
+             data-linenumbers-viewer-target="numbers"
+             aria-hidden="true"
+        ></pre>
+
+        <pre
+            class="flex-1 overflow-auto px-3 py-3 font-mono text-sm leading-5"
+            data-linenumbers-viewer-target="content"
+            data-action="scroll->linenumbers-viewer#syncScroll"
+        ><%= h(text) %></pre>
+    </div>
+</div>
