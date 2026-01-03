@@ -1,0 +1,8 @@
+<% size ||= 32 %>
+<% if user.avatar.attached? %>
+    <%= image_tag user.avatar, class: "border border-slate-300", style: "width: #{size}px; height: #{size}px; object-fit: cover;" %>
+<% else %>
+    <div class="border border-slate-300 bg-gradient-to-b from-slate-50 to-slate-200 flex items-center justify-center" style="width: <%= size %>px; height: <%= size %>px;">
+        <span class="text-xs font-black text-slate-500"><%= user.username.first.upcase %></span>
+    </div>
+<% end %>

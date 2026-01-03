@@ -46,34 +46,32 @@
           inputs.services-flake.processComposeModules.default
         ];
         settings.processes = {
-          server.command = "bin/rails s";
+          tailwind_build.command = "bin/rails tailwindcss:build";
+
           css.command = "bin/rails tailwindcss:watch";
           css.is_tty = true;
-          setup.command = "bin/setup";
+          css.depends_on.tailwind_build.condition = "process_completed";
+
+          setup.command = "bin/setup --skip-server";
           setup.depends_on.pg.condition = "process_healthy";
+
+          server.command = "bin/rails s";
           server.depends_on.setup.condition = "process_completed";
+          server.depends_on.tailwind_build.condition = "process_completed";
         };
-        services = {
-          postgres = { 
-            pg = {
-              enable = true;
-              package = pkgs.postgresql_16;
 
-              port = 6666;
-              listen_addresses = "localhost";
+        services.postgres."pg" = {
+          enable = true;
+          package = pkgs.postgresql_16;
 
-              initialDatabases = [
-                {
-                  # development database
-                  name = "speedpastes_development";
-                }
-                {
-                  # test database
-                  name = "speedpastes_test";
-                }
-              ];
-            };
-          };
+          port = 6666;
+          # Postgres accepts hostnames/IPs here; using 127.0.0.1 avoids ipv6/localhost weirdness. :contentReference[oaicite:1]{index=1}
+          listen_addresses = "127.0.0.1";
+
+          initialDatabases = [
+            { name = "speedpastes_development"; }
+            { name = "speedpastes_test"; }
+          ];
         };
       };
     };

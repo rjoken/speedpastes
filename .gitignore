@@ -37,3 +37,6 @@
 # Ignore database files
 /data
 
+
+/app/assets/builds/*
+!/app/assets/builds/.keep
