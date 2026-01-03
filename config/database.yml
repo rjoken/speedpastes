@@ -22,7 +22,7 @@ default: &default
 
 development:
   <<: *default
-  database: speedpastes_development
+  url: <%= ENV["DEV_DATABASE_URL"] %>
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
@@ -56,7 +56,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: speedpastes_test
+  url: <%= ENV["TEST_DATABASE_URL"] %>
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -87,9 +87,7 @@ test:
 production:
   primary: &primary_production
     <<: *default
-    database: speedpastes_production
-    username: speedpastes
-    password: <%= ENV["SPEEDPASTES_DATABASE_PASSWORD"] %>
+    url: <%= ENV["DATABASE_URL"] %>
   cache:
     <<: *primary_production
     database: speedpastes_production_cache
