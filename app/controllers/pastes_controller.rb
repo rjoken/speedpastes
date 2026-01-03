@@ -1,5 +1,5 @@
 class PastesController < ApplicationController
-  before_action require_login!, except: [:show]
+  before_action :require_login!, except: [:show]
   before_action :set_paste_by_id, only: [:edit, :update, :destroy]
   before_action :set_paste_by_shortcode, only: [:show]
 
@@ -58,7 +58,7 @@ class PastesController < ApplicationController
   end
 
   def authorize_view!(paste)
-    return if paste.public? || paste.unlisted?
+    return if paste.open? || paste.unlisted?
     return if current_user == paste.user
 
     head :not_found

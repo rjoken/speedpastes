@@ -74,7 +74,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_03_162430) do
     t.text "bio"
     t.datetime "created_at", null: false
     t.string "email", null: false
-    t.bigint "invited_by_id", null: false
+    t.bigint "invited_by_id"
     t.string "link"
     t.string "password_digest", null: false
     t.datetime "updated_at", null: false

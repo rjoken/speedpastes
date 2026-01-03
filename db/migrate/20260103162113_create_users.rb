@@ -6,7 +6,7 @@ class CreateUsers < ActiveRecord::Migration[8.1]
       t.string :password_digest, null: false
       t.text :bio
       t.string :link
-      t.references :invited_by, null: false, foreign_key: { to_table: :users }
+      t.references :invited_by, null: true, foreign_key: { to_table: :users }
 
       t.timestamps
 

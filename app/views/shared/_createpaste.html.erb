@@ -1,0 +1,23 @@
+<div class="p-4">
+    <%= form_with model: @paste, url: pastes_path, class: "space-y-3" do |f| %>
+        <div>
+            <%= f.label :title, "Title", class: "block text-sm font-semibold" %>
+            <%= f.text_field :title, class: "mt-1 w-full border border-slate-300 px-3 py-2" %>
+        </div>
+        <div>
+            <%= f.label :body, "Paste", class: "block text-sm font-semibold" %>
+            <%= f.text_area :body, rows: 10, class: "mt-1 w-full border border-slate-300 px-3 py-2 font-mono text-sm" %>
+            <div class="text-xs text-slate-500 mt-1">Plaintext only for now. Markdown support coming soon!</div>
+        </div>
+
+        <div class="flex items-center justify-between gap-3">
+            <div class="flex items-center gap-2">
+                <%= f.label :visibility, "Visibility", class: "text-sm font-semibold" %>
+                <%= f.select :visibility, Paste.visibilities.keys.map { |k| [k, k] },
+                {}, class: "border border-slate-400 bg-white px-4 py-2 font-bold shadow-sm hover:bg-slate-50" %>
+            </div>
+
+            <%= f.submit "Create paste", class: "border border-slate-400 bg-white px-4 py-2 font-bold shadow-sm hover:bg-slate-50" %>
+        </div>
+    <% end %>
+</div>

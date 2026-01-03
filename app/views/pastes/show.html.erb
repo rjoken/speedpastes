@@ -1,4 +1,16 @@
 <div>
-  <h1 class="font-bold text-4xl">Pastes#show</h1>
-  <p>Find me in app/views/pastes/show.html.erb</p>
+  <h1 class="font-bold text-4xl"><%= @paste.title || "Untitled paste" %></h1>
+  <div class="flex items-center gap-3 mt-2 mb-4">
+    <div class="flex items-center gap-2">
+      <%= render "shared/avatar", user: @paste.user, size: 24 %>
+      <span class="text-sm font-semibold"><%= link_to @paste.user.username, profile_path(@paste.user.username), class: "hover:underline" %></span>
+    </div>
+    <span class="text-xs text-slate-500">|</span>
+    <span class="text-xs text-slate-500"><%= time_ago_in_words(@paste.created_at) %> ago</span>
+    <span class="text-xs text-slate-500">|</span>
+    <span class="text-xs text-slate-500">Visibility: <%= @paste.visibility.capitalize %></span>
+  </div>
+  <div class="border border-slate-300 bg-white shadow-sm">
+    <pre class="p-4 font-mono text-sm whitespace-pre-wrap break-all"><%= @paste.body %></pre>
+  </div>
 </div>

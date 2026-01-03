@@ -7,25 +7,7 @@
             <div class="text sm text-slate-600">Speedpastes is an invite-only text sharing platform made for speedrunners. Share your notes, ideas, strategies and more, quickly and easily.</div>
           </div>
       <% if signed_in? %>
-          <div class="p-4">
-            <%= form_with model: @paste, url: pastes_path, class: "space-y-3" do |f| %>
-              <div>
-                <%= f.label :body, "Paste", class: "block text-sm font-semibold" %>
-                <%= f.text_area :body, rows: 10, class: "mt-1 w-full rounded-md border border-slate-300 px-3 py-2 font-mono text-sm" %>
-                <div class="text-xs text-slate-500 mt-1">Plaintext only for now. Markdown support coming soon!</div>
-              </div>
-
-              <div class="flex items-center justify-between gap-3">
-                <div class="flex items-center gap-2">
-                  <%= f.label :visibility, "Visibility", class: "text-sm font-semibold" %>
-                  <%= f.select :visibility, Paste.visibilities.keys.map { |k| [k, k] },
-                    {}, class: "border border-slate-400 bg-white px-4 py-2 font-bold shadow-sm hover:bg-slate-50" %>
-                  </div>
-
-                <%= f.submit "Create paste", class: "rounded-md border border-slate-400 bg-white px-4 py-2 font-bold shadow-sm hover:bg-slate-50" %>
-              </div>
-            <% end %>
-          </div>
+          <%= render "shared/createpaste" %>
       <% else %>
           <div class="p-4 text-sm text-slate-600">
             Please <%= link_to "log in", login_path, class: "text-blue-600 underline" %> or <%= link_to "sign up", signup_path, class: "text-blue-600 underline" %> to create a new paste.
