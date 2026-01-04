@@ -1,9 +1,21 @@
 <div class="p-4">
-    <%= form_with model: @paste, url: pastes_path, class: "space-y-3" do |f| %>
+    <%= form_with model: @paste, class: "space-y-3" do |f| %>
+        <% if @paste.errors.any? %>
+            <div class="border border-red-300 bg-red-50 p-3 text-sm">
+                <div class="font-bold mb-1">Error</div>
+                <ul class="list-disc pl-5">
+                    <% @paste.errors.full_messages.each do |msg| %>
+                        <li><%= msg %></li>
+                    <% end %>
+                </ul>
+            </div>
+        <% end %>
+
         <div>
             <%= f.label :title, "Title", class: "block text-sm font-semibold" %>
             <%= f.text_field :title, class: "mt-1 w-full border border-slate-300 px-3 py-2" %>
         </div>
+
         <div>
             <%= f.label :body, "Paste", class: "block text-sm font-semibold" %>
             <%= render "shared/paste_editor", f: f, field: :body, rows: 14 %>
@@ -17,7 +29,7 @@
                 {}, class: "border border-slate-400 bg-white px-4 py-2 font-bold shadow-sm hover:bg-slate-50" %>
             </div>
 
-            <%= f.submit "Create paste", class: "border border-slate-400 bg-white px-4 py-2 font-bold shadow-sm hover:bg-slate-50" %>
+            <%= f.submit(@paste.persisted? ? "Save changes" : "Create paste", class: "border border-slate-400 bg-white px-4 py-2 font-bold shadow-sm hover:bg-slate-50") %>
         </div>
     <% end %>
 </div>

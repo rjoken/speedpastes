@@ -9,6 +9,7 @@ class PastesController < ApplicationController
 
   def create
     @paste = current_user.pastes.new(paste_params)
+    if @paste.title.blank? then @paste.title = "Untitled paste" end
     if @paste.save
       redirect_to short_paste_path(@paste.shortcode)
     else
@@ -26,7 +27,7 @@ class PastesController < ApplicationController
 
   def update
     require_owner!(@paste)
-    if :paste.update(paste_params)
+    if @paste.update(paste_params)
       redirect_to short_paste_path(@paste.shortcode)
     else
       render :edit, status: :unprocessable_entity
@@ -36,7 +37,7 @@ class PastesController < ApplicationController
   def destroy
     require_owner!(@paste)
     @paste.destroy
-    redirect_to root_path, notice: "Paste deleted"
+    redirect_to profile_path(@paste.user.username), notice: "Paste deleted"
   end
 
   private

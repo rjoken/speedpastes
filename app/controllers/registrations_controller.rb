@@ -26,6 +26,8 @@ class RegistrationsController < ApplicationController
       end
     end
 
+    InviteCodes::Generate.call(user: user, count: 5)
+
     session[:user_id] = user.id
     redirect_to root_path
 
