@@ -4,11 +4,11 @@ class ProfilesController < ApplicationController
 
     scope = @user.pastes.order(created_at: :desc)
 
-    unless current_user == @user
+    unless current_user == @user || current_user&.admin?
       scope = scope.where(visibility: :open)
     end
 
-    @paste_count = scope.count 
+    @paste_count = scope.count
     @pagy, @pastes = pagy(:offset, scope, items: 20)
   end
 end

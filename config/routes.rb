@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 
   get "/u/:username", to: "profiles#show", as: :profile
 
-  resources :pastes, except: [:index, :show]
+  resources :pastes, except: [ :index, :show ]
 
   # MUST BE LAST: shortcode paste URL like /uUyG6pZ
   get "/:shortcode", to: "pastes#show", constraints: { shortcode: /[A-Za-z0-9_-]{6,12}/ }, as: :short_paste

@@ -6,7 +6,7 @@ class Paste < ApplicationRecord
   validates :shortcode, presence: true, uniqueness: true
   validates :body, presence: true
 
-  before_validation :ensure_shortcode, on: :create 
+  before_validation :ensure_shortcode, on: :create
 
   private
 
