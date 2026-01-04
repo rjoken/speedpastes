@@ -8,7 +8,7 @@ class User < ApplicationRecord
 
   validates :email, presence: true, uniqueness: { case_sensitive: false }
   validates :username, presence: true, uniqueness: { case_sensitive: false },
-    format: { with: /\A([a-zA-Z0-9_]+\z)/, length: { in: 3..20 }, message: "May only contain letters, numbers, and underscores and must be between 3 and 20 characters long." }
+    format: { with: /\A(?!\d+\z)[a-zA-Z0-9_]+\z/, length: { in: 3..20 }, message: "May only contain letters (at least one), numbers, and underscores and must be between 3 and 20 characters long." }
 
   enum :role, { user: 0, pro: 1, admin: 999 }, default: :user
 end
