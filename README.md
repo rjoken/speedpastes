@@ -48,7 +48,7 @@ to start all services locally.
 ## Databases
 
 speedpastes will start a postgresql instance on port 6666.
-You may modify the DEV_DATABASE_URL if you want to point speedpastes do a different database.
+You may modify the DEV_DATABASE_URL if you want to point speedpastes to a different database.
 
 ## Authentication
 
