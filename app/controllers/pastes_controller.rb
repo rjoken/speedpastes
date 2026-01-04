@@ -1,7 +1,7 @@
 class PastesController < ApplicationController
-  before_action :require_login!, except: [:show]
-  before_action :set_paste_by_id, only: [:edit, :update, :destroy]
-  before_action :set_paste_by_shortcode, only: [:show]
+  before_action :require_login!, except: [ :show ]
+  before_action :set_paste_by_id, only: [ :edit, :update, :destroy ]
+  before_action :set_paste_by_shortcode, only: [ :show ]
 
   def new
     @paste = current_user.pastes.new
@@ -55,7 +55,7 @@ class PastesController < ApplicationController
   end
 
   def require_owner_or_admin!(paste)
-    head :not_found unless (current_user == paste.user || current_user&.admin?)
+    head :not_found unless current_user == paste.user || current_user&.admin?
   end
 
   def authorize_view!(paste)

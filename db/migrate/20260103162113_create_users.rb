@@ -9,12 +9,9 @@ class CreateUsers < ActiveRecord::Migration[8.1]
       t.references :invited_by, null: true, foreign_key: { to_table: :users }
 
       t.timestamps
-
-      
     end
 
     add_index :users, "lower(email)", unique: true, name: "index_users_on_lower_email"
     add_index :users, "lower(username)", unique: true, name: "index_users_on_lower_username"
-
   end
 end

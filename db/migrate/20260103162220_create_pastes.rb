@@ -11,7 +11,7 @@ class CreatePastes < ActiveRecord::Migration[8.1]
     end
 
     add_index :pastes, :shortcode, unique: true
-    add_index :pastes, [:user_id, :created_at]
-    add_index :pastes, [:visibility, :created_at]
+    add_index :pastes, [ :user_id, :created_at ]
+    add_index :pastes, [ :visibility, :created_at ]
   end
 end

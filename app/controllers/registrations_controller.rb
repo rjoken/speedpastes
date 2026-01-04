@@ -11,9 +11,9 @@ class RegistrationsController < ApplicationController
     end
 
     user = User.new(
-      email: params[:email], 
-      username: params[:username], 
-      password: params[:password], 
+      email: params[:email],
+      username: params[:username],
+      password: params[:password],
       password_confirmation: params[:password_confirmation]
     )
 

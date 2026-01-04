@@ -8,7 +8,7 @@ class ProfilesController < ApplicationController
       scope = scope.where(visibility: :open)
     end
 
-    @paste_count = scope.count 
+    @paste_count = scope.count
     @pagy, @pastes = pagy(:offset, scope, items: 20)
   end
 end
