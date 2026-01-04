@@ -13,6 +13,8 @@ Rails.application.routes.draw do
   resource :settings, only: [ :show, :update ] do
     post :data_export
     delete :account
+
+    delete :avatar
   end
 
   resource :settings, only: [ :show ] do

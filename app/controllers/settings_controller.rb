@@ -5,6 +5,23 @@ class SettingsController < ApplicationController
         @user = current_user
     end
 
+    # PATCH /settings
+    def update
+        user = current_user
+
+        if user.update(profile_params)
+            redirect_to settings_path, notice: "Profile updated successfully"
+        else
+            redirect_to settings_path, alert: user.errors.full_messages.to_sentence
+        end
+    end
+
+    def avatar
+        user = current_user
+        user.avatar.purge_later if user.avatar.attached?
+        redirect_to settings_path, notice: "Avatar removed successfully"
+    end
+
     # POST /settings/data_export
     def data_export
         zip_path, zip_filename = Users::ZipExport.call(user: current_user)
@@ -95,5 +112,11 @@ class SettingsController < ApplicationController
         redirect_to settings_path, notice: "Please check your email to confirm the password change."
     rescue ActiveRecord::RecordInvalid => e
         redirect_to settings_path, alert: e.record.errors.full_messages.to_sentence
+    end
+
+    private
+
+    def profile_params
+        params.require(:user).permit(:bio, :link, :avatar)
     end
 end
