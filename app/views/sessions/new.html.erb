@@ -1,6 +1,6 @@
 <div class="max-w-md mx-auto">
-  <div class="border border-slate-300 bg-white shadow-sm overflow-hidden">
-    <div class="border-b border-slate-200 bg-gradient-to-b from-slate-50 to-white px-4 py-3">
+  <div class="border border-[var(--border)] bg-[var(--surface)] shadow-sm overflow-hidden">
+    <div class="border-b border-[var(--border-muted)] bg-gradient-to-b from-[var(--surface2)] to-[var(--surface)] px-4 py-3">
       <div class="text-lg font-black">Log in</div>
     </div>
 
@@ -8,23 +8,23 @@
       <%= form_with url: login_path, method: :post, class: "space-y-4" do %>
         <div>
           <%= label_tag :email, "Email", class: "block text-sm font-semibold" %>
-          <%= email_field_tag :email, params[:email], autocomplete: "email", class: "mt-1 w-full border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-300" %>
+          <%= email_field_tag :email, params[:email], autocomplete: "email", class: "mt-1 w-full border border-[var(--border)] px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--border)]" %>
         </div>
 
         <div>
           <%= label_tag :password, "Password", class: "block text-sm font-semibold" %>
-          <%= password_field_tag :password, nil, autocomplete: "current-password", class: "mt-1 w-full border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-300" %>
+          <%= password_field_tag :password, nil, autocomplete: "current-password", class: "mt-1 w-full border border-[var(--border)] px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--border)]" %>
         </div>
 
         <div class="flex items-center justify-between pt-1">
-          <%= submit_tag "Log in", class: "border border-slate-400 bg-white px-4 py-2 font-bold shadow-sm hover:bg-slate-50" %>
+          <%= submit_tag "Log in", class: "border border-[var(--border)] bg-[var(--surface)] px-4 py-2 font-bold shadow-sm hover:bg-[var(--surface2)]" %>
           <%= link_to "Forgot your password?", "#", class: "text-sm text-blue-600 underline" %>
         </div>
       <% end %>
     </div>
   </div>
 
-  <div class="mt-4 text-center text-sm text-slate-600">
+  <div class="mt-4 text-center text-sm text-[var(--muted)]">
     Don't have an account? <%= link_to "Sign up", signup_path, class: "text-blue-600 underline" %>
   </div>
 </div>

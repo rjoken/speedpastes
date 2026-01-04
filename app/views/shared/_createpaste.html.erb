@@ -13,23 +13,23 @@
 
         <div>
             <%= f.label :title, "Title", class: "block text-sm font-semibold" %>
-            <%= f.text_field :title, class: "mt-1 w-full border border-slate-300 px-3 py-2" %>
+            <%= f.text_field :title, class: "mt-1 w-full border border-[var(--border)] px-3 py-2" %>
         </div>
 
         <div>
             <%= f.label :body, "Paste", class: "block text-sm font-semibold" %>
             <%= render "shared/paste_editor", f: f, field: :body, rows: 14 %>
-            <div class="text-xs text-slate-500 mt-1">Plaintext only for now. Markdown support coming soon!</div>
+            <div class="text-xs text-[var(--muted)] mt-1">Plaintext only for now. Markdown support coming soon!</div>
         </div>
 
         <div class="flex items-center justify-between gap-3">
             <div class="flex items-center gap-2">
                 <%= f.label :visibility, "Visibility", class: "text-sm font-semibold" %>
                 <%= f.select :visibility, Paste.visibilities.keys.map { |k| [k, k] },
-                {}, class: "border border-slate-400 bg-white px-4 py-2 font-bold shadow-sm hover:bg-slate-50" %>
+                {}, class: "border border-[var(--button-outline)] bg-[var(--button-bg)] px-4 py-2 font-bold shadow-sm hover:bg-[var(--button-bg-hover)]" %>
             </div>
 
-            <%= f.submit(@paste.persisted? ? "Save changes" : "Create paste", class: "border border-slate-400 bg-white px-4 py-2 font-bold shadow-sm hover:bg-slate-50") %>
+            <%= f.submit(@paste.persisted? ? "Save changes" : "Create paste", class: "border border-[var(--button-outline)] bg-[var(--button-bg)] px-4 py-2 font-bold shadow-sm hover:bg-[var(--button-bg-hover)]") %>
         </div>
     <% end %>
 </div>

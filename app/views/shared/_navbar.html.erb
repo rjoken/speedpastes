@@ -1,7 +1,7 @@
-<nav class="border-b border-slate-300 bg-gradient-to-b from-white to-slate-50 shadow-sm">
+<nav class="border-b border-[var(--border)] bg-gradient-to-b from-[var(--surface)] to-[var(--surface2)] shadow-sm">
     <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
         <div class="flex items-center space-x-4">
-            <%= link_to root_path, class: "font-black text-xl tracking-tight text-slate-900 hover:underline" do %>
+            <%= link_to root_path, class: "font-black text-xl tracking-tight text-[var(--text)] hover:underline" do %>
                 speedpastes
             <% end %>
         </div>
@@ -11,25 +11,25 @@
             <div class="relative" data-controller="dropdown">
                 <button 
                     type="button" 
-                    class="flex items-center gap-2 px-2 py-1 hover:bg-slate-50 cursor-pointer"
+                    class="flex items-center gap-2 px-2 py-1 hover:bg-[var(--surface2)]"
                     data-action="click->dropdown#toggle"
                     aria-haspopup="menu"
                     aria-expanded="false"
                 >
                     <%= render "shared/avatar", user: current_user, size: 28 %>
                     <span class="text-sm font-semibold">Welcome, <%= current_user.username %></span>
-                    <span class="text-slate-500">▾</span>
+                    <span class="text-[var(--muted)]">▾</span>
                 </button>
                 <div
-                    class="absolute right-0 mt-2 w-48 border border-slate-300 bg-white shadow-lg hidden"
+                    class="absolute right-0 mt-2 w-48 border border-[var(--border)] bg-[var(--surface)] shadow-lg hidden"
                     data-dropdown-target="menu"
                     data-action="click@window->dropdown#close">
-                    <%= link_to "My Profile", profile_path(current_user.username), class: "block px-4 py-2 text-sm hover:bg-slate-50" %>
-                    <%= link_to "Settings", settings_path, class: "block px-4 py-2 text-sm hover:bg-slate-50" %>
+                    <%= link_to "My Profile", profile_path(current_user.username), class: "block px-4 py-2 text-sm hover:bg-[var(--surface2)]" %>
+                    <%= link_to "Settings", settings_path, class: "block px-4 py-2 text-sm hover:bg-[var(--surface2)]" %>
 
-                    <div class="border-t border-slate-200"></div>
+                    <div class="border-t border-[var(--border-muted)]"></div>
 
-                    <%= button_to "Log out", logout_path, method: :delete, class: "w-full text-left px-4 py-2 text-sm hover:bg-slate-50 cursor-pointer" %>
+                    <%= button_to "Log out", logout_path, method: :delete, class: "w-full text-left px-4 py-2 text-sm hover:bg-[var(--surface2)]" %>
                 </div>
             </div>
         <% else %>

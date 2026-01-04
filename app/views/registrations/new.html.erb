@@ -1,43 +1,43 @@
 <div class="max-w-md mx-auto">
-  <div class="border border-slate-300 bg-white shadow-sm">
-    <div class="border-b border-slate-200 bg-gradient-to-b from-slate-50 to-white px-4 py-3">
+  <div class="border border-[var(--border)] bg-[var(--surface)] shadow-sm">
+    <div class="border-b border-[var(--border-muted)] bg-gradient-to-b from-[var(--surface2)] to-[var(--surface)] px-4 py-3">
       <div class="text-lg font-black">Sign up</div>
     </div>
 
     <div class="p-4">
       <%= form_with url: signup_path, method: :post, class: "space-y-4" do %>
-        <div class="border border-slate-200 bg-slate-50 p-3 text-sm">
+        <div class="border border-[var(--border-muted)] bg-[var(--surface2)] p-3 text-sm">
           <div class="font-bold">This website is invite-only.</div>
-          <div class="text-slate-600 text-xs mt-1">We want humans on here, not bots. Ask a friend for an invite code! How did you get here in the first place? ;)</div>
+          <div class="text-[var(--muted)] text-xs mt-1">We want humans on here, not bots. Ask a friend for an invite code! How did you get here in the first place? ;)</div>
         </div>
 
         <div>
           <%= label_tag :username, "Username", class: "block text-sm font-semibold" %>
-          <%= text_field_tag :username, params[:username], autocomplete: "username", class: "mt-1 w-full border border-slate-300 px-3 py-2" %>
+          <%= text_field_tag :username, params[:username], autocomplete: "username", class: "mt-1 w-full border border-[var(--border)] px-3 py-2" %>
         </div>
 
         <div>
           <%= label_tag :email, "Email", class: "block text-sm font-semibold" %>
-          <%= email_field_tag :email, params[:email], autocomplete: "email", class: "mt-1 w-full border border-slate-300 px-3 py-2" %>
+          <%= email_field_tag :email, params[:email], autocomplete: "email", class: "mt-1 w-full border border-[var(--border)] px-3 py-2" %>
         </div>
 
         <div>
           <%= label_tag :password, "Password", class: "block text-sm font-semibold" %>
-          <%= password_field_tag :password, nil, autocomplete: "new-password", class: "mt-1 w-full border border-slate-300 px-3 py-2" %>
+          <%= password_field_tag :password, nil, autocomplete: "new-password", class: "mt-1 w-full border border-[var(--border)] px-3 py-2" %>
         </div>
 
         <div>
           <%= label_tag :password_confirmation, "Confirm password", class: "block text-sm font-semibold" %>
-          <%= password_field_tag :password_confirmation, nil, autocomplete: "new-password", class: "mt-1 w-full border border-slate-300 px-3 py-2" %>
+          <%= password_field_tag :password_confirmation, nil, autocomplete: "new-password", class: "mt-1 w-full border border-[var(--border)] px-3 py-2" %>
         </div>
 
         <div>
           <%= label_tag :invite_code, "Invite code", class: "block text-sm font-semibold" %>
-          <%= text_field_tag :invite_code, params[:invite_code], autocomplete: "one-time-code", class: "mt-1 w-full border border-slate-300 px-3 py-2" %>
+          <%= text_field_tag :invite_code, params[:invite_code], autocomplete: "one-time-code", class: "mt-1 w-full border border-[var(--border)] px-3 py-2" %>
         </div>
 
         <div class="flex items center justify-between pt-1">
-          <%= submit_tag "Sign up", class: "border border-slate-400 bg-white px-4 py-2 font-bold shadow-sm hover:bg-slate-50" %>
+          <%= submit_tag "Sign up", class: "border border-[var(--border)] bg-[var(--surface)] px-4 py-2 font-bold shadow-sm hover:bg-[var(--surface2)]" %>
           <%= link_to "Already have an account? Log in", login_path, class: "text-sm text-blue-600 underline" %>
         </div>
       <% end %>
