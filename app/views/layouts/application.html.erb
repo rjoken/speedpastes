@@ -1,8 +1,15 @@
 <!DOCTYPE HTML>
-<html>
+<html data-theme="cyber">
   <head>
     <title>Speedpastes</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script>
+      (function () {
+        var t = localStorage.getItem("theme");
+        if (t) document.documentElement.setAttribute("data-theme", t);
+      })();
+    </script>
 
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -25,7 +32,18 @@
     </div>
 
     <footer class="py-10 text-center text-xs text-[var(--muted)]">
-      &copy; <%= Time.current.year %> speedpastes.org | by hippochan x
+      <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between text-xs">
+        &copy; <%= Time.current.year %> speedpastes.org | by hippochan x
+        <div data-controller="theme" class="flex items-center gap-2">
+          <label for="theme">theme:</label>
+          <select id="theme" class="border border-[var(--button-outline)] bg-[var(--button-bg)] hover:bg-[var(--button-bg-hover)] text-[var(--text)] px-2 py-1"
+            data-theme-target="select"
+            data-action="change->theme#change">
+            <option value="cyber">cyber</option>
+            <option value="hospital">hospital</option>
+          </select>
+        </div>
+      </div>
     </footer>
   </body>
 </html>

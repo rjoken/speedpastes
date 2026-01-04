@@ -11,6 +11,10 @@
     [role="button"] {
         @apply cursor-pointer;
     }
+
+    select {
+        @apply cursor-pointer;
+    }
 }
 
 :root {

@@ -26,10 +26,10 @@
             <div class="flex items-center gap-2">
                 <%= f.label :visibility, "Visibility", class: "text-sm font-semibold" %>
                 <%= f.select :visibility, Paste.visibilities.keys.map { |k| [k, k] },
-                {}, class: "border border-[var(--button-outline)] bg-[var(--button-bg)] px-4 py-2 font-bold shadow-sm hover:bg-[var(--button-bg-hover)]" %>
+                {}, class: "border border-[var(--button-outline)] bg-[var(--button-bg)] px-2 py-1 text-sm font-bold shadow-sm hover:bg-[var(--button-bg-hover)]" %>
             </div>
 
-            <%= f.submit(@paste.persisted? ? "Save changes" : "Create paste", class: "border border-[var(--button-outline)] bg-[var(--button-bg)] px-4 py-2 font-bold shadow-sm hover:bg-[var(--button-bg-hover)]") %>
+            <%= f.submit(@paste.persisted? ? "Save changes" : "Create paste", class: "border border-[var(--button-outline)] bg-[var(--button-bg)] px-2 py-1 text-sm font-bold shadow-sm hover:bg-[var(--button-bg-hover)]") %>
         </div>
     <% end %>
 </div>
