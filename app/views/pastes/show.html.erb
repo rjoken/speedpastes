@@ -11,6 +11,6 @@
     <span class="text-xs text-slate-500">Visibility: <%= @paste.visibility.capitalize %></span>
   </div>
   <div class="border border-slate-300 bg-white shadow-sm">
-    <%= render "shared/paste_viewer", text: @paste.body, max_height: "70vh" %>
+    <%= render "shared/paste_viewer", content: @paste.body, max_height: "70vh" %>
   </div>
 </div>

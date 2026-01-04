@@ -1,4 +1,4 @@
-<%# locals: text:, max_height: (optional) %>
+<%# locals: content:, max_height: (optional) %>
 <% max_height = local_assigns[:max_height] || "480px" %>
 
 <div class="border border-slate-300 bg-white shadow-sm overflow-hidden"
@@ -15,6 +15,6 @@
             class="flex-1 overflow-auto px-3 py-3 font-mono text-sm leading-5"
             data-linenumbers-viewer-target="content"
             data-action="scroll->linenumbers-viewer#syncScroll"
-        ><%= h(text) %></pre>
+        ><%= h(content) %></pre>
     </div>
 </div>
