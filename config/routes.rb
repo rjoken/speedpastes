@@ -15,6 +15,14 @@ Rails.application.routes.draw do
     delete :account
   end
 
+  resource :settings, only: [ :show ] do
+    patch :password
+    patch :email
+    patch :username
+  end
+
+  get "/account_change/:token", to: "account_changes#show", as: :account_change
+
   resources :pastes, except: [ :index, :show ]
 
   # MUST BE LAST: shortcode paste URL like /uUyG6pZ

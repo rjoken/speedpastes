@@ -4,8 +4,73 @@
             <div class="text-lg font-black">Settings</div>
         </div>
         <div class="p-4 space-y-4">
-            <div class="border border-slate-200 bg-slate-50 p-3">
-                <div class="font-bold">Request your data</div>
+            <details class="border border-slate-200 bg-slate-50 p-3">
+                <summary class="cursor-pointer font-bold">Change your email address</summary>
+                <div class="mt-3">
+                    <%= form_with url: email_settings_path, method: :patch do %>
+                        <div>
+                            <%= label_tag :current_email, "Current email address", class: "block text-sm font-semibold" %>
+                            <%= email_field_tag :current_email, nil, autocomplete: "email", class: "mt-1 w-full border border-slate-300 px-3 py-2" %>
+                        </div>
+                        <div class="mt-4">
+                            <%= label_tag :new_email, "New email address", class: "block text-sm font-semibold" %>
+                            <%= email_field_tag :new_email, nil, autocomplete: "email", class: "mt-1 w-full border border-slate-300 px-3 py-2" %>
+                        </div>
+                        <div class="mt-4">
+                            <%= label_tag :current_password, "Current password", class: "block text-sm font-semibold" %>
+                            <%= password_field_tag :current_password, nil, autocomplete: "current-password", class: "mt-1 w-full border border-slate-300 px-3 py-2" %>
+                        </div>
+                        <div class="flex justify-end">
+                            <%= submit_tag "Update email address", class: "border border-slate-400 bg-white px-4 py-2 font-bold shadow-sm hover:bg-slate-50 mt-4" %>
+                        </div>
+                    <% end %>
+                </div>
+            </details>
+
+            <details class="border border-slate-200 bg-slate-50 p-3">
+                <summary class="cursor-pointer font-bold">Change your password</summary>
+                <div class="mt-3">
+                    <%= form_with url: password_settings_path, method: :patch do %>
+                        <div class="mt-4">
+                            <%= label_tag :current_password, "Current password", class: "block text-sm font-semibold" %>
+                            <%= password_field_tag :password, nil, autocomplete: "current-password", class: "mt-1 w-full border border-slate-300 px-3 py-2" %>
+                        </div>
+                        <div class="mt-4">
+                            <%= label_tag :new_password, "New password", class: "block text-sm font-semibold" %>
+                            <%= password_field_tag :new_password, nil, autocomplete: "new-password", class: "mt-1 w-full border border-slate-300 px-3 py-2" %>
+                        </div>
+                        <div class="mt-4">
+                            <%= label_tag :new_password_confirmation, "Confirm new password", class: "block text-sm font-semibold" %>
+                            <%= password_field_tag :new_password_confirmation, nil, autocomplete: "new-password", class: "mt-1 w-full border border-slate-300 px-3 py-2" %>
+                        </div>
+                        <div class="flex justify-end">
+                            <%= submit_tag "Update password", class: "border border-slate-400 bg-white px-4 py-2 font-bold shadow-sm hover:bg-slate-50 mt-4" %>
+                        </div>
+                    <% end %>
+                </div>
+            </details>
+
+            <details class="border border-slate-200 bg-slate-50 p-3">
+                <summary class="cursor-pointer font-bold">Change your username</summary>
+                <div class="mt-3">
+                    <%= form_with url: username_settings_path, method: :patch do %>
+                        <div class="mt-4">
+                            <%= label_tag :current_password, "Current password", class: "block text-sm font-semibold" %>
+                            <%= password_field_tag :current_password, nil, autocomplete: "current-password", class: "mt-1 w-full border border-slate-300 px-3 py-2" %>
+                        </div>
+                        <div class="mt-4">
+                            <%= label_tag :new_username, "New username", class: "block text-sm font-semibold" %>
+                            <%= text_field_tag :new_username, nil, autocomplete: "username", class: "mt-1 w-full border border-slate-300 px-3 py-2" %>
+                        </div>
+                        <div class="flex justify-end">
+                            <%= submit_tag "Update username", class: "border border-slate-400 bg-white px-4 py-2 font-bold shadow-sm hover:bg-slate-50 mt-4" %>
+                        </div>
+                    <% end %>
+                </div>
+            </details>
+
+            <details class="border border-slate-200 bg-slate-50 p-3">
+                <summary class="cursor-pointer font-bold">Request your data</summary>
                 <div class="text-sm text-slate-600 mt-1">Download a ZIP file containing all of your pastes and account information, in accordance with data protection regulations.</div>
 
                 <div class="mt-3">
@@ -13,10 +78,10 @@
                         <%= submit_tag "Download my data", class: "border border-slate-400 bg-white px-4 py-2 font-bold shadow-sm hover:bg-slate-50 cursor-pointer" %>
                     <% end %>
                 </div>
-            </div>
+            </details>
 
             <details class="border border-red-300 bg-red-50 p-3">
-                <summary class="cursor-pointer font-bold text-red-800">Delete my account</summary>
+                <summary class="cursor-pointer font-bold text-red-800">Delete your account</summary>
                 <div class="mt-3 text-sm text-red-900">This action is irreversible. All of your pastes and account information will be permanently deleted.</div>
                 <%= form_with url: account_settings_path, method: :delete, data: { turbo: false }, class: "mt-3 space-y-3" do %>
                     <div>

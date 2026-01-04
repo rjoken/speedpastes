@@ -10,9 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_04_153904) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_04_164657) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "account_change_requests", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "expires_at"
+    t.integer "kind"
+    t.string "new_email"
+    t.string "new_password_digest"
+    t.string "new_username"
+    t.datetime "updated_at", null: false
+    t.datetime "used_at"
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_account_change_requests_on_user_id"
+  end
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
@@ -88,6 +101,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_04_153904) do
     t.index ["role"], name: "index_users_on_role"
   end
 
+  add_foreign_key "account_change_requests", "users"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "invite_codes", "users", column: "created_by_id"
