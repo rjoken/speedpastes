@@ -66,8 +66,8 @@
         <% end %>
       </div>
 
-      <div class="border-t border-slate-200 px-4 py-3">
-        <%= @pagy.series_nav if @pagy.pages > 1 %>
+      <div class="border-t border-slate-200 px-4 py-3 flex justify-center">
+        <%= render "shared/pagy_nav", pagy: @pagy %>
       </div>
     </div>
   </section>

@@ -18,7 +18,7 @@ class PastesController < ApplicationController
   end
 
   def show
-    @paste - Paste.find_by!(shortcode: params[:shortcode])
+    @paste = Paste.find_by!(shortcode: params[:shortcode])
     authorize_view!(@paste)
   end
 
