@@ -4,6 +4,10 @@ class SessionsController < ApplicationController
 
   def create
     user = User.find_by("lower(email) = ?", params[:email].to_s.downcase)
+    if user&.anonymized_at.present?
+      flash.now[:alert] = "Invalid email or password"
+      return render :new, status: :unprocessable_entity
+    end
     if user&.authenticate(params[:password])
       session[:user_id] = user.id
       redirect_to root_path, notice: "Logged in successfully"

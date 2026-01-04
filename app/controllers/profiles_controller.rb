@@ -1,6 +1,8 @@
 class ProfilesController < ApplicationController
   def show
-    @user = User.find_by!("lower(username) = ?", params[:username].to_s.downcase)
+    @user = User.find_by("lower(username) = ?", params[:username].to_s.downcase)
+
+    raise ActiveRecord::RecordNotFound unless @user.present? && !@user.anonymized_at.present?
 
     scope = @user.pastes.order(created_at: :desc)
 

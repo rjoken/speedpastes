@@ -10,6 +10,11 @@ Rails.application.routes.draw do
 
   get "/u/:username", to: "profiles#show", as: :profile
 
+  resource :settings, only: [ :show, :update ] do
+    post :data_export
+    delete :account
+  end
+
   resources :pastes, except: [ :index, :show ]
 
   # MUST BE LAST: shortcode paste URL like /uUyG6pZ
