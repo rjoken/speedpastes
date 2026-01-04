@@ -23,6 +23,8 @@ module Users
                 anon_username = generate_unique_username
                 anon_email = "#{anon_username}@speedpastes.org"
 
+                random_pw = SecureRandom.base64(32)
+
                 @user.update!(
                     email: anon_email,
                     username: anon_username,
@@ -30,7 +32,8 @@ module Users
                     link: nil,
                     invited_by_id: nil,
                     anonymized_at: Time.current,
-                    password_digest: SecureRandom.base64(32)
+                    password: random_pw,
+                    password_confirmation: random_pw
                 )
             end
         end
