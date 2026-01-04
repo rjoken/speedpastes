@@ -1,24 +1,24 @@
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
   <!-- Main content -->
   <div class="md:col-span-2">
-    <div class="border border-slate-300 bg-white shadow-sm">
-          <div class="border-b border-slate-200 bg-gradient-to-b from-slate-50 to-white px-4 py-3">
+    <div class="border border-[var(--border)] bg-[var(--surface)] shadow-sm">
+          <div class="border-b border-[var(--border-muted)] bg-gradient-to-b from-[var(--surface2)] to-[var(--surface)] px-4 py-3">
             <div class="text-lg font-black">Welcome to Speedpastes</div>
-            <div class="text sm text-slate-600">Speedpastes is an invite-only text sharing platform made for speedrunners, diarists, and whoever else needs to jot and share. Paste your notes, ideas, strategies and more, then link to them quickly and easily.</div>
+            <div class="text sm text-[var(--muted)]">Speedpastes is an invite-only text sharing platform made for speedrunners, diarists, and whoever else needs to jot and share. Paste your notes, ideas, strategies and more, then link to them quickly and easily.</div>
           </div>
       <% if signed_in? %>
           <%= render "shared/createpaste" %>
       <% else %>
-          <div class="p-4 text-sm text-slate-600">
-            Please <%= link_to "log in", login_path, class: "text-blue-600 underline" %> or <%= link_to "sign up", signup_path, class: "text-blue-600 underline" %> to create a new paste.
+          <div class="p-4 text-sm text-[var(--muted)]">
+            Please <%= link_to "log in", login_path, class: "text-[var(--link)] underline" %> or <%= link_to "sign up", signup_path, class: "text-[var(--link)] underline" %> to create a new paste.
           </div>
       <% end %>
     </div>
   </div>
   <!-- Sidebar -->
   <aside class="md:col-span-1">
-    <div class="border border-slate-300 bg-white shadow-sm">
-      <div class="border-b border-slate-200 bg-gradient-to-b from-slate-50 to-white px-4 py-3">
+    <div class="border border-[var(--border)] bg-[var(--surface)] shadow-sm">
+      <div class="border-b border-[var(--border-muted)] bg-gradient-to-b from-[var(--surface2)] to-[var(--surface)] px-4 py-3">
         <div class="text-lg font-black">Latest Public Pastes</div>
       </div>
       <div class="p-3 space-y-3">
@@ -28,14 +28,14 @@
               <%= link_to short_paste_path(paste.shortcode), class: "font-semibold hover:underline" do %>
                 <%= paste.title || "Untitled paste" %>
               <% end %>
-              <span class="text-xs text-slate-500"><%= time_ago_in_words(paste.created_at) %> ago</span>
+              <span class="text-xs text-[var(--muted)]"><%= time_ago_in_words(paste.created_at) %> ago</span>
             </div>
-            <div class="text-xs text-slate-500">by <%= link_to "#{paste.user.username}", profile_path(paste.user.username), class: "hover:underline" %></div>
+            <div class="text-xs text-[var(--muted)]">by <%= link_to "#{paste.user.username}", profile_path(paste.user.username), class: "hover:underline" %></div>
           </div>
         <% end %>
 
         <% if @latest_pastes.empty? %>
-          <div class="text-sm text-slate-500">
+          <div class="text-sm text-[var(--muted)]">
             No public pastes yet.
           </div>
         <% end %>

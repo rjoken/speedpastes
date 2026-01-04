@@ -4,11 +4,11 @@
 <nav class="flex items-center justify-center gap-1 text-sm" aria-label="Pages">
     <%# Prev %>
     <% if pagy.previous %>
-        <%= link_to pagy.page_url(pagy.previous), class: "px-2 py-1 border border-slate-300 bg-white hover:bg-slate-50 shadow-sm", aria: { label: "Previous page" } do %>
+        <%= link_to pagy.page_url(pagy.previous), class: "px-2 py-1 border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface2)] shadow-sm", aria: { label: "Previous page" } do %>
             <%= heroicon "chevron-left", options: { class: "h-5 w-5" } %>
         <% end %>
     <% else %>
-        <span class="px-2 py-1 border border-slate-200 bg-slate-50 text-slate-400 shadow-sm cursor-not-allowed" aria-disabled="true">
+        <span class="px-2 py-1 border border-[var(--border-muted)] bg-[var(--surface2)] text-[var(--muted)] shadow-sm cursor-not-allowed" aria-disabled="true">
             <%= heroicon "chevron-left", options: { class: "h-5 w-5" } %>
         </span>
     <% end %>
@@ -19,34 +19,34 @@
     <% right = [pagy.pages, pagy.page + window].min %>
 
     <% if left > 1 %>
-        <%= link_to "1", pagy.page_url(1), class: "px-2 py-1 border border-slate-300 bg-white hover:bg-slate-50 shadow-sm" %>
+        <%= link_to "1", pagy.page_url(1), class: "px-2 py-1 border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface2)] shadow-sm" %>
         <% if left > 2 %>
-            <span class="px-2 py-1 text-slate-500">…</span>
+            <span class="px-2 py-1 text-[var(--muted)]">…</span>
         <% end %>
     <% end %>
 
     <% (left..right).each do |p| %>
         <% if p == pagy.page %>
-            <span class="px-2 py-1 border border-slate-400 bg-slate-100 font-bold shadow-sm" aria-current="page"><%= p %></span>
+            <span class="px-2 py-1 border border-[var(--button-outline)] bg-[var(--bg)] font-bold shadow-sm" aria-current="page"><%= p %></span>
         <% else %>
-            <%= link_to p, pagy.page_url(p), class: "px-2 py-1 border border-slate-300 bg-white hover:bg-slate-50 shadow-sm" %>
+            <%= link_to p, pagy.page_url(p), class: "px-2 py-1 border border-[var(--button-outline)] bg-[var(--surface)] hover:bg-[var(--surface2)] shadow-sm" %>
         <% end %>
     <% end %>
 
     <% if right < pagy.pages %>
         <% if right < pagy.pages - 1 %>
-            <span class="px-2 py-1 text-slate-500">…</span>
+            <span class="px-2 py-1 text-[var(--muted)]">…</span>
         <% end %>
-        <%= link_to pagy.pages, pagy.page_url(pagy.pages), class: "px-2 py-1 border border-slate-300 bg-white hover:bg-slate-50 shadow-sm" %>
+        <%= link_to pagy.pages, pagy.page_url(pagy.pages), class: "px-2 py-1 border border-[var(--button-outline)] bg-[var(--surface)] hover:bg-[var(--surface2)] shadow-sm" %>
     <% end %>
 
     <%# Next %>
     <% if pagy.next %>
-        <%= link_to pagy.page_url(pagy.next), class: "px-2 py-1 border border-slate-300 bg-white hover:bg-slate-50 shadow-sm", aria: { label: "Next page" } do %>
+        <%= link_to pagy.page_url(pagy.next), class: "px-2 py-1 border border-[var(--button-outline)] bg-[var(--surface)] hover:bg-[var(--surface2)] shadow-sm", aria: { label: "Next page" } do %>
             <%= heroicon "chevron-right", options: { class: "h-5 w-5" } %>
         <% end %>
     <% else %>
-        <span class="px-2 py-1 border border-slate-200 bg-slate-50 text-slate-400 shadow-sm cursor-not-allowed" aria-disabled="true">
+        <span class="px-2 py-1 border border-[var(--border-muted)] bg-[var(--surface2)] text-[var(--muted)] shadow-sm cursor-not-allowed" aria-disabled="true">
             <%= heroicon "chevron-right", options: { class: "h-5 w-5" } %>
         </span>
     <% end %>

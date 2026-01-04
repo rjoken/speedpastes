@@ -5,21 +5,21 @@
       <%= render "shared/avatar", user: @paste.user, size: 24 %>
       <span class="text-sm font-semibold"><%= link_to @paste.user.username, profile_path(@paste.user.username), class: "hover:underline" %></span>
     </div>
-    <span class="text-xs text-slate-500">|</span>
-    <span class="text-xs text-slate-500"><%= time_ago_in_words(@paste.created_at) %> ago</span>
+    <span class="text-xs text-[var(--muted)]">|</span>
+    <span class="text-xs text-[var(--muted)]"><%= time_ago_in_words(@paste.created_at) %> ago</span>
     <% if @paste.edited_at.present? %>
-      <span class="text-xs text-slate-500"><%= " (Edited) " %></span>
+      <span class="text-xs text-[var(--muted)]"><%= " (Edited) " %></span>
     <% end %>
-    <span class="text-xs text-slate-500">|</span>
-    <span class="text-xs text-slate-500">Visibility: <%= @paste.visibility.capitalize %></span>
+    <span class="text-xs text-[var(--muted)]">|</span>
+    <span class="text-xs text-[var(--muted)]">Visibility: <%= @paste.visibility.capitalize %></span>
     <% if current_user == @paste.user || current_user&.admin? %>
-      <span class="text-xs text-slate-500">|</span>
-      <%= link_to "Edit", edit_paste_path(@paste), class: "text-xs text-slate-500 hover:underline" %>
-      <span class="text-xs text-slate-500">|</span>
-      <%= button_to "Delete", paste_path(@paste), method: :delete, data: { turbo_confirm: "Are you sure you want to delete this paste?" }, form_class: "inline", class: "text-xs text-slate-500 hover:underline cursor-pointer" %>
+      <span class="text-xs text-[var(--muted)]">|</span>
+      <%= link_to "Edit", edit_paste_path(@paste), class: "text-xs text-[var(--muted)] hover:underline" %>
+      <span class="text-xs text-[var(--muted)]">|</span>
+      <%= button_to "Delete", paste_path(@paste), method: :delete, data: { turbo_confirm: "Are you sure you want to delete this paste?" }, form_class: "inline", class: "text-xs text-[var(--muted)] hover:underline" %>
     <% end %>
   </div>
-  <div class="border border-slate-300 bg-white shadow-sm">
+  <div class="border border-[var(--border)] bg-[var(--surface)] shadow-sm">
     <%= render "shared/paste_viewer", content: @paste.body, max_height: "70vh" %>
   </div>
 </div>
