@@ -22,11 +22,11 @@ class PastesController < ApplicationController
   end
 
   def edit
-    require_owner!(@paste)
+    require_owner_or_admin!(@paste)
   end
 
   def update
-    require_owner!(@paste)
+    require_owner_or_admin!(@paste)
     if @paste.update(paste_params)
       redirect_to short_paste_path(@paste.shortcode)
     else
@@ -35,7 +35,7 @@ class PastesController < ApplicationController
   end
 
   def destroy
-    require_owner!(@paste)
+    require_owner_or_admin!(@paste)
     @paste.destroy
     redirect_to profile_path(@paste.user.username), notice: "Paste deleted"
   end
@@ -54,13 +54,13 @@ class PastesController < ApplicationController
     @paste = Paste.find_by!(shortcode: params[:shortcode])
   end
 
-  def require_owner!(paste)
-    head :not_found unless current_user == paste.user
+  def require_owner_or_admin!(paste)
+    head :not_found unless (current_user == paste.user || current_user&.admin?)
   end
 
   def authorize_view!(paste)
     return if paste.open? || paste.unlisted?
-    return if current_user == paste.user
+    return if current_user == paste.user || current_user&.admin?
 
     head :not_found
   end
