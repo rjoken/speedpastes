@@ -7,8 +7,17 @@
     </div>
     <span class="text-xs text-slate-500">|</span>
     <span class="text-xs text-slate-500"><%= time_ago_in_words(@paste.created_at) %> ago</span>
+    <% if @paste.edited_at.present? %>
+      <span class="text-xs text-slate-500"><%= " (Edited) " %></span>
+    <% end %>
     <span class="text-xs text-slate-500">|</span>
     <span class="text-xs text-slate-500">Visibility: <%= @paste.visibility.capitalize %></span>
+    <% if current_user == @paste.user || current_user&.admin? %>
+      <span class="text-xs text-slate-500">|</span>
+      <%= link_to "Edit", edit_paste_path(@paste), class: "text-xs text-slate-500 hover:underline" %>
+      <span class="text-xs text-slate-500">|</span>
+      <%= button_to "Delete", paste_path(@paste), method: :delete, data: { turbo_confirm: "Are you sure you want to delete this paste?" }, form_class: "inline", class: "text-xs text-slate-500 hover:underline cursor-pointer" %>
+    <% end %>
   </div>
   <div class="border border-slate-300 bg-white shadow-sm">
     <%= render "shared/paste_viewer", content: @paste.body, max_height: "70vh" %>
