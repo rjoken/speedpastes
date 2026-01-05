@@ -1,6 +1,10 @@
 @import "tailwindcss";
 
 @layer base {
+    html {
+        font-family: Ubuntu, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+    }
+
     a {
         @apply cursor-pointer;
     }
