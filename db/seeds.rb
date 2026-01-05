@@ -15,8 +15,8 @@ end
 env_seed = Rails.root.join("db", "seeds", "#{Rails.env.downcase}.rb")
 
 if env_seed.exist?
-    puts "Loading seeds for #{rails.env} environment..."
+    puts "Loading seeds for #{Rails.env} environment..."
     load env_seed
 else
-    puts "No seeds for #{rails.env} environment."
+    puts "No seeds for #{Rails.env} environment."
 end
