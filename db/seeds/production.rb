@@ -3,7 +3,7 @@ system_user = ENV["INITIAL_SYSTEM_USERNAME"]
 system_pass = ENV["INITIAL_SYSTEM_PASSWORD"]
 
 if system_email.present? && system_user.present? && system_pass.present?
-    user = User.find_or_initialize_by("lower(email) = ?", system_email.downcase)
+    user = User.find_or_initialize_by(email: system_email)
     if user.new_record?
         user.email = system_email
         user.username = system_user
