@@ -40,7 +40,7 @@ module Users
 
                         # Accept only .txt files
                         ext = File.extname(base).downcase
-                        next unless [".txt"].include?(ext)
+                        next unless [ ".txt" ].include?(ext)
 
                         # Read with size limits
                         data = entry.get_input_stream.read(MAX_FILE_BYTES + 1)
@@ -114,7 +114,7 @@ module Users
 
             visibility = if unlisted then "unlisted" else nil end
 
-            [visibility, sanitize_title(title), sanitize_shortcode(shortcode)]
+            [ visibility, sanitize_title(title), sanitize_shortcode(shortcode) ]
         end
 
         def sanitize_title(title)

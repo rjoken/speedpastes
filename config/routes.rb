@@ -32,7 +32,7 @@ Rails.application.routes.draw do
     resources :users, param: :username, only: [] do
       post :invite_codes, action: :generate_invite_codes
       get :invite_codes, action: :invite_codes
-      delete :ban 
+      delete :ban
     end
   end
 

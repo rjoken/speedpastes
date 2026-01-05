@@ -21,7 +21,7 @@ module Users
       timestamp = @now.strftime("%Y%m%d-%H%M%S")
       zip_filename = "#{@user.username}-speedpastes-user-export-#{timestamp}.zip"
 
-      tmp_zip = Tempfile.new([@user.username, ".zip"])
+      tmp_zip = Tempfile.new([ @user.username, ".zip" ])
       tmp_zip.close # rubyzip wants a path
 
       Dir.mktmpdir("speedpastes-export-") do |dir|
@@ -90,7 +90,7 @@ module Users
         end
       end
 
-      [tmp_zip.path, zip_filename]
+      [ tmp_zip.path, zip_filename ]
     end
 
     private

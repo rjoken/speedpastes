@@ -1,5 +1,5 @@
 module Users
-    class Anonymize 
+    class Anonymize
         def self.call(user:)
             new(user).call
         end
