@@ -34,6 +34,6 @@ class Admin::UsersController < ApplicationController
     end
 
     def set_user
-        @user = User.find_by!("lower(username) = ?", params[:username].to_s.downcase)
+        @user = User.find_by!("lower(username) = ?", params[:user_username].to_s.downcase)
     end
 end
