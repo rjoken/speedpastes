@@ -7,7 +7,7 @@ local:
   root: <%= Rails.root.join("storage") %>
 
 digitalocean:
-  service: s3 
+  service: S3
   access_key_id: <%= ENV.fetch("SPACES_ID") %>
   secret_access_key: <%= ENV.fetch("SPACES_SECRET") %>
   region: "ams3"
