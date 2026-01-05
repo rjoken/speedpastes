@@ -19,7 +19,7 @@
                             </div>
                             <div class="flex-1">
                                 <%= f.label :avatar, "Upload avatar", class: "block text-sm font-semibold" %>
-                                <%= f.file_field :avatar, accept: "image/*", class: "mt-1 block w-full text-sm cursor-pointer border border-[var(--border)] px-3 py-2" %>
+                                <%= f.file_field :avatar, accept: "image/*", class: "mt-1 block w-full text-sm cursor-pointer border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface2)] px-3 py-2" %>
                                 <div class="text-xs text-[var(--muted)] mt-1">PNG/JPG/WEBP/GIF</div>
                             </div>
                         </div>
@@ -115,7 +115,7 @@
                     <%= form_with url: import_pastebin_settings_path, method: :post, multipart: true, data: {turbo: false}, class: "space-y-3" do %>
                         <div>
                             <%= label_tag :zip, "Pastebin zip file", class: "block text-sm font-semibold" %>
-                            <%= file_field_tag :zip, accept: ".zip", class: "mt-1 block w-full text-sm cursor-pointer border border-[var(--border)] px-3 py-2" %>
+                            <%= file_field_tag :zip, accept: ".zip", class: "mt-1 block w-full text-sm cursor-pointer bg-[var(--surface)] border border-[var(--border)] hover:bg-[var(--surface2)] px-3 py-2" %>
                         </div>
 
                         <div class="flex items-center gap-2">
