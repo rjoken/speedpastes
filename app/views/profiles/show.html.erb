@@ -8,6 +8,9 @@
 
       <div class="p-4 flex flex-col items-center space-y-4">
           <%= render "shared/avatar", user: @user, size: 128 %>
+          <% if @user.admin? %>
+            <div class="text-xs text-[var(--muted)] font-bold uppercase tracking-wide">Admin</div>
+          <% end %>
           <div class="text-sm text-center">
             <div class="font-semibold text-[var(--text)]">Member since <%= @user.created_at.strftime("%b %-d, %Y") %></div>
             <div class="font-semibold text-[var(--text)]"><%= @paste_count %> <%= "paste".pluralize(@paste_count) %></div>
@@ -15,18 +18,47 @@
       </div>
 
       <div class="p-4 border-t border-[var(--border-muted)]">
-      <% if @user.bio.present? %>
-        <div class="text-xs font-bold uppercase tracking-wide text-[var(--muted)] mb-1">About me</div>
-        <div class="text-sm text-[var(--text)] [var(--surface)]space-pre-line"><%= h @user.bio %></div>
+        <% if @user.bio.present? %>
+          <div class="text-xs font-bold uppercase tracking-wide text-[var(--muted)] mb-1">About me</div>
+          <div class="text-sm text-[var(--text)] [var(--surface)]space-pre-line"><%= h @user.bio %></div>
+        <% end %>
+
+        <% if @user.link.present? %>
+          <div class="text-xs font-bold uppercase tracking-wide text-[var(--muted)] mb-1 mt-4">Website</div>
+          <div>
+            <%= link_to @user.link, @user.link, class: "text-sm text-blue-600 underline", target: "_blank", rel: "noopener" %>
+          </div>
+        <% end %>
+
+        <% if !@user.bio.present? && !@user.link.present? %>
+          <div class="text-sm text-[var(--muted)]">This user has very little to share!</div>
+        <% end %>
+      </div>
+
+      <% if current_user == @user || current_user&.admin? %>
+        <details class="w-full p-4 bg-[var(--surface)] border-t border-b border-[var(--border-muted)] hover:bg-[var(--surface2)] hover:cursor-pointer">
+          <summary class="cursor-pointer text-md text-[var(--muted)]">Invite codes</summary>
+          <div class="mt-4 mb-4">
+          <% @invite_codes.each do |code| %>
+            <div class="border border-[var(--border)] bg-[var(--surface)] px-2 py-1 text-xs">
+              <div><strong>Code:</strong> <%= code.code %></div>
+              <div><strong>Created at:</strong> <%= code.created_at.strftime("%Y-%m-%d") %></div>
+              <div><strong>Uses:</strong> <%= code.uses_count %></div>
+            </div>
+          <% end %>
+          </div>
+        </details>
       <% end %>
 
-      <% if @user.link.present? %>
-        <div class="text-xs font-bold uppercase tracking-wide text-[var(--muted)] mb-1 mt-4">Website</div>
-        <div>
-          <%= link_to @user.link, @user.link, class: "text-sm text-blue-600 underline", target: "_blank", rel: "noopener" %>
+      <% if current_user&.admin? %>
+        <div class="mt-4 border border-[var(--border-muted)] bg-[var(--surface2)] p-3">
+          <div class="font-bold mb-2">Admin Actions</div>
+          <div class="mt-2 flex flex-wrap gap-2">
+            <%= button_to "Generate 5 invites", admin_user_invite_codes_path(@user.username), method: :post, class: "border-[var(--button-outline)] bg-[var(--button-bg)] px-2 py-1 text-sm font-bold shadow-sm hover:bg-[var(--button-bg-hover)]" %>
+            <%= button_to "Ban user", admin_user_ban_path(@user.username), method: :delete, data: { turbo_confirm: "Are you sure you want to ban this user? This is not reversible." }, class: "border border-[var(--border-danger)] bg-[var(--bg-danger)] text-[var(--text-danger)] px-2 py-1 text-sm font-bold shadow-sm hover:bg-[var(--bg-danger-hover)]" %>
+          </div>
         </div>
       <% end %>
-      </div>
     </div>
   </aside>
   <!-- Pastes -->
@@ -60,7 +92,7 @@
         <% end %>
 
         <% if @pastes.empty? %>
-          <div class="text-xs text-[var(--muted)] px-4 py-6">
+          <div class="text-sm text-[var(--muted)] px-4 py-6">
             This user hides many secrets!
           </div>
         <% end %>

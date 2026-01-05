@@ -28,6 +28,14 @@ Rails.application.routes.draw do
 
   resources :pastes, except: [ :index, :show ]
 
+  namespace :admin do
+    resources :users, param: :username, only: [] do
+      post :invite_codes, action: :generate_invite_codes
+      get :invite_codes, action: :invite_codes
+      delete :ban 
+    end
+  end
+
   # MUST BE LAST: shortcode paste URL like /uUyG6pZ
   get "/:shortcode", to: "pastes#show", constraints: { shortcode: /[A-Za-z0-9_-]{6,12}/ }, as: :short_paste
 end
