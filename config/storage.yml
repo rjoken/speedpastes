@@ -10,7 +10,7 @@ digitalocean:
   service: S3
   access_key_id: <%= ENV["SPACES_ID"] %>
   secret_access_key: <%= ENV["SPACES_SECRET"] %>
-  region: "ams3"
+  region: ams3
   bucket: <%= ENV["SPACES_BUCKET"] %>
   endpoint: <%= ENV["SPACES_ENDPOINT"] %>
   force_path_style: false
