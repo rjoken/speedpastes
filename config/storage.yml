@@ -8,11 +8,11 @@ local:
 
 digitalocean:
   service: S3
-  access_key_id: <%= ENV.fetch("SPACES_ID") %>
-  secret_access_key: <%= ENV.fetch("SPACES_SECRET") %>
+  access_key_id: <%= ENV["SPACES_ID"] %>
+  secret_access_key: <%= ENV["SPACES_SECRET"] %>
   region: "ams3"
-  bucket: <%= ENV.fetch("SPACES_BUCKET") %>
-  endpoint: <%= ENV.fetch("SPACES_ENDPOINT") %>
+  bucket: <%= ENV["SPACES_BUCKET"] %>
+  endpoint: <%= ENV["SPACES_ENDPOINT"] %>
   force_path_style: false
 
 # Use bin/rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
