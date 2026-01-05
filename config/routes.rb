@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     delete :account
 
     delete :avatar
+    post :import_pastebin
   end
 
   resource :settings, only: [ :show ] do

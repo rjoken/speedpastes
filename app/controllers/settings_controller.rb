@@ -5,6 +5,27 @@ class SettingsController < ApplicationController
         @user = current_user
     end
 
+    def import_pastebin
+        file = params[:zip]
+        unless file.respond_to?(:path)
+            return redirect_to settings_path, alert: "Please choose a ZIP file."
+        end
+
+        result = Users::PastebinImport.call(
+            user: current_user,
+            zip_path: file.path,
+            default_visibility: params[:default_visibility].presence || "open"
+        )
+
+        msg = "Imported #{result[:imported]} paste(s)."
+        msg += "Skipped #{result[:skipped]}." if result[:skipped] > 0
+        msg += "Errors: #{result[:errors].join(', ')}" if result[:errors].any?
+
+        redirect_to settings_path, notice: msg
+    rescue => e
+        redirect_to settings_path, alert: "Import failed: #{e.message}"
+    end
+
     # PATCH /settings
     def update
         user = current_user
