@@ -12,7 +12,7 @@ if Rails.env.production? && ENV["ALLOW_PROD_SEED"] != "true"
     exit
 end
 
-env_seed = Rails.root.join("db", "seeds", "#{rails.env.downcase}.rb")
+env_seed = Rails.root.join("db", "seeds", "#{Rails.env.downcase}.rb")
 
 if env_seed.exist?
     puts "Loading seeds for #{rails.env} environment..."
