@@ -1,10 +1,20 @@
 <nav class="border-b border-[var(--border)] bg-gradient-to-b from-[var(--surface)] to-[var(--surface2)] shadow-sm">
     <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
         <div class="flex items-center space-x-4">
-            <%= link_to root_path, class: "font-black text-xl tracking-tight text-[var(--text)] hover:underline" do %>
-                speedpastes
+            <%= link_to root_path, class: "font-black text-xl tracking-tight text-[var(--text)] flex items-center gap-2" do %>
+                <%= image_tag "logo.svg",
+                alt: "Speedpastes Logo",
+                class: "h-8 w-8",
+                style: "filter:
+                    drop-shadow(1px 0 0 rgba(255,255,255,.95))
+                    drop-shadow(-1px 0 0 rgba(255,255,255,.95))
+                    drop-shadow(0 1px 0 rgba(255,255,255,.95))
+                    drop-shadow(0 -1px 0 rgba(255,255,255,.95));" %>
+
+                <span>speedpastes</span>
             <% end %>
         </div>
+
 
         <div class="flex items-center gap-3">
         <% if signed_in? %>
@@ -17,7 +27,7 @@
                     aria-expanded="false"
                 >
                     <%= render "shared/avatar", user: current_user, size: 28 %>
-                    <span class="text-sm font-semibold">Welcome, <%= current_user.username %></span>
+                    <span class="text-sm font-semibold">welcome, <%= current_user.username %></span>
                     <span class="text-[var(--muted)]">▾</span>
                 </button>
                 <div
