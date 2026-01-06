@@ -1,5 +1,5 @@
 class PastesController < ApplicationController
-  before_action :require_login!, except: [ :show ]
+  before_action :require_login!, except: [ :show, :raw ]
   before_action :set_paste_by_id, only: [ :edit, :update, :destroy ]
   before_action :set_paste_by_shortcode, only: [ :show ]
 
@@ -44,7 +44,9 @@ class PastesController < ApplicationController
   def raw
     paste = Paste.find_by(shortcode: params[:shortcode])
     if paste
-      render plain: paste.body, content_type: "text/plain"
+      response.headers["Content-Type"] = "text/plain; charset=utf-8"
+      response.headers["Content-Disposition"] = "inline; filename=\"#{paste.title}.txt\""
+      render plain: paste.body
     else
       head :not_found
     end
