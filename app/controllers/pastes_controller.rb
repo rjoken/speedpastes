@@ -9,7 +9,7 @@ class PastesController < ApplicationController
 
   def create
     @paste = current_user.pastes.new(paste_params)
-    if @paste.title.blank? then @paste.title = "Untitled paste" end
+    if @paste.title.blank? then @paste.title = @paste.body.split.first(5).join(" ") end
     if @paste.save
       redirect_to short_paste_path(@paste.shortcode)
     else

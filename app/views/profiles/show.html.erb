@@ -77,7 +77,7 @@
             <div class="flex items-center justify-between gap-3">
               <div class="min-w-0">
                 <%= link_to short_paste_path(paste.shortcode), class: "font-semibold hover:underline" do %>
-                  <%= paste.title || "Untitled paste" %>
+                  <%= paste.title %>
                 <% end %>
 
                 <div class="text-xs text-[var(--muted)] mt-1">

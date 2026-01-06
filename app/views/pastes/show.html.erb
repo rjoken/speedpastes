@@ -1,5 +1,5 @@
 <div>
-  <h1 class="font-bold text-4xl"><%= @paste.title || "Untitled paste" %></h1>
+  <h1 class="font-bold text-4xl"><%= @paste.title %></h1>
   <div class="flex items-center gap-3 mt-2 mb-4">
     <div class="flex items-center gap-2">
       <%= render "shared/avatar", user: @paste.user, size: 24 %>

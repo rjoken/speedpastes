@@ -26,7 +26,7 @@
           <div class="text-sm">
             <div class="flex items-center justify-between gap-2">
               <%= link_to short_paste_path(paste.shortcode), class: "font-semibold hover:underline" do %>
-                <%= paste.title || "Untitled paste" %>
+                <%= paste.title %>
               <% end %>
               <span class="text-xs text-[var(--muted)]"><%= time_ago_in_words(paste.created_at) %> ago</span>
             </div>
