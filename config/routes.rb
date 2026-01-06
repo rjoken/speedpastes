@@ -36,6 +36,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get "/raw/:shortcode", to: "pastes#raw", as: :raw_paste
+
   # MUST BE LAST: shortcode paste URL like /uUyG6pZ
-  get "/:shortcode", to: "pastes#show", constraints: { shortcode: /[A-Za-z0-9_-]{6,12}/ }, as: :short_paste
+  get "/:shortcode", to: "pastes#show", as: :short_paste
 end

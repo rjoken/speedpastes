@@ -41,6 +41,15 @@ class PastesController < ApplicationController
     redirect_to profile_path(@paste.user.id), notice: "Paste deleted"
   end
 
+  def raw
+    paste = Paste.find_by(shortcode: params[:shortcode])
+    if paste
+      render plain: paste.body, content_type: "text/plain"
+    else
+      head :not_found
+    end
+  end
+
   private
 
   def paste_params
