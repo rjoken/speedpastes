@@ -30,7 +30,7 @@
               <% end %>
               <span class="text-xs text-[var(--muted)]"><%= time_ago_in_words(paste.created_at) %> ago</span>
             </div>
-            <div class="text-xs text-[var(--muted)]">by <%= link_to "#{paste.user.username}", profile_path(paste.user.username), class: "hover:underline" %></div>
+            <div class="text-xs text-[var(--muted)]">by <%= link_to "#{paste.user.username}", profile_path(paste.user.id), class: "hover:underline" %></div>
           </div>
         <% end %>
 

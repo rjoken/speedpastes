@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
 
-  get "/u/:username", to: "profiles#show", as: :profile
+  get "/u/:id_or_username", to: "profiles#show", as: :profile
 
   resource :settings, only: [ :show, :update ] do
     post :data_export

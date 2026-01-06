@@ -3,7 +3,7 @@
   <div class="flex items-center gap-3 mt-2 mb-4">
     <div class="flex items-center gap-2">
       <%= render "shared/avatar", user: @paste.user, size: 24 %>
-      <span class="text-sm font-semibold"><%= link_to @paste.user.username, profile_path(@paste.user.username), class: "hover:underline" %></span>
+      <span class="text-sm font-semibold"><%= link_to @paste.user.username, profile_path(@paste.user.id), class: "hover:underline" %></span>
     </div>
     <span class="text-xs text-[var(--muted)]">|</span>
     <span class="text-xs text-[var(--muted)]"><%= time_ago_in_words(@paste.created_at) %> ago</span>

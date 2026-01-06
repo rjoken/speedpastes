@@ -11,16 +11,16 @@ class Admin::UsersController < ApplicationController
         count = 5
         InviteCodes::Generate.call(user: @user, count: count)
 
-        redirect_to profile_path(@user.username), notice: "Generated #{count} invite codes for #{@user.username}."
+        redirect_to profile_path(@user.id), notice: "Generated #{count} invite codes for #{@user.username}."
     end
 
     def ban
         if @user == current_user
-            return redirect_to profile_path(@user.username), alert: "You cannot ban yourself."
+            return redirect_to profile_path(@user.id), alert: "You cannot ban yourself."
         end
 
         if @user.admin?
-            return redirect_to profile_path(@user.username), alert: "You cannot ban another admin."
+            return redirect_to profile_path(@user.id), alert: "You cannot ban another admin."
         end
 
         Users::Anonymize.call(user: @user)

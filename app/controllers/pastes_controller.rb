@@ -38,7 +38,7 @@ class PastesController < ApplicationController
   def destroy
     require_owner_or_admin!(@paste)
     @paste.destroy
-    redirect_to profile_path(@paste.user.username), notice: "Paste deleted"
+    redirect_to profile_path(@paste.user.id), notice: "Paste deleted"
   end
 
   private
