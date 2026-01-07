@@ -6,7 +6,7 @@ module UiHelper
             default: "border-[var(--button-border)] bg-[var(--button-bg)] hover:bg-[var(--button-bg-hover)]",
             danger: "border-[var(--border-danger)] bg-[var(--button-bg-danger)] hover:bg-[var(--button-bg-danger-hover)] text-[var(--text-danger)]"
         }
-        [base, sizes.fetch(size), variants.fetch(variant)].join(" ")
+        [ base, sizes.fetch(size), variants.fetch(variant) ].join(" ")
     end
 
     def link_class(variant: :default, size: :md)
@@ -18,7 +18,7 @@ module UiHelper
             muted: "text-[var(--muted)]",
             external: "text-[var(--external-link)] underline"
         }
-        [base, sizes.fetch(size), variants.fetch(variant)].join(" ")
+        [ base, sizes.fetch(size), variants.fetch(variant) ].join(" ")
     end
 
     def gradient_class(variant: :default)
@@ -27,7 +27,7 @@ module UiHelper
             default: "from-[var(--surface2)] to-[var(--surface)]",
             nav: "from-[var(--surface)] to-[var(--surface2)]"
         }
-        [base, variants.fetch(variant, "")].join(" ")
+        [ base, variants.fetch(variant, "") ].join(" ")
     end
 
     def pagy_nav_class(variant: :inactive)
@@ -36,6 +36,6 @@ module UiHelper
             active: "border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface2)]",
             inactive: "border-[var(--border-muted)] bg-[var(--surface2)] text-[var(--muted)] cursor-not-allowed"
         }
-        [base, variants.fetch(variant, "")].join(" ")
+        [ base, variants.fetch(variant, "") ].join(" ")
     end
 end
