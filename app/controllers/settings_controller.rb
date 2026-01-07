@@ -1,5 +1,5 @@
 class SettingsController < ApplicationController
-    before_action :require_login!
+    before_action :authenticate_user!
 
     def show
         @user = current_user
@@ -56,19 +56,19 @@ class SettingsController < ApplicationController
     def account
         user = current_user
 
-        unless user.authenticate(params[:password].to_s)
+        unless user.valid_password?(params[:password].to_s)
             return redirect_to settings_path, alert: "Incorrect password"
         end
 
         Users::Anonymize.call(user: user)
 
-        reset_session
+        sign_out(user)
         redirect_to root_path, notice: "Your account has been deleted"
     end
 
     def username
         user = current_user
-        unless user.authenticate(params[:current_password].to_s)
+        unless user.valid_password?(params[:current_password].to_s)
             return redirect_to settings_path, alert: "Incorrect current password"
         end
 
@@ -89,7 +89,7 @@ class SettingsController < ApplicationController
 
     def email
         user = current_user
-        unless user.authenticate(params[:current_password].to_s)
+        unless user.valid_password?(params[:current_password].to_s)
             return redirect_to settings_path, alert: "Incorrect current password"
         end
 
@@ -109,7 +109,7 @@ class SettingsController < ApplicationController
 
     def password
         user = current_user
-        unless user.authenticate(params[:current_password].to_s)
+        unless user.valid_password?(params[:current_password].to_s)
             return redirect_to settings_path, alert: "Incorrect current password"
         end
 
@@ -120,7 +120,7 @@ class SettingsController < ApplicationController
             return redirect_to settings_path, alert: "New password and confirmation do not match"
         end
 
-        new_password_digest = BCrypt::Password.create(new_password)
+        new_password_digest = Devise::Encryptor.digest(User, new_password)
 
         req = AccountChangeRequest.create!(
             user: user,

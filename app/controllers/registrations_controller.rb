@@ -28,7 +28,7 @@ class RegistrationsController < ApplicationController
 
     InviteCodes::Generate.call(user: user, count: 5)
 
-    session[:user_id] = user.id
+    sign_in(user)
     redirect_to root_path
 
   rescue ActiveRecord::RecordInvalid

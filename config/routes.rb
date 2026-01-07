@@ -3,12 +3,7 @@ Rails.application.routes.draw do
 
   get "/favicon.ico", to: redirect("/assets/favicon.ico")
 
-  get "/signup", to: "registrations#new"
-  post "/signup", to: "registrations#create"
-
-  get "/login", to: "sessions#new"
-  post "/login", to: "sessions#create"
-  delete "/logout", to: "sessions#destroy"
+  devise_for :users
 
   get "/u/:id_or_username", to: "profiles#show", as: :profile
 
