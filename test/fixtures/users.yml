@@ -1,17 +1,25 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  email: MyString
-  username: MyString
-  password_digest: MyString
-  bio: MyString
-  link: MyString
-  invited_by: one
+regular:
+  id: 1
+  email: regular@speedpastes.org
+  username: regular
+  password_digest: <%= BCrypt::Password.create('password') %>
+  bio: I am a regular user.
+  admin: false
 
-two:
-  email: MyString
-  username: MyString
-  password_digest: MyString
-  bio: MyString
-  link: MyString
-  invited_by: two
+admin:
+  id: 2
+  email: admin@speedpastes.org
+  username: admin
+  password_digest: <%= BCrypt::Password.create('password') %>
+  bio: I am an admin user.
+  admin: true
+
+other:
+  id: 3
+  email: other@speedpastes.org
+  username: other
+  password_digest: <%= BCrypt::Password.create('password') %>
+  bio: I am another regular user.
+  admin: false

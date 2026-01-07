@@ -1,15 +1,19 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  user: one
-  shortcode: MyString
-  title: MyString
-  body: MyText
-  visibility: 1
+open:
+  id: 1
+  title: "Open Paste"
+  content: "This is an open paste.""
+  visibility: "open"
+  user_id: 1
+  shortcode: "abc123"
+  created_at: <%= Time.now %>
 
-two:
-  user: two
-  shortcode: MyString
-  title: MyString
-  body: MyText
-  visibility: 1
+unlisted:
+  id: 2
+  title: "Unlisted Paste"
+  content: "This is an unlisted paste."
+  visibility: "unlisted"
+  user_id: 2
+  shortcode: "def456"
+  created_at: <%= Time.now %>

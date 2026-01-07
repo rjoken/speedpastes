@@ -5,18 +5,10 @@
         font-family: Ubuntu, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
     }
 
-    a {
-        @apply cursor-pointer;
-    }
-
     button,
     [type="button"],
     [type="submit"],
     [role="button"] {
-        @apply cursor-pointer;
-    }
-
-    select {
         @apply cursor-pointer;
     }
 }
@@ -26,17 +18,18 @@
     --surface: var(--color-slate-800);
     --surface2: var(--color-slate-900);
     --border: var(--color-cyan-900);
-    --border-muted: var(--color-cyan-800);
     --text: var(--color-slate-100);
-    --muted: var(--color-slate-300);
-    --button-outline: var(--color-cyan-700);
+    --button-border: var(--color-cyan-700);
+    --button-bg: var(--color-cyan-800);
+    --button-bg-hover: var(--color-cyan-700);
     --border-danger: var(--color-slate-200);
     --bg-danger: var(--color-red-700);
     --text-danger: var(--color-slate-100);
     --button-bg-danger: var(--color-red-600);
     --button-bg-danger-hover: var(--color-red-500);
-    --button-bg: var(--color-cyan-800);
-    --button-bg-hover: var(--color-cyan-700);
+    --border-muted: var(--color-cyan-800);
+    --muted: var(--color-slate-300);
+    --external-link: var(--color-blue-400);
 }
 
 [data-theme="cyber"] {
@@ -44,17 +37,18 @@
     --surface: var(--color-slate-800);
     --surface2: var(--color-slate-900);
     --border: var(--color-cyan-900);
-    --border-muted: var(--color-cyan-800);
     --text: var(--color-slate-100);
-    --muted: var(--color-slate-300);
-    --button-outline: var(--color-cyan-700);
+    --button-border: var(--color-cyan-700);
+    --button-bg: var(--color-cyan-800);
+    --button-bg-hover: var(--color-cyan-700);
     --border-danger: var(--color-slate-200);
     --bg-danger: var(--color-red-700);
     --text-danger: var(--color-slate-100);
     --button-bg-danger: var(--color-red-600);
     --button-bg-danger-hover: var(--color-red-500);
-    --button-bg: var(--color-cyan-800);
-    --button-bg-hover: var(--color-cyan-700);
+    --border-muted: var(--color-cyan-800);
+    --muted: var(--color-slate-300);
+    --external-link: var(--color-blue-400);
 }
 
 [data-theme="hospital"] {
@@ -62,15 +56,16 @@
     --surface: var(--color-white);
     --surface2: var(--color-slate-50);
     --border: var(--color-slate-300);
-    --border-muted: var(--color-slate-200);
     --text: var(--color-slate-900);
-    --muted: var(--color-slate-500);
-    --button-outline: var(--color-slate-400);
+    --button-border: var(--color-slate-400);
+    --button-bg: var(--color-slate-200);
+    --button-bg-hover: var(--color-slate-300);
     --border-danger: var(--color-red-400);
     --bg-danger: var(--color-red-50);
     --text-danger: var(--color-red-700);
     --button-bg-danger: var(--color-red-100);
     --button-bg-danger-hover: var(--color-red-200);
-    --button-bg: var(--color-slate-200);
-    --button-bg-hover: var(--color-slate-300);
+    --border-muted: var(--color-slate-200);
+    --muted: var(--color-slate-500);
+    --external-link: var(--color-blue-400);
 }

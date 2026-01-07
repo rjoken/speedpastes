@@ -3,7 +3,7 @@
   <aside class="md:col-span-1">
     <div class="border border-[var(--border)] bg-[var(--surface)] shadow-sm overflow-hidden">
       <div class="border-b border-[var(--border-muted)] bg-gradient-to-b from-[var(--surface2)] to-[var(--surface)] px-4 py-3">
-        <div class="font-black text-lg"><%= link_to @user.username, profile_path(@user.id) %></div>
+        <div class="font-black text-lg cursor-pointer"><%= link_to @user.username, profile_path(@user.id) %></div>
       </div>
 
       <div class="p-4 flex flex-col items-center space-y-4">
@@ -26,7 +26,7 @@
         <% if @user.link.present? %>
           <div class="text-xs font-bold uppercase tracking-wide text-[var(--muted)] mb-1 mt-4">Website</div>
           <div>
-            <%= link_to @user.link, @user.link, class: "text-sm text-blue-600 underline", target: "_blank", rel: "noopener" %>
+            <%= link_to @user.link, @user.link, class: link_class(variant: :external, size: :sm), target: "_blank", rel: "noopener" %>
           </div>
         <% end %>
 
@@ -36,14 +36,23 @@
       </div>
 
       <% if current_user == @user || current_user&.admin? %>
-        <details class="w-full p-4 bg-[var(--surface)] border-t border-b border-[var(--border-muted)] hover:bg-[var(--surface2)] hover:cursor-pointer">
+        <details class="w-full p-4 bg-[var(--surface)] border-t border-b border-[var(--border-muted)] hover:bg-[var(--surface2)] hover:cursor-pointer" data-controller="invite-codes">
           <summary class="cursor-pointer text-md text-[var(--muted)]">Invite codes</summary>
           <div class="mt-4 mb-4">
+          <button type="button" 
+            data-invite-codes-target="button"
+            data-action="click->invite-codes#copy"
+            class="border bg-[var(--button-bg)] border-[var(--button-border)] px-2 py-1 text-sm font-bold shadow-sm hover:bg-[var(--button-bg-hover)] mb-4">Copy valid invites</button>
           <% @invite_codes.each do |code| %>
-            <div class="border border-[var(--border)] bg-[var(--surface)] px-2 py-1 text-xs">
+            <div class="border border-[var(--border)] bg-[var(--surface)] px-2 py-1 text-xs"
+              data-invite-codes-target="code"
+              data-code="<%= code.code %>"
+              data-uses-count="<%= code.uses_count %>"
+              data-max-uses="<%= code.max_uses %>"
+            >
               <div><strong>Code:</strong> <%= code.code %></div>
               <div><strong>Created at:</strong> <%= code.created_at.strftime("%Y-%m-%d") %></div>
-              <div><strong>Uses:</strong> <%= code.uses_count %></div>
+              <div><strong>Uses:</strong> <%= code.uses_count %>/<%= code.max_uses %></div>
             </div>
           <% end %>
           </div>
@@ -54,10 +63,10 @@
         <div class="mt-4 border border-[var(--border-muted)] bg-[var(--surface2)] p-3">
           <div class="font-bold mb-2">Admin Actions</div>
           <div class="mt-2 flex flex-wrap gap-2">
-            <%= button_to "Promote to admin", admin_user_promote_path(@user.username), method: :post, data: { turbo_confirm: "Are you sure you want to promote this user to admin?" }, class: "border-[var(--border-danger)] bg-[var(--bg-danger)] text-[var(--text-danger)] px-2 py-1 text-sm font-bold shadow-sm hover:bg-[var(--bg-danger-hover)]" %>
-            <%= button_to "Generate 5 invites", admin_user_invite_codes_path(@user.username), method: :post, class: "border-[var(--button-outline)] bg-[var(--button-bg)] px-2 py-1 text-sm font-bold shadow-sm hover:bg-[var(--button-bg-hover)]" %>
-            <%= button_to "Remove avatar", admin_user_remove_avatar_path(@user.username), method: :delete, data: { turbo_confirm: "Are you sure you want to remove this user's avatar?" }, class: "border-[var(--button-outline)] bg-[var(--button-bg)] px-2 py-1 text-sm font-bold shadow-sm hover:bg-[var(--button-bg-hover)]" %>
-            <%= button_to "Ban user", admin_user_ban_path(@user.username), method: :delete, data: { turbo_confirm: "Are you sure you want to ban this user? This is not reversible." }, class: "border border-[var(--border-danger)] bg-[var(--bg-danger)] text-[var(--text-danger)] px-2 py-1 text-sm font-bold shadow-sm hover:bg-[var(--bg-danger-hover)]" %>
+            <%= button_to "Promote to admin", admin_user_promote_path(@user.username), method: :post, data: { turbo_confirm: "Are you sure you want to promote this user to admin?" }, class: button_class(variant: :danger, size: :sm) %>
+            <%= button_to "Generate 5 invites", admin_user_invite_codes_path(@user.username), method: :post, class: button_class(variant: :default, size: :sm) %>
+            <%= button_to "Remove avatar", admin_user_remove_avatar_path(@user.username), method: :delete, data: { turbo_confirm: "Are you sure you want to remove this user's avatar?" }, class: button_class(variant: :default, size: :sm) %>
+            <%= button_to "Ban user", admin_user_ban_path(@user.username), method: :delete, data: { turbo_confirm: "Are you sure you want to ban this user? This is not reversible." }, class: button_class(variant: :danger, size: :sm) %>
           </div>
         </div>
       <% end %>
@@ -69,7 +78,7 @@
       <div class="border-b border-[var(--border-muted)] bg-gradient-to-b from-[var(--surface2)] to-[var(--surface)] px-4 py-3 flex items-center justify-between">
         <div class="font-black">Pastes by <%= @user.username %></div>
         <% if current_user == @user %>
-          <%= link_to "New paste", root_path, class: "text-sm font-semibold underline" %>
+          <%= link_to "New paste", root_path, class: link_class(variant: :bold, size: :sm) %>
         <% end %>
       </div>
 
@@ -78,14 +87,14 @@
           <div class="px-4 py-3">
             <div class="flex items-center justify-between gap-3">
               <div class="min-w-0">
-                <%= link_to short_paste_path(paste.shortcode), class: "font-semibold hover:underline" do %>
+                <%= link_to short_paste_path(paste.shortcode), class: link_class(variant: :bold) do %>
                   <%= paste.title %>
                 <% end %>
 
                 <div class="text-xs text-[var(--muted)] mt-1">
                   <%= paste.created_at.strftime("%Y-%m-%d %H:%M") %>
                   <% if current_user == @user || current_user&.admin? %>
-                    <%= paste.visibility.capitalize %> | <%= link_to "Edit", edit_paste_path(paste), class: "hover:underline" %> | <%= button_to "Delete", paste_path(paste), method: :delete, data: { turbo_confirm: "Are you sure you want to delete this paste?" }, form_class: "inline", class: "hover:underline" %>
+                    <%= paste.visibility.capitalize %> | <%= link_to "Edit", edit_paste_path(paste), class: link_class(variant: :muted, size: :xs) %> | <%= button_to "Delete", paste_path(paste), method: :delete, data: { turbo_confirm: "Are you sure you want to delete this paste?" }, form_class: "inline", class: link_class(variant: :muted, size: :xs) %>
                   <% end %>
                 </div>
               </div>
