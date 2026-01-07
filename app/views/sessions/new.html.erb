@@ -1,6 +1,6 @@
 <div class="max-w-md mx-auto">
   <div class="border border-[var(--border)] bg-[var(--surface)] shadow-sm overflow-hidden">
-    <div class="border-b border-[var(--border-muted)] bg-gradient-to-b from-[var(--surface2)] to-[var(--surface)] px-4 py-3">
+    <div class="<%= gradient_class %> px-4 py-3">
       <div class="text-lg font-black">Log in</div>
     </div>
 
@@ -17,14 +17,14 @@
         </div>
 
         <div class="flex items-center justify-between pt-1">
-          <%= submit_tag "Log in", class: "border border-[var(--border)] bg-[var(--surface)] px-4 py-2 font-bold shadow-sm hover:bg-[var(--surface2)]" %>
-          <%= link_to "Forgot your password?", "#", class: "text-sm text-blue-600 underline" %>
+          <%= submit_tag "Log in", class: button_class(variant: :default, size: :md) %>
+          <%= link_to "Forgot your password?", "#", class: link_class(size: :sm) %>
         </div>
       <% end %>
     </div>
   </div>
 
   <div class="mt-4 text-center text-sm text-[var(--muted)]">
-    Don't have an account? <%= link_to "Sign up", signup_path, class: "text-blue-600 underline" %>
+    Don't have an account? <%= link_to "Sign up", signup_path, class: link_class(size: :sm) %>
   </div>
 </div>

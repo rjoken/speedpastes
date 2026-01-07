@@ -37,8 +37,8 @@
         </div>
 
         <div class="flex items center justify-between pt-1">
-          <%= submit_tag "Sign up", class: "border border-[var(--border)] bg-[var(--surface)] px-4 py-2 font-bold shadow-sm hover:bg-[var(--surface2)]" %>
-          <%= link_to "Already have an account? Log in", login_path, class: "text-sm text-blue-600 underline" %>
+          <%= submit_tag "Sign up", class: button_class(variant: :default, size: :md) %>
+          <%= link_to "Already have an account? Log in", login_path, class: link_class(size: :sm) %>
         </div>
       <% end %>
     </div>

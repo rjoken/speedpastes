@@ -12,7 +12,7 @@
                         <%= render "shared/avatar", user: current_user, size: 128 %>
                         <% if current_user.avatar.attached? %>
                             <div class="mt-2">
-                                <%= button_to "Remove avatar", avatar_settings_path, method: :delete, data: { turbo_confirm: "Remove your avatar?" }, form_class: "inline", class: "border border-[var(--button-outline)] bg-[var(--button-bg)] px-3 py-1 text-sm font-bold shadow-sm hover:bg-[var(--button-bg-hover)]" %>
+                                <%= button_to "Remove avatar", avatar_settings_path, method: :delete, data: { turbo_confirm: "Remove your avatar?" }, form_class: "inline", class: button_class(variant: :default, size: :sm) %>
                             </div>
                         <% end %>
                     </div>
@@ -34,8 +34,8 @@
                                 </div>
                             </div>
 
-                            <div class="flex justify-end">
-                                <%= f.submit "Update profile", class: "border border-[var(--button-outline)] bg-[var(--button-bg)] px-4 py-2 font-bold shadow-sm hover:bg-[var(--button-bg-hover)]" %>
+                            <div class="flex justify-end mt-4">
+                                <%= f.submit "Update profile", class: button_class(variant: :default, size: :md) %>
                             </div>
                         <% end %>
                     </div>
@@ -58,8 +58,8 @@
                             <%= label_tag :current_password, "Current password", class: "block text-sm font-semibold" %>
                             <%= password_field_tag :current_password, nil, autocomplete: "current-password", class: "mt-1 w-full border border-[var(--border)] px-3 py-2" %>
                         </div>
-                        <div class="flex justify-end">
-                            <%= submit_tag "Update email address", class: "border border-[var(--button-outline)] bg-[var(--button-bg)] px-4 py-2 font-bold shadow-sm hover:bg-[var(--button-bg-hover)] mt-4" %>
+                        <div class="flex justify-end mt-4">
+                            <%= submit_tag "Update email address", class: button_class(variant: :default, size: :md) %>
                         </div>
                     <% end %>
                 </div>
@@ -81,8 +81,8 @@
                             <%= label_tag :new_password_confirmation, "Confirm new password", class: "block text-sm font-semibold" %>
                             <%= password_field_tag :new_password_confirmation, nil, autocomplete: "new-password", class: "mt-1 w-full border border-[var(--border)] px-3 py-2" %>
                         </div>
-                        <div class="flex justify-end">
-                            <%= submit_tag "Update password", class: "border border-[var(--button-outline)] bg-[var(--button-bg)] px-4 py-2 font-bold shadow-sm hover:bg-[var(--button-bg-hover)] mt-4" %>
+                        <div class="flex justify-end mt-4">
+                            <%= submit_tag "Update password", class: button_class(variant: :default, size: :md) %>
                         </div>
                     <% end %>
                 </div>
@@ -100,8 +100,8 @@
                             <%= label_tag :new_username, "New username", class: "block text-sm font-semibold" %>
                             <%= text_field_tag :new_username, nil, autocomplete: "username", class: "mt-1 w-full border border-[var(--border)] px-3 py-2" %>
                         </div>
-                        <div class="flex justify-end">
-                            <%= submit_tag "Update username", class: "border border-[var(--button-outline)] bg-[var(--button-bg)] px-4 py-2 font-bold shadow-sm hover:bg-[var(--button-bg-hover)] mt-4" %>
+                        <div class="flex justify-end mt-4">
+                            <%= submit_tag "Update username", class: button_class(variant: :default, size: :md) %>
                         </div>
                     <% end %>
                 </div>
@@ -122,12 +122,12 @@
                         <div class="flex items-center gap-2">
                             <%= label_tag :default_visibility, "Default visibility", class: "text-sm font-semibold" %>
                             <%= select_tag :default_visibility, options_for_select(Paste.visibilities.keys.map { |k| [k, k] }, "open"),
-                                class: "border border-[var(--button-outline)] bg-[var(--button-bg)] px-2 py-1 text-sm font-bold shadow-sm hover:bg-[var(--button-bg-hover)]" %>
+                                class: "border border-[var(--button-border)] bg-[var(--button-bg)] px-2 py-1 text-sm font-bold shadow-sm hover:bg-[var(--button-bg-hover)]" %>
                             <span class="text-xs text-[var(--muted)]">Used when filenames don't start with "!"</span>
                         </div>
 
-                        <div class="flex justify-end">
-                            <%= submit_tag "Import pastes", class: "border border-[var(--button-outline)] bg-[var(--button-bg)] px-4 py-2 font-bold shadow-sm hover:bg-[var(--button-bg-hover)] mt-4" %>
+                        <div class="flex justify-end mt-4">
+                            <%= submit_tag "Import pastes", class: button_class(variant: :default, size: :md) %>
                         </div>
                     <% end %>
                 </div>
@@ -139,7 +139,7 @@
 
                 <div class="mt-3">
                     <%= form_with url: data_export_settings_path, method: :post, data: { turbo: false } do %>
-                        <%= submit_tag "Download my data", class: "border border-[var(--button-outline)] bg-[var(--button-bg)] px-4 py-2 font-bold shadow-sm hover:bg-[var(--button-bg-hover)]" %>
+                        <%= submit_tag "Download my data", class: button_class(variant: :default, size: :md) %>
                     <% end %>
                 </div>
             </details>
@@ -155,7 +155,7 @@
 
                     <div class="flex items-center justify-between">
                         <div class="text-xs text-[var(--text-danger)]">You will be logged out immediately.</div>
-                        <%= submit_tag "Delete my account", class: "border border-[var(--border-danger)] bg-[var(--button-bg-danger)] px-4 py-2 font-bold shadow-sm hover:bg-[var(--button-bg-danger-hover)] text-[var(--text-danger)]" %>
+                        <%= submit_tag "Delete my account", class: button_class(variant: :danger, size: :md) %>
                     </div>
                 <% end %>
             </details>
