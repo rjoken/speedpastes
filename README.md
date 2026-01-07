@@ -52,12 +52,8 @@ You may modify the DEV_DATABASE_URL if you want to point speedpastes to a differ
 
 ## Authentication
 
-TODO
+This appication has basic email and password authentication with rails default implementation, however some changes have been made to facilitate the invite code system.
 
 ## Testing
 
-TODO
-
-## Deployment Instructions
-
-TODO
+not working atm Lol
