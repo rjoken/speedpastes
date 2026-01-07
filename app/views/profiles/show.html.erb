@@ -63,7 +63,6 @@
         <div class="mt-4 border border-[var(--border-muted)] bg-[var(--surface2)] p-3">
           <div class="font-bold mb-2">Admin Actions</div>
           <div class="mt-2 flex flex-wrap gap-2">
-            <%= button_to "Promote to admin", admin_user_promote_path(@user.username), method: :post, data: { turbo_confirm: "Are you sure you want to promote this user to admin?" }, class: button_class(variant: :danger, size: :sm) %>
             <%= button_to "Generate 5 invites", admin_user_invite_codes_path(@user.username), method: :post, class: button_class(variant: :default, size: :sm) %>
             <%= button_to "Remove avatar", admin_user_remove_avatar_path(@user.username), method: :delete, data: { turbo_confirm: "Are you sure you want to remove this user's avatar?" }, class: button_class(variant: :default, size: :sm) %>
             <%= button_to "Ban user", admin_user_ban_path(@user.username), method: :delete, data: { turbo_confirm: "Are you sure you want to ban this user? This is not reversible." }, class: button_class(variant: :danger, size: :sm) %>

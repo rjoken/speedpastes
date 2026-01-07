@@ -32,14 +32,6 @@ class Admin::UsersController < ApplicationController
         redirect_to profile_path(@user.id), notice: "User avatar has been removed."
     end
 
-    def promote
-        if @user.admin?
-            return redirect_to profile_path(@user.id), alert: "User is already an admin."
-        end
-        @user.update!(admin: true)
-        redirect_to profile_path(@user.id), notice: "User has been promoted to admin."
-    end
-
     private
 
     def require_admin!
