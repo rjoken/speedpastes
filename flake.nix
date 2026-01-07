@@ -55,7 +55,7 @@
           setup.command = "bin/setup --skip-server";
           setup.depends_on.pg.condition = "process_healthy";
 
-          server.command = "bin/dev";
+          server.command = "bin/rails s";
           server.depends_on.setup.condition = "process_completed";
           server.depends_on.tailwind_build.condition = "process_completed";
         };
