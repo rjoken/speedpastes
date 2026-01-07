@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   root "home#index"
 
+  get "/favicon.ico", to: redirect("/assets/favicon.ico")
+
   get "/signup", to: "registrations#new"
   post "/signup", to: "registrations#create"
 
