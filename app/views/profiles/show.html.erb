@@ -36,14 +36,23 @@
       </div>
 
       <% if current_user == @user || current_user&.admin? %>
-        <details class="w-full p-4 bg-[var(--surface)] border-t border-b border-[var(--border-muted)] hover:bg-[var(--surface2)] hover:cursor-pointer">
+        <details class="w-full p-4 bg-[var(--surface)] border-t border-b border-[var(--border-muted)] hover:bg-[var(--surface2)] hover:cursor-pointer" data-controller="invite-codes">
           <summary class="cursor-pointer text-md text-[var(--muted)]">Invite codes</summary>
           <div class="mt-4 mb-4">
+          <button type="button" 
+            data-invite-codes-target="button"
+            data-action="click->invite-codes#copy"
+            class="border bg-[var(--button-bg)] border-[var(--button-outline)] px-2 py-1 text-sm font-bold shadow-sm hover:bg-[var(--button-bg-hover)] mb-4">Copy valid invites</button>
           <% @invite_codes.each do |code| %>
-            <div class="border border-[var(--border)] bg-[var(--surface)] px-2 py-1 text-xs">
+            <div class="border border-[var(--border)] bg-[var(--surface)] px-2 py-1 text-xs"
+              data-invite-codes-target="code"
+              data-code="<%= code.code %>"
+              data-uses-count="<%= code.uses_count %>"
+              data-max-uses="<%= code.max_uses %>"
+            >
               <div><strong>Code:</strong> <%= code.code %></div>
               <div><strong>Created at:</strong> <%= code.created_at.strftime("%Y-%m-%d") %></div>
-              <div><strong>Uses:</strong> <%= code.uses_count %></div>
+              <div><strong>Uses:</strong> <%= code.uses_count %>/<%= code.max_uses %></div>
             </div>
           <% end %>
           </div>
