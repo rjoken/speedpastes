@@ -1,4 +1,4 @@
-<nav class="border-b border-[var(--border)] bg-gradient-to-b from-[var(--surface)] to-[var(--surface2)] shadow-sm">
+<nav class="<%= gradient_class(variant: :nav) %> shadow-sm">
     <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
         <div class="flex items-center space-x-4">
             <%= link_to root_path, class: "font-black text-xl tracking-tight text-[var(--text)] flex items-center gap-2" do %>
@@ -22,7 +22,7 @@
             <div class="relative" data-controller="dropdown">
                 <button 
                     type="button" 
-                    class="flex items-center gap-2 px-2 py-1 hover:bg-[var(--surface2)]"
+                    class="flex items-center gap-2 px-2 py-1 hover:bg-[var(--surface)]"
                     data-action="click->dropdown#toggle"
                     aria-haspopup="menu"
                     aria-expanded="false"
@@ -45,9 +45,9 @@
             </div>
         <% else %>
             <span class="text-sm font-semibold">
-            <%= link_to "Log in", login_path, class: "hover:underline" %>
+            <%= link_to "Log in", login_path, class: link_class(variant: :bold, size: :sm) %>
             |
-            <%= link_to "Sign up", signup_path, class: "hover:underline" %>
+            <%= link_to "Sign up", signup_path, class: link_class(variant: :bold, size: :sm) %>
             </span>
         <% end %>
         </div>

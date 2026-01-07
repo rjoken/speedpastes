@@ -10,7 +10,7 @@
           <%= render "shared/createpaste" %>
       <% else %>
           <div class="p-4 text-sm text-[var(--muted)]">
-            Please <%= link_to "log in", login_path, class: "text-[var(--link)] underline" %> or <%= link_to "sign up", signup_path, class: "text-[var(--link)] underline" %> to create a new paste.
+            Please <%= link_to "log in", login_path, class: link_class %> or <%= link_to "sign up", signup_path, class: link_class %> to create a new paste.
           </div>
       <% end %>
     </div>
@@ -25,12 +25,12 @@
         <% @latest_pastes.each do |paste| %>
           <div class="text-sm">
             <div class="flex items-center justify-between gap-2">
-              <%= link_to short_paste_path(paste.shortcode), class: "font-semibold hover:underline" do %>
+              <%= link_to short_paste_path(paste.shortcode), class: link_class(variant: :bold) do %>
                 <%= paste.title %>
               <% end %>
               <span class="text-xs text-[var(--muted)]"><%= time_ago_in_words(paste.created_at) %> ago</span>
             </div>
-            <div class="text-xs text-[var(--muted)]">by <%= link_to "#{paste.user.username}", profile_path(paste.user.id), class: "hover:underline" %></div>
+            <div class="text-xs text-[var(--muted)]">by <%= link_to "#{paste.user.username}", profile_path(paste.user.id), class: link_class(variant: :muted) %></div>
           </div>
         <% end %>
 
