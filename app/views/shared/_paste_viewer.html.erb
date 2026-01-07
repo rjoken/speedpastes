@@ -1,20 +1,19 @@
-<%# locals: content:, max_height: (optional) %>
 <% max_height = local_assigns[:max_height] || "480px" %>
+<% lines = content.to_s.split("\n", -1) %>
 
-<div class="border border-[var(--border)] bg-[var(--surface)] shadow-sm overflow-hidden"
-    data-controller="linenumbers-viewer"
-    data-action="turbo:load@window->linenumbers-viewer#update"
->
-    <div class="flex" style="max-height: <%= max_height %>;">
-        <pre class="select-none shrink-0 w-14 overflow-hidden bg-[var(--surface2)] border-r border-[var(--border-muted)] text-right pr-2 pl-2 py-3 font-mono text-sm leading-5 text-[var(--muted)]"
-             data-linenumbers-viewer-target="numbers"
-             aria-hidden="true"
-        ></pre>
+<div class="border border-[var(--border)] bg-[var(--surface)] shadow-sm overflow-auto"
+     style="max-height: <%= max_height %>;">
+  <ol class="m-0 p-0 list-none font-mono text-sm leading-5">
+    <% lines.each_with_index do |line, index| %>
+      <li class="flex min-w-0">
+        <!-- gutter -->
+        <div class="select-none shrink-0 w-14 bg-[var(--surface2)] border-r border-[var(--border-muted)] text-right pr-2 pl-2 py-0 text-[var(--muted)]">
+          <%= index + 1 %>
+        </div>
 
-        <pre
-            class="flex-1 overflow-auto px-3 py-3 font-mono text-sm leading-5"
-            data-linenumbers-viewer-target="content"
-            data-action="scroll->linenumbers-viewer#syncScroll"
-        ><%= h(content) %></pre>
-    </div>
+        <!-- content -->
+        <div class="m-0 flex-1 min-w-0 px-3 py-0 break-words" style="white-space: pre-wrap;"><%= line.empty? ? "\u00A0" : h(line) %></div>
+      </li>
+    <% end %>
+  </ol>
 </div>
