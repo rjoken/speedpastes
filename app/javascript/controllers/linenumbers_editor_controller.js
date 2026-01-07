@@ -51,7 +51,7 @@ export default class extends Controller {
         const end = el.selectionEnd ?? start
 
         // Modern browsers
-        if (typeof el.setRageText === "function") {
+        if (typeof el.setRangeText === "function") {
             el.setRangeText(text, start, end, "end")
             return
         }
