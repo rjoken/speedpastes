@@ -74,3 +74,21 @@
     --button-bg: var(--color-slate-200);
     --button-bg-hover: var(--color-slate-300);
 }
+
+[data-theme="blackpink"] {
+    --bg: var(--color-zinc-900);
+    --surface: var(--color-zinc-950);
+    --surface2: var(--color-zinc-900);
+    --border: var(--color-pink-950);
+    --border-muted: var(--color-pink-900);
+    --text: var(--color-zinc-100);
+    --muted: var(--color-zinc-300);
+    --button-outline: var(--color-pink-800);
+    --border-danger: var(--color-slate-200);
+    --bg-danger: var(--color-red-900);
+    --text-danger: var(--color-slate-100);
+    --button-bg-danger: var(--color-red-800);
+    --button-bg-danger-hover: var(--color-red-700);
+    --button-bg: var(--color-pink-900);
+    --button-bg-hover: var(--color-pink-800);
+}
