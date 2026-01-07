@@ -27,6 +27,11 @@ class Admin::UsersController < ApplicationController
         redirect_to root_path, notice: "Bomb has been planted."
     end
 
+    def remove_avatar
+        @user.avatar.purge_later
+        redirect_to profile_path(@user.id), notice: "User avatar has been removed."
+    end
+
     private
 
     def require_admin!
