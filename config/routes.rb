@@ -35,6 +35,7 @@ Rails.application.routes.draw do
       post :invite_codes, action: :generate_invite_codes
       get :invite_codes, action: :invite_codes
       delete :ban
+      delete :remove_avatar
     end
   end
 
