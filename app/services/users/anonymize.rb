@@ -35,6 +35,8 @@ module Users
                     password: random_pw,
                     password_confirmation: random_pw
                 )
+
+                @user.scratchpad&.destroy!
             end
         end
 

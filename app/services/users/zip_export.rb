@@ -65,6 +65,12 @@ module Users
             created_at: @user.created_at.iso8601
           },
           pastes: paste_entries,
+          scratchpad: {
+            id: @user.scratchpad.id,
+            body: @user.scratchpad.body,
+            updated_at: @user.scratchpad.updated_at.iso8601,
+            created_at: @user.scratchpad.created_at.iso8601
+          },
           invite_codes_created: InviteCode.where(created_by_id: @user.id).order(created_at: :desc).map { |ic|
             {
               code: ic.code,
