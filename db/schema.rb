@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_05_211546) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_09_212711) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -82,6 +82,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_05_211546) do
     t.index ["user_id", "created_at"], name: "index_pastes_on_user_id_and_created_at"
     t.index ["user_id"], name: "index_pastes_on_user_id"
     t.index ["visibility", "created_at"], name: "index_pastes_on_visibility_and_created_at"
+  end
+
+  create_table "scratchpads", force: :cascade do |t|
+    t.text "body", default: "", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_scratchpads_on_user_id", unique: true
   end
 
   create_table "solid_cable_messages", force: :cascade do |t|
@@ -230,17 +238,27 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_05_211546) do
     t.datetime "anonymized_at"
     t.text "bio"
     t.datetime "created_at", null: false
+    t.datetime "current_sign_in_at"
+    t.inet "current_sign_in_ip"
     t.string "email", null: false
+    t.string "encrypted_password", default: "", null: false
     t.bigint "invited_by_id"
+    t.datetime "last_sign_in_at"
+    t.inet "last_sign_in_ip"
     t.string "link"
     t.string "password_digest", null: false
+    t.datetime "remember_created_at"
+    t.datetime "reset_password_sent_at"
+    t.string "reset_password_token"
     t.integer "role", default: 0, null: false
+    t.integer "sign_in_count", default: 0, null: false
     t.datetime "updated_at", null: false
     t.string "username", null: false
     t.index "lower((email)::text)", name: "index_users_on_lower_email", unique: true
     t.index "lower((username)::text)", name: "index_users_on_lower_username", unique: true
     t.index ["anonymized_at"], name: "index_users_on_anonymized_at"
     t.index ["invited_by_id"], name: "index_users_on_invited_by_id"
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["role"], name: "index_users_on_role"
   end
 
@@ -250,6 +268,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_05_211546) do
   add_foreign_key "invite_codes", "users", column: "created_by_id"
   add_foreign_key "invite_codes", "users", column: "used_by_id"
   add_foreign_key "pastes", "users"
+  add_foreign_key "scratchpads", "users"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_failed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade

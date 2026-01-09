@@ -4,7 +4,7 @@ class CreateScratchpads < ActiveRecord::Migration[8.1]
       t.references :user, null: false, foreign_key: true, index: { unique: true }
       t.text :body, null: false, default: ""
 
-      t.timestamps :user
+      t.timestamps
     end
   end
 end
