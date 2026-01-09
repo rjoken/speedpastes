@@ -78,6 +78,11 @@ Rails.application.configure do
     protocol: "https"
   }
 
+  config.log_level =  :info
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.logger = Rails.logger
+
+
   # Specify outgoing SMTP server. Remember to add smtp/* credentials via bin/rails credentials:edit.
   # config.action_mailer.smtp_settings = {
   #   user_name: Rails.application.credentials.dig(:smtp, :user_name),
