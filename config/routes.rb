@@ -26,6 +26,8 @@ Rails.application.routes.draw do
     patch :username
   end
 
+  resource :scratchpad, only: [ :show, :update ]
+
   get "/account_change/:token", to: "account_changes#show", as: :account_change
 
   resources :pastes, except: [ :index, :show ]

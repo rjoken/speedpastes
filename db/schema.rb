@@ -238,27 +238,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_09_212711) do
     t.datetime "anonymized_at"
     t.text "bio"
     t.datetime "created_at", null: false
-    t.datetime "current_sign_in_at"
-    t.inet "current_sign_in_ip"
     t.string "email", null: false
-    t.string "encrypted_password", default: "", null: false
     t.bigint "invited_by_id"
-    t.datetime "last_sign_in_at"
-    t.inet "last_sign_in_ip"
     t.string "link"
     t.string "password_digest", null: false
-    t.datetime "remember_created_at"
-    t.datetime "reset_password_sent_at"
-    t.string "reset_password_token"
     t.integer "role", default: 0, null: false
-    t.integer "sign_in_count", default: 0, null: false
     t.datetime "updated_at", null: false
     t.string "username", null: false
     t.index "lower((email)::text)", name: "index_users_on_lower_email", unique: true
     t.index "lower((username)::text)", name: "index_users_on_lower_username", unique: true
     t.index ["anonymized_at"], name: "index_users_on_anonymized_at"
     t.index ["invited_by_id"], name: "index_users_on_invited_by_id"
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["role"], name: "index_users_on_role"
   end
 
