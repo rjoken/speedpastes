@@ -80,7 +80,7 @@ class SettingsController < ApplicationController
             expires_at: 2.hours.from_now
         )
 
-        AccountChangeMailer.confirm_change(req).deliver_later
+        AccountChangeMailer.confirm_change(req).deliver_now
         redirect_to settings_path, notice: "Please check your email to confirm the username change."
 
     rescue ActiveRecord::RecordInvalid => e
@@ -101,7 +101,7 @@ class SettingsController < ApplicationController
             expires_at: 2.hours.from_now
         )
 
-        AccountChangeMailer.confirm_change(req).deliver_later
+        AccountChangeMailer.confirm_change(req).deliver_now
         redirect_to settings_path, notice: "Please check your new email to confirm the email change."
     rescue ActiveRecord::RecordInvalid => e
         redirect_to settings_path, alert: e.record.errors.full_messages.to_sentence
@@ -129,7 +129,7 @@ class SettingsController < ApplicationController
             expires_at: 2.hours.from_now
         )
 
-        AccountChangeMailer.confirm_change(req).deliver_later
+        AccountChangeMailer.confirm_change(req).deliver_now
         redirect_to settings_path, notice: "Please check your email to confirm the password change."
     rescue ActiveRecord::RecordInvalid => e
         redirect_to settings_path, alert: e.record.errors.full_messages.to_sentence
