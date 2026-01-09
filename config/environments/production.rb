@@ -57,7 +57,26 @@ Rails.application.configure do
   # config.action_mailer.raise_delivery_errors = false
 
   # Set host to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: "speedpastes.org", protocol: "https" }
+  config.action_mailer.delivery_method = :smtp
+
+  config.action_mailer.smtp_settings = {
+    address: "smtp.sendgrid.net",
+    port: 2525,
+    authentication: :plain,
+    password: ENV["SENDGRID_API_KEY"],
+    user_name: "apikey",
+    domain: "speedpastes.org",
+    enable_starttls_auto: true
+  }
+
+  config.action_mailer.default_options = {
+    from: "Speedpastes <no-reply@speedpastes.org>"
+  }
+
+  config.action_mailer.default_url_options = {
+    host: "speedpastes.org",
+    protocol: "https"
+  }
 
   # Specify outgoing SMTP server. Remember to add smtp/* credentials via bin/rails credentials:edit.
   # config.action_mailer.smtp_settings = {
