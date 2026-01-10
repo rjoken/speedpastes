@@ -20,6 +20,14 @@ class PastesController < ApplicationController
   def show
     @paste = Paste.find_by!(shortcode: params[:shortcode])
     authorize_view!(@paste)
+    # Initialize viewed pastes in session
+    session[:viewed_pastes] ||= {}
+
+    # Increment view count if not already viewed in this session
+    unless session[:viewed_pastes][@paste.id.to_s]
+      @paste.increment!(:views) if session[:viewed_pastes].nil? || !session[:viewed_pastes][@paste.id.to_s]
+      session[:viewed_pastes][@paste.id.to_s] = true
+    end
   end
 
   def edit
