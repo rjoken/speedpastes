@@ -40,7 +40,7 @@
     </div>
 
     <footer class="py-10 text-center text-xs text-[var(--muted)]">
-      <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between text-xs">
+      <div class="max-w-5xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between text-xs gap-4 md:gap-0">
         <div>&copy; 2025 - <%= Time.current.year %> speedpastes.org | 
         <%= link_to "Privacy Policy", privacy_path, class: link_class(variant: :muted, size: :xs) %>  | 
         <%= link_to "Terms of Service", terms_path, class: link_class(variant: :muted, size: :xs) %> | 

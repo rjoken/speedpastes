@@ -28,7 +28,7 @@
                     aria-expanded="false"
                 >
                     <%= render "shared/avatar", user: current_user, size: 28 %>
-                    <span class="text-sm font-semibold">welcome, <%= current_user.username %></span>
+                    <span class="text-sm font-semibold hidden md:inline">welcome, <%= current_user.username %></span>
                     <span class="text-[var(--muted)]">▾</span>
                 </button>
                 <div
