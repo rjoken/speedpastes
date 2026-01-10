@@ -1,7 +1,7 @@
 class PastesController < ApplicationController
   before_action :require_login!, except: [ :show, :raw ]
   before_action :set_paste_by_id, only: [ :edit, :update, :destroy ]
-  before_action :set_paste_by_shortcode, only: [ :show ]
+  before_action :set_paste_by_shortcode, only: [ :show, :raw ]
 
   def new
     @paste = current_user.pastes.new
@@ -18,7 +18,6 @@ class PastesController < ApplicationController
   end
 
   def show
-    @paste = Paste.find_by!(shortcode: params[:shortcode])
     authorize_view!(@paste)
     # Initialize viewed pastes in session
     session[:viewed_pastes] ||= {}
@@ -55,14 +54,9 @@ class PastesController < ApplicationController
   end
 
   def raw
-    paste = Paste.find_by(shortcode: params[:shortcode])
-    if paste
-      response.headers["Content-Type"] = "text/plain; charset=utf-8"
-      response.headers["Content-Disposition"] = "inline; filename=\"#{paste.title}.txt\""
-      render plain: paste.body
-    else
-      head :not_found
-    end
+    response.headers["Content-Type"] = "text/plain; charset=utf-8"
+    response.headers["Content-Disposition"] = "inline; filename=\"#{@paste.title}.txt\""
+    render plain: @paste.body
   end
 
   private
@@ -73,20 +67,22 @@ class PastesController < ApplicationController
 
   def set_paste_by_id
     @paste = Paste.find(params[:id])
+    raise ActiveRecord::RecordNotFound unless @paste.present?
   end
 
   def set_paste_by_shortcode
-    @paste = Paste.find_by!(shortcode: params[:shortcode])
+    @paste = Paste.find_by(shortcode: params[:shortcode])
+    raise ActiveRecord::RecordNotFound unless @paste.present?
   end
 
   def require_owner_or_admin!(paste)
-    head :not_found unless current_user == paste.user || current_user&.admin?
+    raise ActiveRecord::RecordNotFound unless current_user == paste.user || current_user&.admin?
   end
 
   def authorize_view!(paste)
     return if paste.open? || paste.unlisted?
     return if current_user == paste.user || current_user&.admin?
 
-    head :not_found
+    raise ActiveRecord::RecordNotFound
   end
 end

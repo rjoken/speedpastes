@@ -48,6 +48,12 @@ Rails.application.routes.draw do
     end
   end
 
+  match "/400", to: "errors#show", via: :all, defaults: { code: 400, message: "Bad Request" }
+  match "/404", to: "errors#show", via: :all, defaults: { code: 404, message: "Not Found" }
+  match "/406", to: "errors#show", via: :all, defaults: { code: 406, message: "Not Acceptable" }
+  match "/422", to: "errors#show", via: :all, defaults: { code: 422, message: "Unprocessable Entity" }
+  match "/500", to: "errors#show", via: :all, defaults: { code: 500, message: "Internal Server Error" }
+
   get "/raw/:shortcode", to: "pastes#raw", as: :raw_paste
 
   # MUST BE LAST: shortcode paste URL like /uUyG6pZ

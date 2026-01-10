@@ -48,6 +48,7 @@ module Users
             created_at: p.created_at.iso8601,
             updated_at: p.updated_at.iso8601,
             edited_at: (p.respond_to?(:edited_at) ? p.edited_at&.iso8601 : nil),
+            views: p.views,
             file: File.join("pastes", filename)
           }
         end
