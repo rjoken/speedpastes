@@ -14,13 +14,7 @@
     <div class="text-xs text-[var(--muted)] flex gap-1" title="Total views"><%= heroicon "eye", options: {class: "w-4 h-4"} %> <%= @paste.views %></div>
     <span class="text-xs text-[var(--muted)]">|</span>
     <div class="text-xs text-[var(--muted)] flex" title="Visibility: <%= @paste.visibility.capitalize %>">
-    <% if @paste.visibility == "open" %>
-      <%= heroicon "globe-alt", options: { class: "w-4 h-4 text-[var(--muted)]", title: "Open" } %>
-    <% elsif @paste.visibility == "unlisted" %>
-      <%= heroicon "lock-closed", options: { class: "w-4 h-4 text-[var(--muted)]", title: "Private" } %>
-    <% else %>
-      Visibility: <%= @paste.visibility.capitalize %>
-    <% end %>
+    <%= render "shared/visibility", visibility: @paste.visibility %>
     </div>
     <% if current_user == @paste.user || current_user&.admin? %>
       <span class="text-xs text-[var(--muted)]">|</span>
