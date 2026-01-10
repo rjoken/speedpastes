@@ -1,6 +1,6 @@
 <div>
   <h1 class="font-bold text-4xl"><%= @paste.title %></h1>
-  <div class="flex items-center gap-3 mt-2 mb-4">
+  <div class="flex flex-wrap items-center gap-3 mt-2 mb-4">
     <div class="flex items-center gap-2">
       <%= render "shared/avatar", user: @paste.user, size: 24 %>
       <span><%= link_to @paste.user.username, profile_path(@paste.user.id), class: link_class(variant: :bold, size: :sm) %></span>
@@ -16,14 +16,16 @@
     <div class="text-xs text-[var(--muted)] flex" title="Visibility: <%= @paste.visibility.capitalize %>">
     <%= render "shared/visibility", visibility: @paste.visibility %>
     </div>
-    <% if current_user == @paste.user || current_user&.admin? %>
+    <div class="w-full flex items-start md:mt-0 md:flex-row md:items-center md:w-auto gap-3">
+      <% if current_user == @paste.user || current_user&.admin? %>
+        <span class="text-xs text-[var(--muted)] hidden md:inline">|</span>
+        <%= link_to "Edit", edit_paste_path(@paste), class: link_class(variant: :muted, size: :xs) %>
+        <span class="text-xs text-[var(--muted)]">|</span>
+        <%= link_to "Delete", paste_path(@paste), method: :delete, data: { turbo_confirm: "Are you sure you want to delete this paste?" }, form_class: "inline", class: link_class(variant: :muted, size: :xs) %>
+      <% end %>
       <span class="text-xs text-[var(--muted)]">|</span>
-      <%= link_to "Edit", edit_paste_path(@paste), class: link_class(variant: :muted, size: :xs) %>
-      <span class="text-xs text-[var(--muted)]">|</span>
-      <%= link_to "Delete", paste_path(@paste), method: :delete, data: { turbo_confirm: "Are you sure you want to delete this paste?" }, form_class: "inline", class: link_class(variant: :muted, size: :xs) %>
-    <% end %>
-    <span class="text-xs text-[var(--muted)]">|</span>
-    <%= link_to "View Raw", raw_paste_path(@paste.shortcode), class: link_class(variant: :muted, size: :xs), target: "_blank", rel: "noopener" %>
+      <%= link_to "View Raw", raw_paste_path(@paste.shortcode), class: link_class(variant: :muted, size: :xs), target: "_blank", rel: "noopener" %>
+    </div>
   </div>
   <div class="border border-[var(--border)] bg-[var(--surface)] shadow-sm">
     <%= render "shared/paste_viewer", content: @paste.body, max_height: "70vh" %>

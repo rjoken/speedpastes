@@ -15,6 +15,10 @@ Rails.application.routes.draw do
   get "/privacy", to: "pages#privacy", as: :privacy
   get "/terms", to: "pages#terms", as: :terms
 
+  get "/profiles", to: "profiles#index", as: :profiles
+
+  get "/pastes", to: "pastes#index", as: :pastes
+
   resource :settings, only: [ :show, :update ] do
     post :data_export
     delete :account
@@ -43,6 +47,12 @@ Rails.application.routes.draw do
       delete :remove_avatar
     end
   end
+
+  match "/400", to: "errors#show", via: :all, defaults: { code: 400, message: "Bad Request" }
+  match "/404", to: "errors#show", via: :all, defaults: { code: 404, message: "Not Found" }
+  match "/406", to: "errors#show", via: :all, defaults: { code: 406, message: "Not Acceptable" }
+  match "/422", to: "errors#show", via: :all, defaults: { code: 422, message: "Unprocessable Entity" }
+  match "/500", to: "errors#show", via: :all, defaults: { code: 500, message: "Internal Server Error" }
 
   get "/raw/:shortcode", to: "pastes#raw", as: :raw_paste
 

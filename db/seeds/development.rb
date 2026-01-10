@@ -35,3 +35,15 @@ admin = User.find_by(username: "admin")
         paste.visibility = i % 2 == 0 ? :open : :unlisted
     end
 end
+
+# Create some more users
+100.times do |i|
+    User.find_or_create_by!(email: "user#{i}@speedpastes.org") do |user|
+        user.username = "user#{i}"
+        user.email = "user#{i}@speedpastes.org"
+        user.password = "hunter2"
+        user.password_confirmation = "hunter2"
+        user.bio = "This is the bio of user#{i}. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        user.link = "https://speedpastes.org/u/user#{i}"
+    end
+end
