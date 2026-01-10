@@ -1,13 +1,5 @@
-<div class="max-w-4xl mx-auto">
-  <div class="border border-[var(--border)] bg-[var(--surface)] shadow-sm">
-    <div class="border-b border-[var(--border-muted)] bg-gradient-to-b from-[var(--surface2)] to-[var(--surface)] px-4 py-3">
-      <div>
-        <div class="text-lg font-black">Your scratchpad</div>
-        <div class="text sm text-[var(--muted)]">Your scratchpad is a personal area attached to your account where you can jot down notes and access them anywhere without publishing them. Content is saved automatically.</div>
-      </div>
-    </div>
-    <%= form_with model: @scratchpad, url: scratchpad_path, method: :patch, local: false, data: {controller: "autosave" } do |f| %>
-        <%= render "shared/paste_editor", f: f, field: :body, rows: 20, autosave: true %>
-    <% end %>
-  </div>
-</div>
+<%= render "shared/heading", title: "Your scratchpad", description: "Your scratchpad is a personal area attached to your account where you can jot down notes and access them anywhere without publishing them. Content is saved automatically." do %>
+  <%= form_with model: @scratchpad, url: scratchpad_path, method: :patch, local: false, data: {controller: "autosave" } do |f| %>
+    <%= render "shared/paste_editor", f: f, field: :body, rows: 20, autosave: true %>
+  <% end %>
+<% end %>

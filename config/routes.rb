@@ -12,6 +12,9 @@ Rails.application.routes.draw do
 
   get "/u/:id_or_username", to: "profiles#show", as: :profile
 
+  get "/privacy", to: "pages#privacy", as: :privacy
+  get "/terms", to: "pages#terms", as: :terms
+
   resource :settings, only: [ :show, :update ] do
     post :data_export
     delete :account
