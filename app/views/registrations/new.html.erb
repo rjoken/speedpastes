@@ -36,6 +36,10 @@
           <%= text_field_tag :invite_code, params[:invite_code], autocomplete: "one-time-code", class: "mt-1 w-full border border-[var(--border)] px-3 py-2" %>
         </div>
 
+        <p class="text-xs text-[var(--muted)]">
+          By signing up, you agree to our <%= link_to "Terms of Service", terms_path, class: link_class(variant: :muted, size: :xs) %> and <%= link_to "Privacy Policy", privacy_path, class: link_class(variant: :muted, size: :xs) %>.
+        </p>
+
         <div class="flex items center justify-between pt-1">
           <%= submit_tag "Sign up", class: button_class(variant: :default, size: :md) %>
           <%= link_to "Already have an account? Log in", login_path, class: link_class(size: :sm) %>

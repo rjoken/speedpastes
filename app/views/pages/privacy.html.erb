@@ -1,4 +1,32 @@
-<div>
-  <h1 class="font-bold text-4xl">Pages#privacy</h1>
-  <p>Find me in app/views/pages/privacy.html.erb</p>
-</div>
+<%= render "shared/heading", title: "Privacy Policy" do %>
+  <div class="prose prose-invert max-w-none p-4">
+    <h2 class="text-xl font-bold mb-4">Introduction</h2>
+    <p class="mb-4">Your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your personal information when you use Speedpastes.</p>
+
+    <h2 class="text-xl font-bold mb-4">Information We Collect</h2>
+    <ul class="mb-4 list-disc pl-5">
+      <li><strong>Personal Information:</strong> We collect the minimum amount of information about you as possible to provide our service effectively. The only information we collect is that which you explicitly provide to us. By signing up, you provide your email address, and a username. Optionally, you can enter a bio and a website link. </li>
+      <li><strong>Usage Data:</strong> When a user navigates to a page, their IP address is logged for security and diagnostic purposes. No other information is collected. We do not sell any data. We do not run ads on this website.</li>
+      <li><strong>Content Data:</strong> All pastes you create, whether public, unlisted, or in your scratchpad, are stored on our servers. Please be aware that content in your scratchpad is not private and can be accessed by administrators with database access.</li>
+    </ul>
+
+    <h2 class="text-xl font-bold mb-4">How We Use Your Information</h2>
+    <ul class="mb-4 list-disc pl-5">
+      <li>To provide and maintain our service.</li>
+      <li>To communicate with you regarding your account and our services.</li>
+    </ul>
+
+    <h2 class="text-xl font-bold mb-4">Cookies</h2>
+    <p class="mb-4">We use cookies to enhance your experience on our website. Cookies are small files stored on your device that help us remember your preferences and improve site functionality. You can choose to disable cookies in your browser settings, but this may affect the usability of certain features. The only cookies we use are functional cookies, not used for tracking. A list of all cookies used by our site is as follows:</p>
+    <ul class="mb-4 list-disc pl-5">
+      <li><strong>_speedpastes_session:</strong> Used to maintain your logged-in session.</li>
+      <li>That's it.</li>
+    </ul>
+
+    <h2 class="text-xl font-bold mb-4">Data Security</h2>
+    <p class="mb-4">We implement appropriate security measures to protect your personal information from unauthorized access, alteration, disclosure, or destruction. Please make note that this site is not intended to be a high-security information storage platform, and all content posted should be considered public, including your scratchpad. All pastes, unlisted or public, and your scratchpad are at minimum shared with Administrators with database access. Truly private pastes may be implemented in the future!</p>
+
+    <h2 class="text-xl font-bold mb-4">Your Rights</h2>
+    <p class="mb-4">You have the right to access, update, or delete your personal information. You can export your data and delete your account by visiting your account settings. You can also reach out via email at: privacy@speedpastes.org.</p>
+  </div>
+<% end %>

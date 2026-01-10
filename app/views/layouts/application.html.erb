@@ -48,9 +48,7 @@
         <a href="https://buymeacoffee.com/hippochan" class="<%= link_class(variant: :muted, size: :xs) %>" target="_blank" rel="noopener noreferrer">pay off my student loans</a></div>
         <div data-controller="theme" class="flex items-center gap-2">
           <label for="theme">theme:</label>
-          <select id="theme" class="<%= button_class(variant: :default, size: :xs) %>">
-            data-theme-target="select"
-            data-action="change->theme#change">
+          <select id="theme" class="<%= button_class(variant: :default, size: :xs) %>" data-theme-target="select" data-action="change->theme#change">
             <option value="cyber">cyber</option>
             <option value="hospital">hospital</option>
           </select>

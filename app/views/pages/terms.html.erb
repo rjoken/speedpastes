@@ -1,4 +1,10 @@
-<div>
-  <h1 class="font-bold text-4xl">Pages#terms</h1>
-  <p>Find me in app/views/pages/terms.html.erb</p>
-</div>
+<%= render "shared/heading", title: "Terms of Service" do %>
+  <div class="prose prose-invert max-w-none p-4">
+    <h2 class="text-xl font-bold mb-4">Acceptance of Terms</h2>
+    <p class="mb-4">By accessing and using Speedpastes, you agree to comply with and be bound by these Terms of Service. If you do not agree to these terms, please do not use our service. Your account may be deactivated in this scenario.</p>
+    <h2 class="text-xl font-bold mb-4">User Conduct</h2>
+    <p class="mb-4">You agree to use Speedpastes only for lawful purposes. You are prohibited from using the service to post or share content that is illegal, harmful, threatening, abusive, harassing, defamatory, vulgar, obscene, libelous, invasive of another's privacy, hateful, or racially, ethnically, or otherwise objectionable.</p>
+    <h2 class="text-xl font-bold mb-4">Content Ownership</h2>
+    <p class="mb-4">You retain ownership of any content you create and share on Speedpastes. By using our service, you grant us a non-exclusive, worldwide license to use, copy, modify, and distribute your content solely for the purpose of operating our service. We have the right to remove content that violates these terms or is deemed inappropriate at our sole discretion. It is assumed that you own the content you post and have the necessary rights to grant us this license.</p>
+  </div>
+<% end %>
