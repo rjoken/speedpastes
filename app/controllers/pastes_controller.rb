@@ -49,6 +49,11 @@ class PastesController < ApplicationController
     redirect_to profile_path(@paste.user.id), notice: "Paste deleted"
   end
 
+  def index
+    pastes_scope = Paste.where(visibility: :open).order(created_at: :desc)
+    @pagy, @pastes = pagy(:offset, pastes_scope, limit: 16)
+  end
+
   def raw
     paste = Paste.find_by(shortcode: params[:shortcode])
     if paste

@@ -14,8 +14,23 @@
                 <span>speedpastes</span>
                 <span class="text-xs text-[var(--muted)] font-normal">alpha!</span>
             <% end %>
+            <div class=" hidden md:flex gap-3">
+                <%= link_to "New", new_paste_path, class: link_class(variant: :bold, size: :sm) %>
+                <%= link_to "Browse", pastes_path, class: link_class(variant: :bold, size: :sm) %>
+                <%= link_to "People", profiles_path, class: link_class(variant: :bold, size: :sm) %>
+            </div>
         </div>
 
+        <div class="md:hidden" data-controller="dropdown">
+            <button id="navbar-hamburger" class="ml-2" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navbar-menu" data-action="click->dropdown#toggle">
+                <%= heroicon "bars-3", options: { class: "w-6 h-6 text-[var(--text)]" } %>
+            </button>
+            <div data-dropdown-target="menu" class="absolute right-0 mt-2 w-48 border border-[var(--border)] bg-[var(--surface)] shadow-lg hidden md:hidden" data-action="click@window->dropdown#close">
+                <%= link_to "New", new_paste_path, class: "block px-4 py-2 text-sm hover:bg-[var(--surface2)]" %>
+                <%= link_to "Browse", pastes_path, class: "block px-4 py-2 text-sm hover:bg-[var(--surface2)]" %>
+                <%= link_to "People", profiles_path, class: "block px-4 py-2 text-sm hover:bg-[var(--surface2)]" %>   
+            </div>
+        </div>
 
         <div class="flex items-center gap-3">
         <% if signed_in? %>
@@ -52,5 +67,7 @@
             </span>
         <% end %>
         </div>
+
+        
     </div>
 </nav>

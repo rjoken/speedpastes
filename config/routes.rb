@@ -15,6 +15,10 @@ Rails.application.routes.draw do
   get "/privacy", to: "pages#privacy", as: :privacy
   get "/terms", to: "pages#terms", as: :terms
 
+  get "/profiles", to: "profiles#index", as: :profiles
+
+  get "/pastes", to: "pastes#index", as: :pastes
+
   resource :settings, only: [ :show, :update ] do
     post :data_export
     delete :account

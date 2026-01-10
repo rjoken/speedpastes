@@ -18,4 +18,9 @@ class ProfilesController < ApplicationController
     @paste_count = pastes_scope.count
     @pagy, @pastes = pagy(:offset, pastes_scope, limit: 8)
   end
+
+  def index
+    users_scope = User.where(anonymized_at: nil).order(created_at: :desc)
+    @pagy, @users = pagy(:offset, users_scope, limit: 16)
+  end
 end
