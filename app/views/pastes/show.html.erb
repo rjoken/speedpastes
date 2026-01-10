@@ -11,7 +11,11 @@
       <span class="text-xs text-[var(--muted)]"><%= " (Edited) " %></span>
     <% end %>
     <span class="text-xs text-[var(--muted)]">|</span>
-    <span class="text-xs text-[var(--muted)]">Visibility: <%= @paste.visibility.capitalize %></span>
+    <div class="text-xs text-[var(--muted)] flex gap-1" title="Total views"><%= heroicon "eye", options: {class: "w-4 h-4"} %> <%= @paste.views %></div>
+    <span class="text-xs text-[var(--muted)]">|</span>
+    <div class="text-xs text-[var(--muted)] flex" title="Visibility: <%= @paste.visibility.capitalize %>">
+    <%= render "shared/visibility", visibility: @paste.visibility %>
+    </div>
     <% if current_user == @paste.user || current_user&.admin? %>
       <span class="text-xs text-[var(--muted)]">|</span>
       <%= link_to "Edit", edit_paste_path(@paste), class: link_class(variant: :muted, size: :xs) %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_09_212711) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_10_013905) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -77,6 +77,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_09_212711) do
     t.string "title"
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
+    t.integer "views", default: 0, null: false
     t.integer "visibility", default: 0, null: false
     t.index ["shortcode"], name: "index_pastes_on_shortcode", unique: true
     t.index ["user_id", "created_at"], name: "index_pastes_on_user_id_and_created_at"
@@ -245,6 +246,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_09_212711) do
     t.integer "role", default: 0, null: false
     t.datetime "updated_at", null: false
     t.string "username", null: false
+    t.integer "views", default: 0, null: false
     t.index "lower((email)::text)", name: "index_users_on_lower_email", unique: true
     t.index "lower((username)::text)", name: "index_users_on_lower_username", unique: true
     t.index ["anonymized_at"], name: "index_users_on_anonymized_at"

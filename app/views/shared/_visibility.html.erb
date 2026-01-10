@@ -1,0 +1,9 @@
+<% visibility = local_assigns[:visibility] %>
+
+<% if visibility == "open" %>
+    <%= heroicon "globe-alt", options: { class: "w-4 h-4 text-[var(--muted)]", title: "Open" } %>
+<% elsif visibility == "unlisted" %>
+    <%= heroicon "link", options: { class: "w-4 h-4 text-[var(--muted)]", title: "Unlisted" } %>
+<% else %>
+    Visibility: <%= visibility.capitalize %>
+<% end %> 

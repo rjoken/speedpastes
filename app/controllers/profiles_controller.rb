@@ -13,6 +13,8 @@ class ProfilesController < ApplicationController
     unless current_user == @user || current_user&.admin?
       pastes_scope = pastes_scope.where(visibility: :open)
     end
+
+    @total_views = pastes_scope.sum(:views)
     @paste_count = pastes_scope.count
     @pagy, @pastes = pagy(:offset, pastes_scope, limit: 8)
   end

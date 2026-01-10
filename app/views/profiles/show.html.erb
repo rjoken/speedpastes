@@ -10,6 +10,7 @@
           <div class="text-sm text-center">
             <div class="font-semibold text-[var(--text)]">Member since <%= @user.created_at.strftime("%b %-d, %Y") %></div>
             <div class="font-semibold text-[var(--text)]"><%= @paste_count %> <%= "paste".pluralize(@paste_count) %></div>
+            <div class="text-xs text-[var(--muted)] mt-2"><%= @total_views %> total views</div>
           </div>
       </div>
 
@@ -86,10 +87,17 @@
                   <%= paste.title %>
                 <% end %>
 
-                <div class="text-xs text-[var(--muted)] mt-1">
+                <div class="text-xs text-[var(--muted)] mt-1 flex items-center gap-1">
                   <%= paste.created_at.strftime("%Y-%m-%d %H:%M") %>
+                  <span>|</span> 
+                  <div class="text-xs text-[var(--muted)] flex gap-1" title="Total views"><%= heroicon "eye", options: {class: "w-4 h-4"} %> <%= paste.views %></div>
                   <% if current_user == @user || current_user&.admin? %>
-                    <%= paste.visibility.capitalize %> | <%= link_to "Edit", edit_paste_path(paste), class: link_class(variant: :muted, size: :xs) %> | <%= button_to "Delete", paste_path(paste), method: :delete, data: { turbo_confirm: "Are you sure you want to delete this paste?" }, form_class: "inline", class: link_class(variant: :muted, size: :xs) %>
+                    <span>|</span> 
+                    <%= render "shared/visibility", visibility: paste.visibility %>
+                    <span>|</span> 
+                    <%= link_to "Edit", edit_paste_path(paste), class: link_class(variant: :muted, size: :xs) %> 
+                    <span>|</span> 
+                    <%= button_to "Delete", paste_path(paste), method: :delete, data: { turbo_confirm: "Are you sure you want to delete this paste?" }, form_class: "inline", class: link_class(variant: :muted, size: :xs) %>
                   <% end %>
                 </div>
               </div>
