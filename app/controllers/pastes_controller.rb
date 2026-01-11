@@ -49,7 +49,18 @@ class PastesController < ApplicationController
   end
 
   def index
-    pastes_scope = Paste.where(visibility: :open).order(created_at: :desc)
+    pastes_scope = Paste.where(visibility: :open)
+
+    case params[:sort]
+    when "old"
+      pastes_scope = pastes_scope.order(created_at: :asc)
+    when "new"
+      pastes_scope = pastes_scope.order(created_at: :desc)
+    when "views"
+      pastes_scope = pastes_scope.order(views: :desc)
+    else
+      pastes_scope = pastes_scope.order(created_at: :desc)
+    end
     @pagy, @pastes = pagy(:offset, pastes_scope, limit: 16)
   end
 

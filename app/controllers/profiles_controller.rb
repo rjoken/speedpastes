@@ -20,7 +20,30 @@ class ProfilesController < ApplicationController
   end
 
   def index
-    users_scope = User.where(anonymized_at: nil).order(created_at: :desc)
+    open_visibility = Paste.visibilities[:open]
+    open_paste_count_sql = "COALESCE(SUM(CASE WHEN pastes.visibility = ? THEN 1 ELSE 0 END), 0)"
+    open_views_count_sql = "COALESCE(SUM(CASE WHEN pastes.visibility = ? THEN pastes.views ELSE 0 END), 0)"
+    users_scope = User.where(anonymized_at: nil)
+      .left_joins(:pastes)
+      .select(
+        "users.*,
+        #{ActiveRecord::Base.send(:sanitize_sql_array, [ open_paste_count_sql, open_visibility ])} AS open_paste_count,
+        #{ActiveRecord::Base.send(:sanitize_sql_array, [ open_views_count_sql, open_visibility ])} AS open_views_count"
+      ).group(:id)
+
+    case params[:sort]
+    when "old"
+      users_scope = users_scope.order(created_at: :asc)
+    when "new"
+      users_scope = users_scope.order(created_at: :desc)
+    when "pastes"
+      users_scope = users_scope.order(Arel.sql("#{open_paste_count_sql} DESC"))
+    when "views"
+      users_scope = users_scope.order(Arel.sql("#{open_views_count_sql} DESC"))
+    else
+      users_scope = users_scope.order(created_at: :desc)
+    end
+
     @pagy, @users = pagy(:offset, users_scope, limit: 16)
   end
 end
