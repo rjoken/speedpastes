@@ -2,6 +2,7 @@
 import { application } from "controllers/application"
 import DropdownController from "controllers/dropdown_controller"
 import LinenumbersEditorController from "controllers/linenumbers_editor_controller"
+import PasteViewerController from "controllers/paste_viewer_controller"
 import InviteCodesController from "controllers/invite_codes_controller"
 import ThemeController from "controllers/theme_controller"
 import { eagerLoadControllersFrom } from "@hotwired/stimulus-loading"
@@ -11,3 +12,4 @@ application.register("dropdown", DropdownController)
 application.register("linenumbers-editor", LinenumbersEditorController)
 application.register("invite-codes", InviteCodesController)
 application.register("theme", ThemeController)
+application.register("paste-viewer", PasteViewerController)
