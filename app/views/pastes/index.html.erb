@@ -1,4 +1,11 @@
 <%= render "shared/heading", title: "Public Pastes" do %>
+    <div class="px-4 py-2 border-b border-[var(--border-muted)]">
+        <%= link_to "Newest", pastes_path(sort: "new"), class: link_class(variant: :bold, size: :sm) %>
+        <span>|</span>
+        <%= link_to "Oldest", pastes_path(sort: "old"), class: link_class(variant: :bold, size: :sm) %>
+        <span>|</span>
+        <%= link_to "Most Views", pastes_path(sort: "views"), class: link_class(variant: :bold, size: :sm) %>
+    </div>
     <div class="divide-y divide-[var(--border-muted)]">
         <% @pastes.each do |paste| %>
             <div class="px-4 py-3">
