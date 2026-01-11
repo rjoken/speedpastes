@@ -1,8 +1,7 @@
 <% max_height = local_assigns[:max_height] || "480px" %>
 <% lines = content.to_s.split("\n", -1) %>
 
-<div class="border border-[var(--border)] bg-[var(--surface)] shadow-sm overflow-auto"
-     style="max-height: <%= max_height %>;">
+<div class="border border-[var(--border)] bg-[var(--surface)] shadow-sm overflow-auto">
   <ol class="m-0 p-0 list-none font-mono text-sm leading-5">
     <% lines.each_with_index do |line, index| %>
       <li class="flex min-w-0">
