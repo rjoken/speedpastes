@@ -1,8 +1,6 @@
-<% max_height = local_assigns[:max_height] || "480px" %>
 <% lines = content.to_s.split("\n", -1) %>
 
-<div class="border border-[var(--border)] bg-[var(--surface)] shadow-sm overflow-auto"
-     style="max-height: <%= max_height %>;">
+<div id="paste-content" data-controller="paste-viewer" tabindex="0" class="border border-[var(--border)] bg-[var(--surface)] shadow-sm overflow-auto">
   <ol class="m-0 p-0 list-none font-mono text-sm leading-5">
     <% lines.each_with_index do |line, index| %>
       <li class="flex min-w-0">
@@ -12,7 +10,7 @@
         </div>
 
         <!-- content -->
-        <div class="m-0 flex-1 min-w-0 px-3 py-0 break-words" style="white-space: pre-wrap;"><%= line.empty? ? "\u00A0" : h(line) %></div>
+        <div class="m-0 flex-1 min-w-0 px-3 py-0 break-words paste-content-line" style="white-space: pre-wrap;"><%= line.empty? ? "\u00A0" : h(line) %></div>
       </li>
     <% end %>
   </ol>

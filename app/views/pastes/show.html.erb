@@ -1,3 +1,10 @@
+<% content_for :head do %>
+  <meta property="og:title" content="<%= @paste.title %>">
+  <meta property="og:description" content="<%= truncate(@paste.body, length: 200) %>">
+  <meta property="og:type" content="article">
+  <meta name="description" content="<%= truncate(@paste.body, length: 200) %>">
+<% end %>
+
 <div>
   <h1 class="font-bold text-4xl"><%= @paste.title %></h1>
   <div class="flex flex-wrap items-center gap-3 mt-2 mb-4">
@@ -28,6 +35,6 @@
     </div>
   </div>
   <div class="border border-[var(--border)] bg-[var(--surface)] shadow-sm">
-    <%= render "shared/paste_viewer", content: @paste.body, max_height: "70vh" %>
+    <%= render "shared/paste_viewer", content: @paste.body %>
   </div>
 </div>

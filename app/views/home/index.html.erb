@@ -1,7 +1,7 @@
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
   <!-- Main content -->
   <div class="md:col-span-2">
-  <%= render "shared/heading", title: "Welcome to speedpastes", description: "Speedpastes is an ad-free, invite-only text sharing platform made for speedrunners, diarists, and whoever else needs to jot and share. Paste your notes, ideas, strategies and more, then link to them quickly and easily." do %>
+  <%= render "shared/heading", title: "Welcome to speedpastes", description: (safe_join(["Speedpastes is an ", link_to("open-source", "https://github.com/rjoken/speedpastes", class: link_class(variant: :muted), target: "_blank", rel: "noopener"), ", ad-free, invite-only text sharing platform made for speedrunners, diarists, and whoever else needs to jot and share. Paste your notes, ideas, strategies and more, then link to them quickly and easily."])) do %>
       <% if signed_in? %>
           <%= render "shared/createpaste" %>
       <% else %>

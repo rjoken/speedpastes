@@ -14,6 +14,7 @@ module UiHelper
         sizes = { xs: "text-xs", sm: "text-sm", md: "text-md" }
         variants = {
             default: "underline",
+            text: "text-[var(--text)]",
             bold: "text-[var(--text)] font-semibold",
             muted: "text-[var(--muted)]",
             external: "text-[var(--external-link)] underline"
