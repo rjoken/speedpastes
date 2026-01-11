@@ -1,5 +1,5 @@
 class PastesController < ApplicationController
-  before_action :require_login!, except: [ :show, :raw ]
+  before_action :require_login!, except: [ :show, :raw, :index ]
   before_action :set_paste_by_id, only: [ :edit, :update, :destroy ]
   before_action :set_paste_by_shortcode, only: [ :show, :raw ]
 
