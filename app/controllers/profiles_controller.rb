@@ -20,14 +20,15 @@ class ProfilesController < ApplicationController
   end
 
   def index
-    open_paste_count_sql = "COALESCE(SUM(CASE WHEN pastes.visibility = #{Paste.visibilities[:open]} THEN 1 ELSE 0 END), 0)"
-    open_views_count_sql = "COALESCE(SUM(CASE WHEN pastes.visibility = #{Paste.visibilities[:open]} THEN pastes.views ELSE 0 END), 0)"
+    open_visibility = Paste.visibilities[:open]
+    open_paste_count_sql = "COALESCE(SUM(CASE WHEN pastes.visibility = ? THEN 1 ELSE 0 END), 0)"
+    open_views_count_sql = "COALESCE(SUM(CASE WHEN pastes.visibility = ? THEN pastes.views ELSE 0 END), 0)"
     users_scope = User.where(anonymized_at: nil)
       .left_joins(:pastes)
       .select(
         "users.*,
-        #{open_paste_count_sql} AS open_paste_count,
-        #{open_views_count_sql} AS open_views_count"
+        #{ActiveRecord::Base.send(:sanitize_sql_array, [open_paste_count_sql, open_visibility])} AS open_paste_count,
+        #{ActiveRecord::Base.send(:sanitize_sql_array, [open_views_count_sql, open_visibility])} AS open_views_count"
       ).group(:id)
 
     case params[:sort]
