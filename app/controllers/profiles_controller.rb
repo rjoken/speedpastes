@@ -27,8 +27,8 @@ class ProfilesController < ApplicationController
       .left_joins(:pastes)
       .select(
         "users.*,
-        #{ActiveRecord::Base.send(:sanitize_sql_array, [open_paste_count_sql, open_visibility])} AS open_paste_count,
-        #{ActiveRecord::Base.send(:sanitize_sql_array, [open_views_count_sql, open_visibility])} AS open_views_count"
+        #{ActiveRecord::Base.send(:sanitize_sql_array, [ open_paste_count_sql, open_visibility ])} AS open_paste_count,
+        #{ActiveRecord::Base.send(:sanitize_sql_array, [ open_views_count_sql, open_visibility ])} AS open_views_count"
       ).group(:id)
 
     case params[:sort]
