@@ -25,7 +25,7 @@ class ProfilesController < ApplicationController
     users_scope = User.where(anonymized_at: nil)
       .left_joins(:pastes)
       .select(
-        "users.*, 
+        "users.*,
         #{open_paste_count_sql} AS open_paste_count,
         #{open_views_count_sql} AS open_views_count"
       ).group(:id)
