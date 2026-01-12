@@ -3,9 +3,12 @@
   <head>
     <title>Speedpastes</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta property="og:title" content="Speedpastes">
-    <meta property="og:description" content="A simple, ad and virus-free, invite-only text sharing platform">
     <%= yield :head %>
+    <% unless content_for?(:head) %>
+      <meta property="og:title" content="Speedpastes">
+      <meta property="og:description" content="A simple, ad and virus-free, invite-only text sharing platform">
+    <% end %>
+    
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
