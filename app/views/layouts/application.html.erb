@@ -53,8 +53,18 @@
         <div data-controller="theme" class="flex items-center gap-2">
           <label for="theme">theme:</label>
           <select id="theme" class="<%= button_class(variant: :default, size: :xs) %>" data-theme-target="select" data-action="change->theme#change">
-            <option value="cyber">cyber</option>
-            <option value="hospital">hospital</option>
+            <optgroup label="--dark--">
+              <option value="cyber">cyber</option>
+              <option value="mono">mono</option>
+              <option value="matrix">matrix</option>
+              <option value="blackpink">blackpink</option>
+            </optgroup>
+            <optgroup label="--light--">
+              <option value="hospital">hospital</option>
+              <option value="olive">olive</option>
+              <option value="sky">sky</option>
+              <option value="peach">peach</option>
+            </optgroup>
           </select>
         </div>
       </div>
