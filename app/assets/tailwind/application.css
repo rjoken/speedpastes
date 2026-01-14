@@ -51,6 +51,63 @@
     --external-link: var(--color-blue-400);
 }
 
+[data-theme="mono"] {
+    --bg: var(--color-black);
+    --surface: var(--color-black);
+    --surface2: var(--color-black);
+    --border: var(--color-white);
+    --text: var(--color-slate-100);
+    --button-border: var(--color-white);
+    --button-bg: var(--color-slate-950);
+    --button-bg-hover: var(--color-slate-800);
+    --border-danger: var(--color-slate-200);
+    --bg-danger: var(--color-red-700);
+    --text-danger: var(--color-slate-100);
+    --button-bg-danger: var(--color-red-600);
+    --button-bg-danger-hover: var(--color-red-500);
+    --border-muted: var(--color-slate-300);
+    --muted: var(--color-slate-200);
+    --external-link: var(--color-blue-400);
+}
+
+[data-theme="matrix"] {
+    --bg: var(--color-black);
+    --surface: var(--color-black);
+    --surface2: var(--color-black);
+    --border: var(--color-green-500);
+    --text: var(--color-slate-100);
+    --button-border: var(--color-green-500);
+    --button-bg: var(--color-slate-950);
+    --button-bg-hover: var(--color-green-950);
+    --border-danger: var(--color-slate-200);
+    --bg-danger: var(--color-red-700);
+    --text-danger: var(--color-slate-100);
+    --button-bg-danger: var(--color-red-600);
+    --button-bg-danger-hover: var(--color-red-500);
+    --border-muted: var(--color-green-700);
+    --muted: var(--color-slate-100);
+    --external-link: var(--color-blue-400);
+}
+
+[data-theme="blackpink"] {
+    --bg: var(--color-black);
+    --surface: var(--color-neutral-900);
+    --surface2: var(--color-neutral-950);
+    --border: var(--color-fuchsia-800);
+    --text: var(--color-slate-100);
+    --button-border: var(--color-fuchsia-800);
+    --button-bg: var(--color-slate-950);
+    --button-bg-hover: var(--color-fuchsia-950);
+    --border-danger: var(--color-slate-200);
+    --bg-danger: var(--color-red-700);
+    --text-danger: var(--color-slate-100);
+    --button-bg-danger: var(--color-red-600);
+    --button-bg-danger-hover: var(--color-red-500);
+    --border-muted: var(--color-fuchsia-900);
+    --muted: var(--color-slate-100);
+    --external-link: var(--color-blue-400);
+}
+
 [data-theme="hospital"] {
     --bg: var(--color-slate-100);
     --surface: var(--color-white);
@@ -67,5 +124,62 @@
     --button-bg-danger-hover: var(--color-red-200);
     --border-muted: var(--color-slate-200);
     --muted: var(--color-slate-500);
+    --external-link: var(--color-blue-400);
+}
+
+[data-theme="olive"] {
+    --bg: var(--color-lime-200);
+    --surface: var(--color-lime-100);
+    --surface2: var(--color-lime-200);
+    --border: var(--color-lime-500);
+    --text: var(--color-slate-900);
+    --button-border: var(--color-lime-500);
+    --button-bg: var(--color-lime-100);
+    --button-bg-hover: var(--color-lime-200);
+    --border-danger: var(--color-red-400);
+    --bg-danger: var(--color-red-200);
+    --text-danger: var(--color-red-900);
+    --button-bg-danger: var(--color-red-100);
+    --button-bg-danger-hover: var(--color-red-200);
+    --border-muted: var(--color-lime-400);
+    --muted: var(--color-slate-700);
+    --external-link: var(--color-blue-400);
+}
+
+[data-theme="sky"] {
+    --bg: var(--color-sky-200);
+    --surface: var(--color-sky-100);
+    --surface2: var(--color-sky-200);
+    --border: var(--color-sky-500);
+    --text: var(--color-slate-900);
+    --button-border: var(--color-sky-500);
+    --button-bg: var(--color-sky-100);
+    --button-bg-hover: var(--color-sky-200);
+    --border-danger: var(--color-red-400);
+    --bg-danger: var(--color-red-200);
+    --text-danger: var(--color-red-900);
+    --button-bg-danger: var(--color-red-100);
+    --button-bg-danger-hover: var(--color-red-200);
+    --border-muted: var(--color-sky-400);
+    --muted: var(--color-slate-700);
+    --external-link: var(--color-blue-400);
+}
+
+[data-theme="peach"] {
+    --bg: var(--color-orange-200);
+    --surface: var(--color-orange-100);
+    --surface2: var(--color-orange-200);
+    --border: var(--color-orange-500);
+    --text: var(--color-slate-900);
+    --button-border: var(--color-orange-500);
+    --button-bg: var(--color-orange-100);
+    --button-bg-hover: var(--color-orange-200);
+    --border-danger: var(--color-red-400);
+    --bg-danger: var(--color-red-200);
+    --text-danger: var(--color-red-900);
+    --button-bg-danger: var(--color-red-100);
+    --button-bg-danger-hover: var(--color-red-200);
+    --border-muted: var(--color-orange-400);
+    --muted: var(--color-slate-700);
     --external-link: var(--color-blue-400);
 }
