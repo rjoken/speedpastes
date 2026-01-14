@@ -23,7 +23,7 @@
         <% if @user.link.present? %>
           <div class="text-xs font-bold uppercase tracking-wide text-[var(--muted)] mb-1 mt-4">Website</div>
           <div>
-            <%= link_to @user.link, @user.link, class: link_class(variant: :external, size: :sm), target: "_blank", rel: "noopener" %>
+            <%= link_to @user.link, @user.link, class: "#{link_class(variant: :external, size: :sm)} break-words", target: "_blank", rel: "noopener" %>
           </div>
         <% end %>
 
