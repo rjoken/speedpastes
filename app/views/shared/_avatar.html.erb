@@ -1,8 +1,10 @@
 <% size ||= 32 %>
-<% if user.avatar.attached? %>
-    <%= image_tag user.avatar, class: "border border-[var(--border)]", style: "width: #{size}px; height: #{size}px; object-fit: cover;" %>
-<% else %>
-    <div class="border border-[var(--border)] bg-gradient-to-b from-[var(--surface2)] to-[var(--border-muted)] flex items-center justify-center" style="width: <%= size %>px; height: <%= size %>px;">
-        <span class="text-xs font-black text-[var(--muted)]"><%= user.username.first.upcase %></span>
-    </div>
+<%= link_to profile_path(user.id) do %>
+    <% if user.avatar.attached? %>
+        <%= image_tag user.avatar, class: "border border-[var(--border)]", style: "width: #{size}px; height: #{size}px; object-fit: cover;" %>
+    <% else %>
+            <div class="border border-[var(--border)] bg-gradient-to-b from-[var(--surface2)] to-[var(--border-muted)] flex items-center justify-center" style="width: <%= size %>px; height: <%= size %>px;">
+                <span class="text-xs font-black text-[var(--muted)]"><%= user.username.first.upcase %></span>
+            </div>
+    <% end %>
 <% end %>
