@@ -71,9 +71,27 @@
   <!-- Pastes -->
   <section class="md:col-span-3">
     <div class="border border-[var(--border)] bg-[var(--surface)] shadow-sm overflow-hidden">
-      <div class="border-b border-[var(--border-muted)] bg-gradient-to-b from-[var(--surface2)] to-[var(--surface)] px-4 py-3 flex items-center justify-between">
-        <div class="flex items-center gap-4">
-          <div class="font-black">Pastes by <%= @user.username %></div>
+      <div class="border-b border-[var(--border-muted)] bg-gradient-to-b from-[var(--surface2)] to-[var(--surface)] px-4 py-3 ">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-4">
+            <div class="font-black">Pastes by <%= @user.username %></div>
+              <%= form_with url: profile_path(@user.id), 
+                method: :get, 
+                local: true, 
+                data: { turbo_frame: "pastes_list", controller: "search-query" }, 
+                html: { class: "inline" } do %>
+                <%= text_field_tag :q, params[:q],
+                  placeholder: "Search...",
+                  class: "border border-[var(--border)] px-2 py-1 hidden md:inline",
+                  autocomplete: "off",
+                  data: { action: "input->search-query#submit" } 
+                %>
+              <% end %>
+            </div>
+            <% if current_user == @user %>
+              <%= link_to "New paste", root_path, class: link_class(variant: :bold, size: :sm) %>
+            <% end %>
+          </div>
           <%= form_with url: profile_path(@user.id), 
             method: :get, 
             local: true, 
@@ -81,18 +99,14 @@
             html: { class: "inline" } do %>
             <%= text_field_tag :q, params[:q],
               placeholder: "Search...",
-              class: "border border-[var(--border)] px-2 py-1",
+              class: "border border-[var(--border)] px-2 py-1 mt-2 w-full inline md:hidden",
               autocomplete: "off",
               data: { action: "input->search-query#submit" } 
             %>
           <% end %>
         </div>
-        <% if current_user == @user %>
-          <%= link_to "New paste", root_path, class: link_class(variant: :bold, size: :sm) %>
-        <% end %>
+        <%= render "shared/pastes_list", pastes: @pastes, pagy: @pagy, user: @user, current_user: current_user, params: params %>
       </div>
-
-      <%= render "shared/pastes_list", pastes: @pastes, pagy: @pagy, user: @user, current_user: current_user, params: params %>
     </div>
   </section>
 </div>
