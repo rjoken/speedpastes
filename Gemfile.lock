@@ -341,7 +341,7 @@ GEM
       ffi (~> 1.12)
       logger
     ruby_http_client (3.6.0)
-    rubyzip (2.4.1)
+    rubyzip (3.2.2)
     securerandom (0.4.1)
     selenium-webdriver (4.39.0)
       base64 (~> 0.2)
@@ -446,7 +446,7 @@ DEPENDENCIES
   puma (>= 5.0)
   rails (~> 8.1.1)
   rubocop-rails-omakase
-  rubyzip (~> 2.3)
+  rubyzip (~> 3.2)
   selenium-webdriver
   sendgrid-ruby
   solid_cable
