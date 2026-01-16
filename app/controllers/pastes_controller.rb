@@ -45,11 +45,21 @@ class PastesController < ApplicationController
   def destroy
     require_owner_or_admin!(@paste)
     @paste.destroy
-    redirect_to profile_path(@paste.user.id), notice: "Paste deleted"
+    # Redirect to the user's profile after deletion if on profile page
+    if params[:context] == "profile"
+      redirect_to profile_path(@paste.user.id), notice: "Paste deleted", status: :see_other
+    else
+      redirect_to pastes_path, notice: "Paste deleted", status: :see_other
+    end
   end
 
   def index
     pastes_scope = Paste.where(visibility: :open)
+
+    if params[:q].present?
+      query = params[:q].strip.downcase
+      pastes_scope = pastes_scope.where("lower(title) LIKE ? OR lower(body) LIKE ?", "%#{query}%", "%#{query}%")
+    end
 
     case params[:sort]
     when "old"

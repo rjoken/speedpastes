@@ -22,13 +22,6 @@ class ProfilesController < ApplicationController
     @total_views = pastes_scope.sum(:views)
     @paste_count = pastes_scope.count
     @pagy, @pastes = pagy(:offset, pastes_scope, limit: 8)
-
-    respond_to do |format|
-      format.html
-      format.turbo_stream {
-        render partial: "profiles/pastes_list", locals: { pastes: @pastes, pagy: @pagy, user: @user, current_user: current_user, params: params }
-      }
-    end
   end
 
   def index

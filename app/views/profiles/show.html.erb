@@ -78,7 +78,7 @@
             method: :get, 
             local: true, 
             data: { turbo_frame: "pastes_list", controller: "search-query" }, 
-            class: "inline" do %>
+            html: { class: "inline" } do %>
             <%= text_field_tag :q, params[:q],
               placeholder: "Search...",
               class: "border border-[var(--border)] px-2 py-1",
