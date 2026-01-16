@@ -14,6 +14,11 @@ class ProfilesController < ApplicationController
       pastes_scope = pastes_scope.where(visibility: :open)
     end
 
+    if params[:q].present?
+      query = params[:q].strip.downcase
+      pastes_scope = pastes_scope.where("lower(title) LIKE ? OR lower(body) LIKE ?", "%#{query}%", "%#{query}%")
+    end
+
     @total_views = pastes_scope.sum(:views)
     @paste_count = pastes_scope.count
     @pagy, @pastes = pagy(:offset, pastes_scope, limit: 8)
