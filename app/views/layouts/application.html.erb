@@ -50,8 +50,10 @@
         <div>&copy; 2025 - <%= Time.current.year %> speedpastes.org | 
         <%= link_to "Privacy Policy", privacy_path, class: link_class(variant: :muted, size: :xs) %>  | 
         <%= link_to "Terms of Service", terms_path, class: link_class(variant: :muted, size: :xs) %> | 
-        by <a href="https://github.com/rjoken/speedpastes" class="<%= link_class(variant: :muted, size: :xs) %>" target="_blank" rel="noopener noreferrer">rjoken</a> x | 
-        <a href="https://buymeacoffee.com/hippochan" class="<%= link_class(variant: :muted, size: :xs) %>" target="_blank" rel="noopener noreferrer">pay off my student loans</a></div>
+        by <a href="https://bsky.app/profile/hippochan.nl" class="<%= link_class(variant: :muted, size: :xs) %>" target="_blank" rel="noopener noreferrer">hippochan</a> x | 
+        <a href="https://github.com/rjoken/speedpastes" class="<%= link_class(variant: :muted, size: :xs) %>" target="_blank" rel="noopener noreferrer">GitHub</a> |
+        <a href="https://discord.gg/nTk7FcPbgh" class="<%= link_class(variant: :muted, size: :xs) %>" target="_blank" rel="noopener noreferrer">Discord</a> |
+        <a href="https://buymeacoffee.com/hippochan" class="<%= link_class(variant: :muted, size: :xs) %>" target="_blank" rel="noopener noreferrer">Support the site</a></div>
         <div data-controller="theme" class="flex items-center gap-2">
           <label for="theme">theme:</label>
           <select id="theme" class="<%= button_class(variant: :default, size: :xs) %>" data-theme-target="select" data-action="change->theme#change">
