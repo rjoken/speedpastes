@@ -13,7 +13,7 @@ class CreateUserSessions < ActiveRecord::Migration[8.1]
     end
 
     add_index :user_sessions, :token_digest, unique: true
-    add_index :user_sessions, [:user_id, :revoked_at]
+    add_index :user_sessions, [ :user_id, :revoked_at ]
     add_index :user_sessions, :expires_at
   end
 end
