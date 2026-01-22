@@ -25,6 +25,8 @@ Rails.application.routes.draw do
 
     delete :avatar
     post :import_pastebin
+
+    patch 'revoke_session/:id', to: 'settings#revoke_session', as: :revoke_session
   end
 
   resource :settings, only: [ :show ] do
