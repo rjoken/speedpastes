@@ -6,10 +6,30 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user, :signed_in?, :admin?
 
+  before_action :load_current_user
+
   private
 
+  def load_current_user
+    token = cookies.encrypted[:auth_session]
+    return unless token.present?
+
+    digest = UserSession.digest(token)
+    @current_user_session = UserSession.active.includes(:user).find_by(token_digest: digest)
+
+    if @current_user_session
+      @current_user = @current_user_session.user
+
+      if @current_user_session.last_seen_at.nil? || @current_user_session.last_seen_at < 15.minutes.ago
+        @current_user_session.update(:last_seen_at, Time.current)
+      end
+    else
+      cookies.delete(:auth_session)
+    end
+  end
+
   def current_user
-    @current_user ||= User.find_by(id: session[:user_id])
+    @current_user
   end
 
   def signed_in?
