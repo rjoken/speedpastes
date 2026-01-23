@@ -71,7 +71,7 @@
                     <%= form_with url: password_settings_path, method: :patch do %>
                         <div class="mt-4">
                             <%= label_tag :current_password, "Current password", class: "block text-sm font-semibold" %>
-                            <%= password_field_tag :password, nil, autocomplete: "current-password", class: "mt-1 w-full border border-[var(--border)] px-3 py-2" %>
+                            <%= password_field_tag :current_password, nil, autocomplete: "current-password", class: "mt-1 w-full border border-[var(--border)] px-3 py-2" %>
                         </div>
                         <div class="mt-4">
                             <%= label_tag :new_password, "New password", class: "block text-sm font-semibold" %>
