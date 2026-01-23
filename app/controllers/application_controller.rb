@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
       @current_user = @current_user_session.user
 
       if @current_user_session.last_seen_at.nil? || @current_user_session.last_seen_at < 15.minutes.ago
-        @current_user_session.update(:last_seen_at, Time.current)
+        @current_user_session.update(last_seen_at: Time.current)
       end
     else
       cookies.delete(:auth_session)

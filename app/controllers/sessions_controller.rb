@@ -45,7 +45,7 @@ class SessionsController < ApplicationController
     token = cookies.encrypted[:auth_session]
     if token.present?
       digest = UserSession.digest(token)
-      UserSession.find_by(token_digest: digest, revoked_at: nil).update_all(revoked_at: Time.current)
+      UserSession.where(token_digest: digest, revoked_at: nil).update_all(revoked_at: Time.current)
     end
 
     cookies.delete(:auth_session)

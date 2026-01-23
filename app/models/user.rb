@@ -3,6 +3,7 @@ class User < ApplicationRecord
   has_one_attached :avatar
   has_many :pastes, dependent: :destroy
   has_many :user_sessions, dependent: :destroy
+  has_many :account_change_requests, dependent: :destroy
   has_one :scratchpad, dependent: :destroy
 
   belongs_to :invited_by, class_name: "User", optional: true
