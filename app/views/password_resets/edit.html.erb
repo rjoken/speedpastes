@@ -1,0 +1,28 @@
+<div class="max-w-md mx-auto">
+  <div class="border border-[var(--border)] bg-[var(--surface)] shadow-sm">
+    <div class="border-b border-[var(--border-muted)] bg-gradient-to-b from-[var(--surface2)] to-[var(--surface)] px-4 py-3">
+      <div class="text-lg font-black">Reset password</div>
+    </div>
+
+    <div class="p-4">
+      <%= form_with url: password_reset_path, method: :patch, class: "space-y-4" do %>
+
+        <%= hidden_field_tag :token, @token %>
+
+        <div>
+          <%= label_tag :password, "Password", class: "block text-sm font-semibold" %>
+          <%= password_field_tag :password, nil, autocomplete: "new-password", class: "mt-1 w-full border border-[var(--border)] px-3 py-2" %>
+        </div>
+
+        <div>
+          <%= label_tag :password_confirmation, "Confirm Password", class: "block text-sm font-semibold" %>
+          <%= password_field_tag :password_confirmation, nil, autocomplete: "new-password", class: "mt-1 w-full border border-[var(--border)] px-3 py-2" %>
+        </div>
+
+        <div class="flex items-center justify-between pt-1">
+          <%= submit_tag "Reset password", class: button_class(variant: :default, size: :md) %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

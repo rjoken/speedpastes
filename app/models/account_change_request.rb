@@ -1,7 +1,7 @@
 class AccountChangeRequest < ApplicationRecord
   belongs_to :user
 
-  enum :kind, { email: 0, username: 1, password: 2 }
+  enum :kind, { email: 0, username: 1, password: 2, password_reset: 3 }
 
   validates :expires_at, presence: true
 

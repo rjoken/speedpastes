@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_10_013905) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_21_235244) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -235,12 +235,30 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_10_013905) do
     t.index ["key"], name: "index_solid_queue_semaphores_on_key", unique: true
   end
 
+  create_table "user_sessions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "expires_at"
+    t.string "ip"
+    t.datetime "last_seen_at"
+    t.datetime "revoked_at"
+    t.string "token_digest"
+    t.datetime "updated_at", null: false
+    t.text "user_agent"
+    t.bigint "user_id", null: false
+    t.index ["expires_at"], name: "index_user_sessions_on_expires_at"
+    t.index ["token_digest"], name: "index_user_sessions_on_token_digest", unique: true
+    t.index ["user_id", "revoked_at"], name: "index_user_sessions_on_user_id_and_revoked_at"
+    t.index ["user_id"], name: "index_user_sessions_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.datetime "anonymized_at"
     t.text "bio"
     t.datetime "created_at", null: false
     t.string "email", null: false
     t.bigint "invited_by_id"
+    t.datetime "last_sign_in_at"
+    t.string "last_sign_in_ip"
     t.string "link"
     t.string "password_digest", null: false
     t.integer "role", default: 0, null: false
@@ -267,5 +285,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_10_013905) do
   add_foreign_key "solid_queue_ready_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_recurring_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_scheduled_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
+  add_foreign_key "user_sessions", "users"
   add_foreign_key "users", "users", column: "invited_by_id"
 end

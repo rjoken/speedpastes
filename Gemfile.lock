@@ -231,6 +231,7 @@ GEM
       racc (~> 1.4)
     nokogiri (1.19.0-x86_64-linux-musl)
       racc (~> 1.4)
+    openssl (3.2.2)
     ostruct (0.6.3)
     pagy (43.2.3)
       json
@@ -440,6 +441,7 @@ DEPENDENCIES
   jbuilder
   kamal
   letter_opener
+  openssl
   pagy
   pg (~> 1.1)
   propshaft

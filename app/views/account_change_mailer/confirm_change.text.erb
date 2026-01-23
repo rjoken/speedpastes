@@ -1,6 +1,6 @@
 Hi <%= @user.username %>,
 
-Click this link to confirm your <%= @request.kind %> change:
+Click this link to confirm your <%= @request.kind.to_s.humanize.downcase %> change:
 
 <%= @url %>
 

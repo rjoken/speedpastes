@@ -135,6 +135,18 @@ class SettingsController < ApplicationController
         redirect_to settings_path, alert: e.record.errors.full_messages.to_sentence
     end
 
+    # PATCH /settings/revoke_session/:id
+    def revoke_session
+        session = current_user.user_sessions.find_by(id: params[:id], revoked_at: nil)
+        if session
+            session.update(revoked_at: Time.current)
+            notice = "Session revoked successfully"
+        else
+            notice = "Session not found or already revoked"
+        end
+        redirect_to settings_path, notice: notice
+    end
+
     private
 
     def profile_params
