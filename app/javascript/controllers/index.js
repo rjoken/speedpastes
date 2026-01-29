@@ -6,6 +6,8 @@ import PasteViewerController from "controllers/paste_viewer_controller"
 import InviteCodesController from "controllers/invite_codes_controller"
 import ThemeController from "controllers/theme_controller"
 import SearchQueryController from "controllers/search_query_controller"
+import EncryptionKeyController from "controllers/encryption_key_controller"
+import NoticeController from "controllers/notice_controller"
 import { eagerLoadControllersFrom } from "@hotwired/stimulus-loading"
 eagerLoadControllersFrom("controllers", application)
 
@@ -15,3 +17,5 @@ application.register("invite-codes", InviteCodesController)
 application.register("theme", ThemeController)
 application.register("paste-viewer", PasteViewerController)
 application.register("search-query", SearchQueryController)
+application.register("encryption-key", EncryptionKeyController)
+application.register("notice", NoticeController)
