@@ -1,4 +1,7 @@
 <div class="max-w-3xl mx-auto space-y-6">
+    <div data-controller="notice" class="mt-4">
+        <div data-notice-target="container"></div>
+    </div>
     <div class="border border-[var(--border)] bg-[var(--surface)] shadow-sm">
         <div class="border-b border-[var(--border-muted)] bg-gradient-to-b from-[var(--surface2)] to-[var(--surface)] px-4 py-3">
             <div class="text-lg font-black">Settings</div>
@@ -40,6 +43,31 @@
                         <% end %>
                     </div>
                 <div>
+            </details>
+
+            <details class="border border-[var(--border-muted)] bg-[var(--surface2)] p-3">
+                <summary class="cursor-pointer font-bold">Encryption settings</summary>
+                <div class="text-sm text-[var(--muted)] mt-1">You can set or replace your encryption key here. This key is used to encrypt and decrypt your scratchpad. Make sure to remember it, as it cannot be recovered if lost.</div>
+                <div class="mt-4 border border-[var(--border)] p-4" data-controller="encryption-key">
+                    <div class="flex items-center justify-between">
+
+                        <div class="text-sm font-semibold">
+                            Current status:
+                            <span class="text-md text-[var(--text)] mt-1" data-encryption-key-target="status">Unknown</span>
+                        </div>
+
+                        <button type="button" class="<%= button_class(variant: :default, size: :sm) %>" data-action="encryption-key#forget">Forget key on this device</button>
+                    </div>
+
+                    <div class="mt-4">
+                        <label class="block text-sm font-semibold mt-2">Set/replace key</label>
+                        <input type="password" autocomplete="new-password" class="mt-1 w-full border border-[var(--border)] px-3 py-2" data-encryption-key-target="input" placeholder="Enter a passphrase" />
+                    </div>
+
+                    <div class="mt-4 flex items-center">
+                        <button type="button" class="<%= button_class(variant: :default, size: :md) %>" data-action="encryption-key#save">Save key</button>
+                    </div>
+                </div>
             </details>
 
             <details class="border border-[var(--border-muted)] bg-[var(--surface2)] p-3">
