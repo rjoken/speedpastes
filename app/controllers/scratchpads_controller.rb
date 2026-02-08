@@ -20,10 +20,10 @@ class ScratchpadsController < ApplicationController
   private
 
   def set_scratchpad
-    @scratchpad = current_user.scratchpad || current_user.build_scratchpad
+    @scratchpad = current_user.scratchpad || current_user.create_scratchpad!(body: "")
   end
 
   def scratchpad_params
-    params.require(:scratchpad).permit(:body)
+    params.require(:scratchpad).permit(:body, :encrypted, encryption_meta: {})
   end
 end

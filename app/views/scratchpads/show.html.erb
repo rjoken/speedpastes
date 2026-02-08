@@ -1,5 +1,22 @@
 <%= render "shared/heading", title: "Your scratchpad", description: "Your scratchpad is a personal area attached to your account where you can jot down notes and access them anywhere without publishing them. Content is saved automatically." do %>
-  <%= form_with model: @scratchpad, url: scratchpad_path, method: :patch, local: false, data: {controller: "autosave" } do |f| %>
+
+  <%= form_with model: @scratchpad, 
+                url: scratchpad_path, 
+                method: :patch, 
+                local: false, 
+                data: { 
+                  controller: "autosave scratchpad-crypto",
+                  scratchpad_crypto_user_id_value: current_user.id,
+                  scratchpad_crypto_scratchpad_id_value: @scratchpad.id,
+                  scratchpad_crypto_encrypted_value: @scratchpad.encrypted,
+                  scratchpad_crypto_meta_value: @scratchpad.encryption_meta.to_json
+                } do |f| %>
+    <div data-scratchpad-crypto-target="notice"></div>
+    <div data-scratchpad-crypto-target="blocked" class="hidden"></div>
     <%= render "shared/paste_editor", f: f, field: :body, rows: 20, autosave: true %>
+
+    <!-- hidden fields that the crypto controller can set before submit -->
+    <%= f.hidden_field :encrypted, value: @scratchpad.encrypted, data: { scratchpad_crypto_target: "encryptedField" } %>
+    <%= f.hidden_field :encryption_meta, value: @scratchpad.encryption_meta.to_json, data: { scratchpad_crypto_target: "encryptionMeta" } %>
   <% end %>
 <% end %>
