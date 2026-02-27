@@ -4,7 +4,7 @@ class UserPinsController < ApplicationController
   def create
     paste = Paste.find(params[:paste_id])
     user_pin = current_user.user_pins.new(paste: paste, position: next_position)
-    
+
     if user_pin.save
       redirect_back fallback_location: profile_path(current_user.username), notice: "Paste pinned successfully."
     else
