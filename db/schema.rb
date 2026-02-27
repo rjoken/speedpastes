@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_21_235244) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_08_184513) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -235,6 +235,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_21_235244) do
     t.index ["key"], name: "index_solid_queue_semaphores_on_key", unique: true
   end
 
+  create_table "user_pins", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "paste_id", null: false
+    t.integer "position"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["paste_id"], name: "index_user_pins_on_paste_id"
+    t.index ["user_id", "paste_id"], name: "index_user_pins_on_user_id_and_paste_id", unique: true
+    t.index ["user_id", "position"], name: "index_user_pins_on_user_id_and_position", unique: true
+    t.index ["user_id"], name: "index_user_pins_on_user_id"
+  end
+
   create_table "user_sessions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "expires_at"
@@ -285,6 +297,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_21_235244) do
   add_foreign_key "solid_queue_ready_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_recurring_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_scheduled_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
+  add_foreign_key "user_pins", "pastes"
+  add_foreign_key "user_pins", "users"
   add_foreign_key "user_sessions", "users"
   add_foreign_key "users", "users", column: "invited_by_id"
 end

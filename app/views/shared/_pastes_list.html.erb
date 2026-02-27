@@ -1,6 +1,9 @@
+<% pastes = local_assigns.fetch(:pastes, @pastes) %>
+<% pagy_obj = local_assigns.fetch(:pagy, @pagy) %>
+
 <turbo-frame id="pastes_list">
     <div class="divide-y divide-[var(--border-muted)]">
-        <% @pastes.each do |paste| %>
+        <% pastes.each do |paste| %>
         <div class="px-4 py-3">
             <div class="flex items-center justify-between gap-3">
                 <div class="min-w-0">
@@ -23,6 +26,15 @@
                             <%= link_to "Edit", edit_paste_path(paste), class: link_class(variant: :muted, size: :xs), data: { turbo: false } %> 
                             <span>|</span> 
                             <%= button_to "Delete", paste_path(paste, context: (@user.present? ? "profile" : "pastes")), method: :delete, data: { turbo_confirm: "Are you sure you want to delete this paste?", turbo_frame: "_top"}, form_class: "inline", class: link_class(variant: :muted, size: :xs) %>
+                            <% if @user.present? %>
+                                <span>|</span>
+                                <% pin = current_user.user_pins.find_by(paste_id: paste.id) %>
+                                <% if pin.present? %>
+                                    <%= button_to "Unpin", user_pin_path(id: pin.id), method: :delete, data: { turbo_method: :delete, turbo_frame: "_top" }, class: link_class(variant: :muted, size: :xs) %>
+                                <% else %>
+                                    <%= button_to "Pin", user_pins_path(paste_id: paste.id), method: :post, data: { turbo_method: :post, turbo_frame: "_top" }, class: link_class(variant: :muted, size: :xs) %>
+                                <% end %>
+                            <% end %>
                         <% end %>
                     </div>
                 </div>
@@ -30,7 +42,7 @@
         </div>
         <% end %>
 
-        <% if @pastes.empty? %>
+        <% if pastes.empty? %>
             <div class="text-sm text-[var(--muted)] px-4 py-6">
                 <% if params[:q].present? %>
                     No pastes found matching "<%= params[:q] %>".
@@ -41,7 +53,9 @@
         <% end %>
     </div>
 
-    <div class="border-t border-[var(--border-muted)] px-4 py-3 flex justify-center">
-        <%= render "shared/pagy_nav", pagy: @pagy %>
-    </div>
+    <% if pagy_obj.present? %>
+        <div class="border-t border-[var(--border-muted)] px-4 py-3 flex justify-center">
+            <%= render "shared/pagy_nav", pagy: pagy_obj %>
+        </div>
+    <% end %>
 </turbo-frame>

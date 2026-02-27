@@ -4,6 +4,8 @@ class User < ApplicationRecord
   has_many :pastes, dependent: :destroy
   has_many :user_sessions, dependent: :destroy
   has_many :account_change_requests, dependent: :destroy
+  has_many :user_pins, -> { order(:position) }, dependent: :destroy
+  has_many :user_pin_records, through: :user_pins, source: :paste
   has_one :scratchpad, dependent: :destroy
 
   belongs_to :invited_by, class_name: "User", optional: true
