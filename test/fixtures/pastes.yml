@@ -3,7 +3,7 @@
 open:
   id: 1
   title: "Open Paste"
-  content: "This is an open paste.""
+  body: "This is an open paste."
   visibility: "open"
   user_id: 1
   shortcode: "abc123"
@@ -12,7 +12,7 @@ open:
 unlisted:
   id: 2
   title: "Unlisted Paste"
-  content: "This is an unlisted paste."
+  body: "This is an unlisted paste."
   visibility: "unlisted"
   user_id: 2
   shortcode: "def456"

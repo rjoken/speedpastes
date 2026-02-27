@@ -6,7 +6,7 @@ regular:
   username: regular
   password_digest: <%= BCrypt::Password.create('password') %>
   bio: I am a regular user.
-  admin: false
+  role: 0
 
 admin:
   id: 2
@@ -14,7 +14,7 @@ admin:
   username: admin
   password_digest: <%= BCrypt::Password.create('password') %>
   bio: I am an admin user.
-  admin: true
+  role: 999
 
 other:
   id: 3
@@ -22,4 +22,4 @@ other:
   username: other
   password_digest: <%= BCrypt::Password.create('password') %>
   bio: I am another regular user.
-  admin: false
+  role: 0

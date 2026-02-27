@@ -1,11 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  user: one
-  paste: one
+  user_id: 1
+  paste_id: 1
   position: 1
 
 two:
-  user: two
-  paste: two
+  user_id: 2
+  paste_id: 2
   position: 1
