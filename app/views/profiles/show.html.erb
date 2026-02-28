@@ -79,7 +79,7 @@
             </div>
           </div>
         </div>
-        <%= render "shared/pastes_list", pastes: @pinned_pastes, user: @user, current_user: current_user, params: params, pagy: nil, pin_context: true %>
+        <%= render "shared/pastes_list", pastes: @pinned_pastes, user: @user, current_user: current_user, params: params, pagy: nil, pin_context: true, frame_id: "pinned_pastes_list" %>
       </div>
     <% end %>
 
@@ -118,7 +118,7 @@
             %>
           <% end %>
         </div>
-        <%= render "shared/pastes_list", pastes: @pastes, pagy: @pagy, user: @user, current_user: current_user, params: params %>
+        <%= render "shared/pastes_list", pastes: @pastes, pagy: @pagy, user: @user, current_user: current_user, params: params, frame_id: "pastes_list" %>
       </div>
     </div>
   </section>

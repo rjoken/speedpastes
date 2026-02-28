@@ -1,8 +1,9 @@
 <% pastes = local_assigns.fetch(:pastes, @pastes) %>
 <% pagy_obj = local_assigns.fetch(:pagy, @pagy) %>
 <% pin_context = local_assigns.fetch(:pin_context, false) %>
+<% frame_id = local_assigns.fetch(:frame_id, "pastes_list") %>
 
-<turbo-frame id="pastes_list">
+<turbo-frame id="<%= frame_id %>">
     <div class="divide-y divide-[var(--border-muted)]">
         <% pastes.each do |paste| %>
         <div class="px-4 py-3">
