@@ -50,6 +50,14 @@
                             <% end %>
                         <% end %>
                     </div>
+                    <% if paste.tags.any? %>
+                        <div class="flex items-center gap-2 mt-2">
+                            <span class="text-xs text-[var(--muted)]">Tags:</span>
+                            <% paste.tags.each do |tag| %>
+                                <div class="text-xs text-[var(--muted)] bg-[var(--button-bg)] border border-[var(--border)] px-2 py-1 cursor-default"><%= tag %></div>
+                            <% end %>
+                        </div>
+                    <% end %>
                 </div>
             </div>
         </div>

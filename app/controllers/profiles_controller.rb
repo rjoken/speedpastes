@@ -1,4 +1,5 @@
 class ProfilesController < ApplicationController
+  include TagsHelper
   def show
     @user = User.find_by(id: params[:id_or_username]) ||
             User.find_by("lower(username) = ?", params[:id_or_username].to_s.downcase)
@@ -14,6 +15,9 @@ class ProfilesController < ApplicationController
       pastes_scope = pastes_scope.where(visibility: :open)
     end
 
+    @total_views = pastes_scope.sum(:views)
+    @paste_count = pastes_scope.count
+
     if params[:q].present?
       query = params[:q].strip.downcase
       pastes_scope = pastes_scope.where("lower(title) LIKE ? OR lower(body) LIKE ?", "%#{query}%", "%#{query}%")
@@ -23,10 +27,25 @@ class ProfilesController < ApplicationController
     unless current_user == @user
       pins_scope = pins_scope.joins(:paste).where(pastes: { visibility: :open })
     end
+
     @pinned_pastes = pins_scope.includes(:paste).map(&:paste).compact
 
-    @total_views = pastes_scope.sum(:views)
-    @paste_count = pastes_scope.count
+    tags_scope = pastes_scope.reorder(nil)
+
+    @all_tags = tags_scope
+      .where("tags IS NOT NULL AND cardinality(tags) > 0")
+      .pluck(Arel.sql("DISTINCT unnest(tags)"))
+      .map { |t| t.to_s.strip.downcase }
+      .reject(&:blank?)
+      .uniq
+      .sort
+
+    @selected_tags = normalize_tags(params[:tags])
+    if @selected_tags.any?
+      # PostgreSQL '&&' operator means 'array overlap' so we get OR behavior
+      pastes_scope = pastes_scope.where("tags::text[] && ARRAY[?]::text[]", @selected_tags)
+    end
+
     @pagy, @pastes = pagy(:offset, pastes_scope, limit: 8)
   end
 

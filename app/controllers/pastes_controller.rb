@@ -1,4 +1,5 @@
 class PastesController < ApplicationController
+  include TagsHelper
   before_action :require_login!, except: [ :show, :raw, :index ]
   before_action :set_paste_by_id, only: [ :edit, :update, :destroy ]
   before_action :set_paste_by_shortcode, only: [ :show, :raw ]
@@ -56,6 +57,23 @@ class PastesController < ApplicationController
   def index
     pastes_scope = Paste.where(visibility: :open)
 
+    @all_tags = pastes_scope
+      .where.not(tags: nil)
+      .pluck(:tags)
+      .flatten
+      .map { |t| t.to_s.strip.downcase }
+      .reject(&:blank?)
+      .tally
+      .sort_by { |tag, count| [ -count, tag ] }
+      .first(50)
+      .map(&:first)
+
+    @selected_tags = normalize_tags(params[:tags])
+    if @selected_tags.any?
+      # PostgreSQL '&&' operator means 'array overlap' so we get OR behavior
+      pastes_scope = pastes_scope.where("tags::text[] && ARRAY[?]::text[]", @selected_tags)
+    end
+
     if params[:q].present?
       query = params[:q].strip.downcase
       pastes_scope = pastes_scope.where("lower(title) LIKE ? OR lower(body) LIKE ?", "%#{query}%", "%#{query}%")
@@ -83,7 +101,9 @@ class PastesController < ApplicationController
   private
 
   def paste_params
-    params.require(:paste).permit(:title, :body, :visibility)
+    permitted = params.require(:paste).permit(:title, :body, :visibility, :tags)
+    permitted[:tags] = normalize_tags(permitted[:tags]) if permitted[:tags].present?
+    permitted
   end
 
   def set_paste_by_id

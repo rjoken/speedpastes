@@ -13,7 +13,7 @@
       <span><%= link_to @paste.user.username, profile_path(@paste.user.id), class: link_class(variant: :bold, size: :sm) %></span>
     </div>
     <span class="text-xs text-[var(--muted)]">|</span>
-    <span class="text-xs text-[var(--muted)]"><%= time_ago_in_words(@paste.created_at) %> ago</span>
+    <span class="text-xs text-[var(--muted)]" title="<%= @paste.created_at %> <%= @paste.edited_at.present? ? "(Edited: #{@paste.edited_at})" : "" %>"><%= time_ago_in_words(@paste.created_at) %> ago</span>
     <% if @paste.edited_at.present? %>
       <span class="text-xs text-[var(--muted)]"><%= " (Edited) " %></span>
     <% end %>
@@ -33,6 +33,12 @@
       <span class="text-xs text-[var(--muted)]">|</span>
       <%= link_to "View Raw", raw_paste_path(@paste.shortcode), class: link_class(variant: :muted, size: :xs), target: "_blank", rel: "noopener" %>
     </div>
+  </div>
+  <div class="flex items-center gap-2 mb-4">
+    <span class="text-xs text-[var(--muted)]">Tags:</span>
+    <% @paste.tags.each do |tag| %>
+      <div class="text-xs text-[var(--muted)] bg-[var(--surface)] border border-[var(--border)] px-2 py-1 cursor-default"><%= tag %></div>
+    <% end %>
   </div>
   <div class="border border-[var(--border)] bg-[var(--surface)] shadow-sm">
     <%= render "shared/paste_viewer", content: @paste.body %>

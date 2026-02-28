@@ -15,7 +15,7 @@ class Paste < ApplicationRecord
   before_update :stamp_edited_at, if: :content_changed?
 
   def content_changed?
-    will_save_change_to_body? || will_save_change_to_title?
+    will_save_change_to_body? || will_save_change_to_title? || will_save_change_to_tags?
   end
 
   def stamp_edited_at
