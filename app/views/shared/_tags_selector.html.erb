@@ -16,10 +16,15 @@
                     url_for(only_path: true, params: next_query),
                     class: [
                         "text-xs border px-2 py-1",
-                        active ? "text-[var(--text)] bg-[var(--surface2)] border-[var(--border)] hover:bg-[var(--surface)]" : 
-                                    "text-[var(--muted)] bg-[var(--surface)] border-[var(--border)] hover:bg-[var(--surface2)]"
+                        active ? "text-[var(--text)] bg-[var(--button-bg-hover)] border-[var(--border)] hover:bg-[var(--button-bg)]" : 
+                                    "text-[var(--muted)] bg-[var(--button-bg)] border-[var(--border)] hover:bg-[var(--button-bg-hover)]"
                         ].join(" ") %>
             <% end %>
         </div>
+        <% if @selected_tags.any? %>
+            <div class="mt-4">
+                <%= link_to "Deselect all", url_for(only_path: true, params: base_query.except("tags")), class: button_class(variant: :muted, size: :xs) %>
+            </div>
+        <% end %>
     </details>
 </div>

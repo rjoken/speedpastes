@@ -4,7 +4,8 @@ module UiHelper
         sizes = { xs: "px-2 py-1 text-xs font-regular", sm: "px-2 py-1 text-sm", md: "px-4 py-2 text-md", lg: "px-6 py-3 text-lg" }
         variants = {
             default: "border-[var(--button-border)] bg-[var(--button-bg)] hover:bg-[var(--button-bg-hover)]",
-            danger: "border-[var(--border-danger)] bg-[var(--button-bg-danger)] hover:bg-[var(--button-bg-danger-hover)] text-[var(--text-danger)]"
+            danger: "border-[var(--border-danger)] bg-[var(--button-bg-danger)] hover:bg-[var(--button-bg-danger-hover)] text-[var(--text-danger)]",
+            muted: "border-none bg-[var(--button-bg)] hover:bg-[var(--button-bg-hover)] font-normal text-[var(--muted)]",
         }
         [ base, sizes.fetch(size), variants.fetch(variant) ].join(" ")
     end
