@@ -64,7 +64,7 @@ class PastesController < ApplicationController
       .map { |t| t.to_s.strip.downcase }
       .reject(&:blank?)
       .tally
-      .sort_by { |tag, count| [-count, tag] }
+      .sort_by { |tag, count| [ -count, tag ] }
       .first(50)
       .map(&:first)
 

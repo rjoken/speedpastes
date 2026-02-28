@@ -5,7 +5,7 @@ module UiHelper
         variants = {
             default: "border-[var(--button-border)] bg-[var(--button-bg)] hover:bg-[var(--button-bg-hover)]",
             danger: "border-[var(--border-danger)] bg-[var(--button-bg-danger)] hover:bg-[var(--button-bg-danger-hover)] text-[var(--text-danger)]",
-            muted: "border-[var(--button-border)] bg-[var(--button-bg)] hover:bg-[var(--button-bg-hover)] font-normal text-[var(--muted)]",
+            muted: "border-[var(--button-border)] bg-[var(--button-bg)] hover:bg-[var(--button-bg-hover)] font-normal text-[var(--muted)]"
         }
         [ base, sizes.fetch(size), variants.fetch(variant) ].join(" ")
     end
