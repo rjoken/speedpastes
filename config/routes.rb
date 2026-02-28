@@ -46,6 +46,8 @@ Rails.application.routes.draw do
 
   resources :pastes, except: [ :index, :show ]
 
+  resources :user_pins, only: [ :create, :destroy, :update ]
+
   namespace :admin do
     resources :users, param: :username, only: [] do
       post :invite_codes, action: :generate_invite_codes

@@ -10,7 +10,7 @@ class ProfilesController < ApplicationController
     end
 
     pastes_scope = @user.pastes.order(created_at: :desc)
-    unless current_user == @user || current_user&.admin?
+    unless current_user == @user
       pastes_scope = pastes_scope.where(visibility: :open)
     end
 
@@ -18,6 +18,12 @@ class ProfilesController < ApplicationController
       query = params[:q].strip.downcase
       pastes_scope = pastes_scope.where("lower(title) LIKE ? OR lower(body) LIKE ?", "%#{query}%", "%#{query}%")
     end
+
+    pins_scope = @user.user_pins.order(position: :asc)
+    unless current_user == @user
+      pins_scope = pins_scope.joins(:paste).where(pastes: { visibility: :open })
+    end
+    @pinned_pastes = pins_scope.includes(:paste).map(&:paste).compact
 
     @total_views = pastes_scope.sum(:views)
     @paste_count = pastes_scope.count

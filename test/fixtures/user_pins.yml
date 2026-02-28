@@ -2,8 +2,10 @@
 
 one:
   user_id: 1
-  body: MyText
+  paste_id: 1
+  position: 1
 
 two:
   user_id: 2
-  body: MyText
+  paste_id: 2
+  position: 1

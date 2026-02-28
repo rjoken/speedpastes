@@ -1,6 +1,8 @@
 class Paste < ApplicationRecord
   belongs_to :user
 
+  has_many :user_pins, dependent: :destroy
+
   enum :visibility, { open: 0, unlisted: 1 }
 
   validates :shortcode, presence: true, uniqueness: true
