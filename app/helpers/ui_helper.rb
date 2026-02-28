@@ -11,7 +11,7 @@ module UiHelper
 
     def link_class(variant: :default, size: :md)
         base = "cursor-pointer hover:underline"
-        sizes = { xs: "text-xs", sm: "text-sm", md: "text-md" }
+        sizes = { xs: "text-xs", sm: "text-sm", md: "text-md", lg: "text-lg" }
         variants = {
             default: "underline",
             text: "text-[var(--text)]",
