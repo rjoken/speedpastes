@@ -2,7 +2,7 @@
 
 <div>
     <details class="w-full p-4 bg-[var(--surface)] border-y border-[var(--border)]" <%= "open" if @selected_tags.any? %>>
-        <summary class="cursor-pointer text-md">Browse tags</summary>
+        <summary class="cursor-pointer text-md text-[var(--text)]">Browse tags</summary>
         <% selected_tags = Array(@selected_tags) %>
         <% base_query = request.query_parameters.deep_dup %>
         <div class="mt-4 flex flex-wrap gap-2">
