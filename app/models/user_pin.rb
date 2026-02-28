@@ -1,9 +1,7 @@
 class UserPin < ApplicationRecord
   belongs_to :user
   belongs_to :paste
-
-  # I'll care about ordering another time
-  # validates :position, inclusion: { in: 1..5, message: "must be between 1 and 5" }
+  
   validates :paste_id, uniqueness: { scope: :user_id }
   validates :position, uniqueness: { scope: :user_id }
   validate :max_pins_per_user, on: :create

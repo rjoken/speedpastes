@@ -37,10 +37,10 @@
                                         <% can_move_down = current_user.user_pins.where("position > ?", pin.position).exists? %>
                                         <span>|</span>
                                         <% if can_move_up %>
-                                            <%= button_to "↑", user_pin_path(id: pin.id, user_id: @user.id, direction: "up"), method: :patch, data: { turbo_method: :patch, turbo_frame: "_top" }, class: link_class(variant: :muted, size: :xs) %>
+                                            <%= button_to "↑", user_pin_path(id: pin.id, user_id: @user.id, direction: "up"), method: :patch, data: { turbo_method: :patch, turbo_frame: "_top" }, class: link_class(variant: :muted, size: :lg) %>
                                         <% end %>
                                         <% if can_move_down %>
-                                            <%= button_to "↓", user_pin_path(id: pin.id, user_id: @user.id, direction: "down"), method: :patch, data: { turbo_method: :patch, turbo_frame: "_top" }, class: link_class(variant: :muted, size: :xs) %>
+                                            <%= button_to "↓", user_pin_path(id: pin.id, user_id: @user.id, direction: "down"), method: :patch, data: { turbo_method: :patch, turbo_frame: "_top" }, class: link_class(variant: :muted, size: :lg) %>
                                         <% end %>
                                     <% end %>
                                 <% else %>
