@@ -70,7 +70,7 @@ class PastesController < ApplicationController
 
     @selected_tags = normalize_tags(params[:tags])
     if @selected_tags.any?
-      tag_conditions = @selected_tags.map { "tags @> ARRAY[?]::text[]" }.join(" OR ")
+      # PostgreSQL '&&' operator means 'array overlap' so we get OR behavior
       pastes_scope = pastes_scope.where("tags::text[] && ARRAY[?]::text[]", @selected_tags)
     end
 

@@ -42,6 +42,7 @@ class ProfilesController < ApplicationController
 
     @selected_tags = normalize_tags(params[:tags])
     if @selected_tags.any?
+      # PostgreSQL '&&' operator means 'array overlap' so we get OR behavior
       pastes_scope = pastes_scope.where("tags::text[] && ARRAY[?]::text[]", @selected_tags)
     end
 
