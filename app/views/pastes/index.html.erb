@@ -1,18 +1,30 @@
 <%= render "shared/heading", title: "Public Pastes" do %>
     <%= render "shared/tags_selector", all_tags: @all_tags %>
     <div class="block md:flex justify-between items-center px-4 py-2 border-b border-[var(--border-muted)] ">
+        <% preserved_params = request.query_parameters.except(:sort, :page) %>
         <div class="flex items-center gap-3">
-            <%= link_to "Newest", pastes_path(sort: "new"), class: link_class(variant: :bold, size: :sm) %>
+            <%= link_to "Newest", pastes_path(preserved_params.merge(sort: "new")), class: link_class(variant: :bold, size: :sm) %>
             <span>|</span>
-            <%= link_to "Oldest", pastes_path(sort: "old"), class: link_class(variant: :bold, size: :sm) %>
+            <%= link_to "Oldest", pastes_path(preserved_params.merge(sort: "old")), class: link_class(variant: :bold, size: :sm) %>
             <span>|</span>
-            <%= link_to "Most Views", pastes_path(sort: "views"), class: link_class(variant: :bold, size: :sm) %>
+            <%= link_to "Most Views", pastes_path(preserved_params.merge(sort: "views")), class: link_class(variant: :bold, size: :sm) %>
         </div>
         <%= form_with url: pastes_path, 
             method: :get, 
             local: true, 
             data: { turbo_frame: "pastes_list", controller: "search-query" },
             html: { class: "inline" } do %>
+
+            <% request.query_parameters.except(:q, :page).each do |key, value| %>
+                <% if value.is_a?(Array) %>
+                    <% value.each do |v| %>
+                        <%= hidden_field_tag "#{key}[]", v %>
+                    <% end %>
+                <% else %>
+                    <%= hidden_field_tag key, value %>
+                <% end %>
+            <% end %>
+
             <%= text_field_tag :q, params[:q], 
                 placeholder: "Search...", 
                 class: "border border-[var(--border)] px-2 py-1 mt-2 md:mt-0 w-full", 
