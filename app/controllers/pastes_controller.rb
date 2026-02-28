@@ -1,4 +1,5 @@
 class PastesController < ApplicationController
+  include TagsHelper
   before_action :require_login!, except: [ :show, :raw, :index ]
   before_action :set_paste_by_id, only: [ :edit, :update, :destroy ]
   before_action :set_paste_by_shortcode, only: [ :show, :raw ]
@@ -56,6 +57,20 @@ class PastesController < ApplicationController
   def index
     pastes_scope = Paste.where(visibility: :open)
 
+    @all_tags = pastes_scope
+      .where("tags IS NOT NULL AND cardinality(tags) > 0")
+      .pluck(Arel.sql("DISTINCT unnest(tags)"))
+      .map { |t| t.to_s.strip.downcase }
+      .reject(&:blank?)
+      .uniq
+      .sort
+
+    @selected_tags = normalize_tags(params[:tags])
+    if @selected_tags.any?
+      tag_conditions = @selected_tags.map { "tags @> ARRAY[?]::text[]" }.join(" OR ")
+      pastes_scope = pastes_scope.where("tags::text[] && ARRAY[?]::text[]", @selected_tags)
+    end
+
     if params[:q].present?
       query = params[:q].strip.downcase
       pastes_scope = pastes_scope.where("lower(title) LIKE ? OR lower(body) LIKE ?", "%#{query}%", "%#{query}%")
@@ -86,10 +101,6 @@ class PastesController < ApplicationController
     permitted = params.require(:paste).permit(:title, :body, :visibility, :tags)
     permitted[:tags] = normalize_tags(permitted[:tags]) if permitted[:tags].present?
     permitted
-  end
-
-  def normalize_tags(raw_tags)
-    Array(raw_tags).flat_map { |t| t.to_s.split(",") }.map { |tag| tag.strip.downcase }.reject(&:blank?).uniq
   end
 
   def set_paste_by_id

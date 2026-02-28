@@ -67,6 +67,10 @@
         </div>
       <% end %>
     <% end %>
+
+    <% if @all_tags.any? %>
+      <%= render "shared/tags_selector", all_tags: @all_tags %>
+    <% end %>
   </aside>
   <!-- Pastes -->
   <section class="md:col-span-3 gap-6 flex flex-col">

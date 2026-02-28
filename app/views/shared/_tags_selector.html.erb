@@ -1,0 +1,25 @@
+<% all_tags = local_assigns.fetch(:all_tags, @all_tags) %>
+
+<div>
+    <details class="w-full p-4 bg-[var(--surface)] border-b border-l border-r border-[var(--border)]" <%= "open" if @selected_tags.any? %>>
+        <summary class="cursor-pointer text-md">Browse tags</summary>
+        <% selected_tags = Array(@selected_tags) %>
+        <% base_query = request.query_parameters.deep_dup %>
+        <div class="mt-4 flex flex-wrap gap-2">
+            <% @all_tags.each do |tag| %>
+                <% active = selected_tags.include?(tag) %>
+                <% next_tags = active ? selected_tags - [tag] : selected_tags + [tag] %>
+                <% next_query = base_query.merge("tags" => next_tags.join(",")) %>
+                <% next_query.delete("tags") if next_tags.empty? %>
+
+                <%= link_to tag, 
+                    url_for(only_path: true, params: next_query),
+                    class: [
+                        "text-xs border px-2 py-1",
+                        active ? "text-[var(--text)] bg-[var(--surface2)] border-[var(--border)] hover:bg-[var(--surface)]" : 
+                                    "text-[var(--muted)] bg-[var(--surface)] border-[var(--border)] hover:bg-[var(--surface2)]"
+                        ].join(" ") %>
+            <% end %>
+        </div>
+    </details>
+</div>
