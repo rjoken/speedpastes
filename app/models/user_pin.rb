@@ -1,7 +1,7 @@
 class UserPin < ApplicationRecord
   belongs_to :user
   belongs_to :paste
-  
+
   validates :paste_id, uniqueness: { scope: :user_id }
   validates :position, uniqueness: { scope: :user_id }
   validate :max_pins_per_user, on: :create

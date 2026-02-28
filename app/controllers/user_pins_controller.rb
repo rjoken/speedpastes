@@ -1,8 +1,8 @@
 class UserPinsController < ApplicationController
   before_action :require_login!
   before_action :set_user
-  before_action :set_paste, only: [:create]
-  before_action :set_pin, only: [:destroy, :update]
+  before_action :set_paste, only: [ :create ]
+  before_action :set_pin, only: [ :destroy, :update ]
 
   def create
     if @user != current_user || @user != @paste.user
@@ -66,7 +66,7 @@ class UserPinsController < ApplicationController
       redirect_back fallback_location: profile_path(@user.username), alert: "Cannot move paste #{direction}."
     end
   end
-        
+
   private
 
   def set_user
