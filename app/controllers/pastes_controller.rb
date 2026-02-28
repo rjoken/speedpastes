@@ -58,12 +58,15 @@ class PastesController < ApplicationController
     pastes_scope = Paste.where(visibility: :open)
 
     @all_tags = pastes_scope
-      .where("tags IS NOT NULL AND cardinality(tags) > 0")
-      .pluck(Arel.sql("DISTINCT unnest(tags)"))
+      .where.not(tags: nil)
+      .pluck(:tags)
+      .flatten
       .map { |t| t.to_s.strip.downcase }
       .reject(&:blank?)
-      .uniq
-      .sort
+      .tally
+      .sort_by { |tag, count| [-count, tag] }
+      .first(50)
+      .map(&:first)
 
     @selected_tags = normalize_tags(params[:tags])
     if @selected_tags.any?

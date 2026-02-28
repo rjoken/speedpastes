@@ -32,6 +32,10 @@
         <% end %>
       </div>
 
+      <% if @all_tags.any? %>
+        <%= render "shared/tags_selector", all_tags: @all_tags %>
+      <% end %>
+
       <% if current_user == @user || current_user&.admin? %>
         <details class="w-full p-4 bg-[var(--surface)] border-t border-b border-[var(--border-muted)] hover:bg-[var(--surface2)] hover:cursor-pointer" data-controller="invite-codes">
           <summary class="cursor-pointer text-md text-[var(--muted)]">Invite codes</summary>
@@ -68,9 +72,7 @@
       <% end %>
     <% end %>
 
-    <% if @all_tags.any? %>
-      <%= render "shared/tags_selector", all_tags: @all_tags %>
-    <% end %>
+    
   </aside>
   <!-- Pastes -->
   <section class="md:col-span-3 gap-6 flex flex-col">

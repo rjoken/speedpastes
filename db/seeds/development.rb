@@ -33,6 +33,7 @@ admin = User.find_by(username: "admin")
         paste.body = "This is the body of sample paste number #{i}.\n" * 5
         paste.user = i % 2 == 1 ? user : admin
         paste.visibility = i % 2 == 0 ? :open : :unlisted
+        paste.tags = ["test_tag", "tag_#{i}"]
     end
 end
 
