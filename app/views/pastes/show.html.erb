@@ -13,7 +13,7 @@
       <span><%= link_to @paste.user.username, profile_path(@paste.user.id), class: link_class(variant: :bold, size: :sm) %></span>
     </div>
     <span class="text-xs text-[var(--muted)]">|</span>
-    <span class="text-xs text-[var(--muted)]"><%= time_ago_in_words(@paste.created_at) %> ago</span>
+    <span class="text-xs text-[var(--muted)]" title="<%= @paste.created_at %> <%= @paste.edited_at.present? ? "(Edited: #{@paste.edited_at})" : "" %>"><%= time_ago_in_words(@paste.created_at) %> ago</span>
     <% if @paste.edited_at.present? %>
       <span class="text-xs text-[var(--muted)]"><%= " (Edited) " %></span>
     <% end %>

@@ -22,6 +22,15 @@
             <div class="text-xs text-[var(--muted)] mt-1">Plaintext only for now. Markdown support coming soon!</div>
         </div>
 
+        <div>
+            <%= f.label :tags, "Tags (comma separated)", class: "block text-sm font-semibold" %>
+            <%= f.text_field :tags, value: @paste.tags.join(", "), class: "mt-1 w-full border border-[var(--border)] px-3 py-2" %>
+            <div class="text-xs text-[var(--muted)] mt-1">
+                <p>Tags are optional and can be used to categorize your paste.</p>
+                <p>Separate multiple tags with commas. E.g. "pokemon, faq, hgss, gen 4"</p>
+            </div>
+        </div>
+
         <div class="flex items-center justify-between gap-3">
             <div class="flex items-center gap-2">
                 <%= f.label :visibility, "Visibility", class: "text-sm font-semibold" %>

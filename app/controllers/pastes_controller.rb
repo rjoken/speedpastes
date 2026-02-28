@@ -83,7 +83,13 @@ class PastesController < ApplicationController
   private
 
   def paste_params
-    params.require(:paste).permit(:title, :body, :visibility)
+    permitted = params.require(:paste).permit(:title, :body, :visibility, :tags)
+    permitted[:tags] = normalize_tags(permitted[:tags]) if permitted[:tags].present?
+    permitted
+  end
+
+  def normalize_tags(raw_tags)
+    Array(raw_tags).flat_map { |t| t.to_s.split(",") }.map { |tag| tag.strip.downcase }.reject(&:blank?).uniq
   end
 
   def set_paste_by_id
