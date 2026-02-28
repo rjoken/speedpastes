@@ -1,5 +1,6 @@
 <% pastes = local_assigns.fetch(:pastes, @pastes) %>
 <% pagy_obj = local_assigns.fetch(:pagy, @pagy) %>
+<% pin_context = local_assigns.fetch(:pin_context, false) %>
 
 <turbo-frame id="pastes_list">
     <div class="divide-y divide-[var(--border-muted)]">
@@ -30,9 +31,20 @@
                                 <span>|</span>
                                 <% pin = current_user.user_pins.find_by(paste_id: paste.id) %>
                                 <% if pin.present? %>
-                                    <%= button_to "Unpin", user_pin_path(id: pin.id), method: :delete, data: { turbo_method: :delete, turbo_frame: "_top" }, class: link_class(variant: :muted, size: :xs) %>
+                                    <%= button_to "Unpin", user_pin_path(id: pin.id, user_id: @user.id), method: :delete, data: { turbo_method: :delete, turbo_frame: "_top" }, class: link_class(variant: :muted, size: :xs) %>
+                                    <% if pin_context %>
+                                        <% can_move_up = current_user.user_pins.where("position < ?", pin.position).exists? %>
+                                        <% can_move_down = current_user.user_pins.where("position > ?", pin.position).exists? %>
+                                        <span>|</span>
+                                        <% if can_move_up %>
+                                            <%= button_to "↑", user_pin_path(id: pin.id, user_id: @user.id, direction: "up"), method: :patch, data: { turbo_method: :patch, turbo_frame: "_top" }, class: link_class(variant: :muted, size: :xs) %>
+                                        <% end %>
+                                        <% if can_move_down %>
+                                            <%= button_to "↓", user_pin_path(id: pin.id, user_id: @user.id, direction: "down"), method: :patch, data: { turbo_method: :patch, turbo_frame: "_top" }, class: link_class(variant: :muted, size: :xs) %>
+                                        <% end %>
+                                    <% end %>
                                 <% else %>
-                                    <%= button_to "Pin", user_pins_path(paste_id: paste.id), method: :post, data: { turbo_method: :post, turbo_frame: "_top" }, class: link_class(variant: :muted, size: :xs) %>
+                                    <%= button_to "Pin", user_pins_path(paste_id: paste.id, user_id: @user.id), method: :post, data: { turbo_method: :post, turbo_frame: "_top" }, class: link_class(variant: :muted, size: :xs) %>
                                 <% end %>
                             <% end %>
                         <% end %>

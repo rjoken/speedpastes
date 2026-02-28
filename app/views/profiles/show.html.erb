@@ -79,7 +79,7 @@
             </div>
           </div>
         </div>
-        <%= render "shared/pastes_list", pastes: @pinned_pastes, user: @user, current_user: current_user, params: params, pagy: nil %>
+        <%= render "shared/pastes_list", pastes: @pinned_pastes, user: @user, current_user: current_user, params: params, pagy: nil, pin_context: true %>
       </div>
     <% end %>
 
