@@ -21,7 +21,7 @@
 
                         <span>|</span> 
                         <div class="text-xs text-[var(--muted)] flex gap-1" title="Total views"><%= heroicon "eye", options: {class: "w-4 h-4"} %> <%= paste.views %></div>
-                        <% if current_user == @user || current_user&.admin? %>
+                        <% if current_user == paste.user || current_user&.admin? %>
                             <span>|</span> 
                             <%= render "shared/visibility", visibility: paste.visibility %>
                             <span>|</span> 
