@@ -15,7 +15,7 @@ class User < ApplicationRecord
   validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { in: 3..20 },
     format: { with: /\A(?!\d+\z)[a-zA-Z0-9_]+\z/, message: "May only contain letters (at least one), numbers, and underscores and must be between 3 and 20 characters long." }
 
-  enum :role, { user: 0, pro: 1, admin: 999 }, default: :user
+  enum :role, { user: 0, pro: 1, deactivated: 2, banned: 3, admin: 999 }, default: :user
 
   def build_scratchpad
     scratchpad || create_scratchpad

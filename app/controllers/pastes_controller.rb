@@ -1,6 +1,7 @@
 class PastesController < ApplicationController
   include TagsHelper
   before_action :require_login!, except: [ :show, :raw, :index ]
+  before_action :require_activated!, except: [ :show, :raw, :index ]
   before_action :set_paste_by_id, only: [ :edit, :update, :destroy ]
   before_action :set_paste_by_shortcode, only: [ :show, :raw ]
 

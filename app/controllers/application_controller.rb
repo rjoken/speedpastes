@@ -40,6 +40,11 @@ class ApplicationController < ActionController::Base
     redirect_to login_path, alert: "Please log in" unless signed_in?
   end
 
+  def require_activated!
+    activated = signed_in? && ([ :user, :pro, :admin ].include? current_user.role)
+    redirect_to root_path, alert: "Your account does not have permission to perform this action." unless activated
+  end
+
   def admin?
     current_user&.admin?
   end
