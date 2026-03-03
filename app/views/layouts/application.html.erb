@@ -33,6 +33,9 @@
   </head>
 
   <body class="min-h-screen bg-[var(--bg)] text-[var(--text)]">
+  <% if signed_in? && current_user.banned? %>
+    <%= render "shared/banned" %>
+  <% end %>
     <%= render "shared/navbar" %>
 
     <div class="max-w-5xl mx-auto px-4 py-6">
