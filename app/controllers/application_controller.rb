@@ -41,12 +41,12 @@ class ApplicationController < ActionController::Base
   end
 
   def require_activated!
-    activated = signed_in? && ([ :user, :pro, :admin ].include? current_user.role)
+    activated = signed_in? && activated_user?(current_user)
     redirect_to root_path, alert: "Your account does not have permission to perform this action." unless activated
   end
 
   def activated_user?(user)
-    user.present? && [ :user, :pro, :admin ].include?(user.role)
+    user.present? && user.activated?
   end
 
   def admin?
