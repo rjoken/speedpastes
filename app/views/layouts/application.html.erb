@@ -24,6 +24,21 @@
       })();
     </script>
 
+    <script>
+      (function () {
+        const url = new URL(window.location.href);
+        const inviteCode = url.searchParams.get("invite_code");
+
+        if(!inviteCode) return;
+
+        localStorage.setItem("invite_code", inviteCode);
+
+        url.searchParams.delete("invite_code");
+        const newUrl = url.pathname + (url.searchParams.toString() ? `?${url.searchParams.toString()}` : "") + url.hash;
+        window.history.replaceState({}, document.title, newUrl);
+      })();
+    </script>
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -58,6 +73,7 @@
         by <a href="https://bsky.app/profile/hippochan.nl" class="<%= link_class(variant: :muted, size: :xs) %>" target="_blank" rel="noopener noreferrer">hippochan</a> x | 
         <a href="https://github.com/rjoken/speedpastes" class="<%= link_class(variant: :muted, size: :xs) %>" target="_blank" rel="noopener noreferrer">GitHub</a> |
         <a href="https://discord.gg/nTk7FcPbgh" class="<%= link_class(variant: :muted, size: :xs) %>" target="_blank" rel="noopener noreferrer">Discord</a> |
+        <%= link_to "Friends & Affiliates", friends_path, class: link_class(variant: :muted, size: :xs) %> |
         <a href="https://buymeacoffee.com/hippochan" class="<%= link_class(variant: :muted, size: :xs) %>" target="_blank" rel="noopener noreferrer">Support the site</a></div>
         <div data-controller="theme" class="flex items-center gap-2">
           <label for="theme">theme:</label>
