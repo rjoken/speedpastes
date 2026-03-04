@@ -64,7 +64,8 @@ class ProfilesController < ApplicationController
       [ "COALESCE(SUM(CASE WHEN pastes.visibility = ? THEN pastes.views ELSE 0 END), 0)", open_visibility ]
     )
 
-    users_scope = User.where(anonymized_at: nil)
+    users_scope = User.activated
+      .where(anonymized_at: nil)
       .left_joins(:pastes)
       .select(
         "users.*,
