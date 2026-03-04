@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 
   get "/privacy", to: "pages#privacy", as: :privacy
   get "/terms", to: "pages#terms", as: :terms
+  get "/friends", to: "pages#friends", as: :friends
 
   get "/profiles", to: "profiles#index", as: :profiles
 

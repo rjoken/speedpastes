@@ -1,0 +1,26 @@
+<%= render "shared/heading", title: "Friends & Affiliates" do %>
+    <div class="prose prose-inverted max-w-none p-4 flex flex-col gap-4">
+        <p class="text-lg font-bold">Link to us!</p>
+        <p class="text-sm">Are you the owner of an independent website, project, or community and would like to link to speedpastes.org? You can use one of our cute little badges! You can also contact me at <a href="mailto:admin@speedpastes.org" class="underline">admin@speedpastes.org</a> for a special invite link. :)</p>
+        <div class="flex flex-row items-center justify-center gap-4">
+            <img src="<%= asset_path('speedpastes-88x31-cyber.png') %>" alt="Speedpastes badge cyber theme">
+            <img src="<%= asset_path('speedpastes-88x31-mono.png') %>" alt="Speedpastes badge mono theme">
+            <img src="<%= asset_path('speedpastes-88x31-matrix.png') %>" alt="Speedpastes badge matrix theme">
+            <img src="<%= asset_path('speedpastes-88x31-blackpink.png') %>" alt="Speedpastes badge blackpink theme">
+        </div>
+        <p class="text-lg font-bold">Friends of speedpastes.org</p>
+        <p class="text-sm">Some lovely fellow sites and communities on the indie web!</p>
+        <div class="flex flex-wrap items-center justify-center gap-4">
+            <a href="https://flash.moe" target="_blank" rel="noopener">
+                <img src="<%= asset_path('friends/flash-moe.gif') %>" alt="flash.moe">
+            </a>
+            <a href="https://flashii.net" target="_blank" rel="noopener">
+                <img src="<%= asset_path('friends/flashii.gif') %>" alt="flashii.net">
+            </a>
+            <a href="https://nook.zone" target="_blank" rel="noopener">
+                <img src="<%= asset_path('friends/nook-zone.gif') %>" alt="nook.zone">
+            </a>
+        </div>
+
+    </div>
+<% end %>
