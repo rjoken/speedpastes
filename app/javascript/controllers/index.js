@@ -6,6 +6,7 @@ import PasteViewerController from "controllers/paste_viewer_controller"
 import InviteCodesController from "controllers/invite_codes_controller"
 import ThemeController from "controllers/theme_controller"
 import SearchQueryController from "controllers/search_query_controller"
+import PrefillController from "controllers/prefill_controller"
 import { eagerLoadControllersFrom } from "@hotwired/stimulus-loading"
 eagerLoadControllersFrom("controllers", application)
 
@@ -15,3 +16,4 @@ application.register("invite-codes", InviteCodesController)
 application.register("theme", ThemeController)
 application.register("paste-viewer", PasteViewerController)
 application.register("search-query", SearchQueryController)
+application.register("prefill", PrefillController)

@@ -24,6 +24,21 @@
       })();
     </script>
 
+    <script>
+      (function () {
+        const url = new URL(window.location.href);
+        const inviteCode = url.searchParams.get("invite_code");
+
+        if(!inviteCode) return;
+
+        localStorage.setItem("invite_code", inviteCode);
+
+        url.searchParams.delete("invite_code");
+        const newUrl = url.pathname + (url.searchParams.toString() ? `?${url.searchParams.toString()}` : "") + url.hash;
+        window.history.replaceState({}, document.title, newUrl);
+      })();
+    </script>
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
