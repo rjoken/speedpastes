@@ -35,6 +35,8 @@
   <body class="min-h-screen bg-[var(--bg)] text-[var(--text)]">
   <% if signed_in? && current_user.banned? %>
     <%= render "shared/banned" %>
+  <% elsif signed_in? && current_user.inactive? %>
+    <%= render "shared/deactivated" %>
   <% end %>
     <%= render "shared/navbar" %>
 
