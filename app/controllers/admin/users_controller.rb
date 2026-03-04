@@ -13,7 +13,7 @@ class Admin::UsersController < ApplicationController
 
         redirect_to profile_path(@user.id), notice: "Generated #{count} invite codes for #{@user.username}."
     end
-    
+
     def ban
         if @user == current_user
             return redirect_to profile_path(@user.id), alert: "You cannot ban yourself."

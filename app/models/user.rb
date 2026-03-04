@@ -34,5 +34,4 @@ class User < ApplicationRecord
   def build_scratchpad
     scratchpad || create_scratchpad
   end
-  
 end
