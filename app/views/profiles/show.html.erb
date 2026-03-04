@@ -7,6 +7,9 @@
           <% if @user.admin? %>
             <div class="text-xs text-[var(--muted)] font-bold uppercase tracking-wide">Admin</div>
           <% end %>
+          <% if @user.pro? %>
+            <div class="text-xs text-[var(--muted)] font-bold uppercase tracking-wide">Pro</div>
+          <% end %>
           <div class="text-sm text-center">
             <div class="font-semibold text-[var(--text)]">Member since <%= @user.created_at.strftime("%b %-d, %Y") %></div>
             <div class="font-semibold text-[var(--text)]"><%= @paste_count %> <%= "paste".pluralize(@paste_count) %></div>

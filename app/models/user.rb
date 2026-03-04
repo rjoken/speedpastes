@@ -17,7 +17,22 @@ class User < ApplicationRecord
 
   enum :role, { user: 0, pro: 1, deactivated: 2, banned: 3, admin: 999 }, default: :user
 
+  ACTIVATED_ROLES = %w[user pro admin].freeze
+  INACTIVE_ROLES = %w[deactivated banned].freeze
+
+  scope :activated, -> { where(role: ACTIVATED_ROLES) }
+  scope :inactive, -> { where(role: INACTIVE_ROLES) }
+
+  def activated?
+    user? || pro? || admin?
+  end
+
+  def inactive?
+    deactivated? || banned?
+  end
+
   def build_scratchpad
     scratchpad || create_scratchpad
   end
+  
 end

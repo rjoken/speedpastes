@@ -56,7 +56,7 @@ class PastesController < ApplicationController
   end
 
   def index
-    pastes_scope = Paste.where(visibility: :open)
+    pastes_scope = Paste.where(visibility: :open).joins(:user).where(users: { role: User::ACTIVATED_ROLES })
 
     @all_tags = pastes_scope
       .where.not(tags: nil)
@@ -122,8 +122,8 @@ class PastesController < ApplicationController
   end
 
   def authorize_view!(paste)
-    return if paste.open? || paste.unlisted?
-    return if current_user == paste.user || current_user&.admin?
+    should_show = (paste.user.activated?) && (paste.open? || paste.unlisted? || current_user == paste.user || current_user&.admin?)
+    return if should_show
 
     raise ActiveRecord::RecordNotFound
   end

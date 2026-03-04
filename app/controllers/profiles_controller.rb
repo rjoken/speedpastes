@@ -6,6 +6,10 @@ class ProfilesController < ApplicationController
 
     raise ActiveRecord::RecordNotFound unless @user.present? && !@user.anonymized_at.present?
 
+    if @user.inactive? && current_user != @user && !current_user&.admin?
+      raise ActiveRecord::RecordNotFound
+    end
+
     if current_user&.admin? || current_user == @user
       @invite_codes = InviteCode.where(created_by_id: @user.id).order(created_at: :desc)
     end
