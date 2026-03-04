@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   # Changes to the importmap will invalidate the etag for HTML responses
   stale_when_importmap_changes
 
-  helper_method :current_user, :signed_in?, :admin?
+  helper_method :current_user, :signed_in?, :admin?, :activated_user?
 
   before_action :load_current_user
 
@@ -38,6 +38,15 @@ class ApplicationController < ActionController::Base
 
   def require_login!
     redirect_to login_path, alert: "Please log in" unless signed_in?
+  end
+
+  def require_activated!
+    activated = signed_in? && activated_user?(current_user)
+    redirect_to root_path, alert: "Your account does not have permission to perform this action." unless activated
+  end
+
+  def activated_user?(user)
+    user.present? && user.activated?
   end
 
   def admin?

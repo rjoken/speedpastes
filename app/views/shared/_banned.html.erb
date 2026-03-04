@@ -1,0 +1,5 @@
+<div class="border border-red-700 text-white px-4 py-3 flex flex-col items-center justify-center gap-2 bg-[repeating-linear-gradient(135deg,var(--color-red-500)_0px,var(--color-red-500)_12px,var(--color-red-600)_12px,var(--color-red-600)_24px)]">
+    <strong class="font-bold text-xl">Your account has been banned.</strong>
+    <p class="text-md">Reason: <%= current_user.ban_reason.presence || "No reason provided" %></p>
+    <p class="text-sm mt-2">If you believe this was a mistake, you can contact support at <a class="underline" href="mailto:bans@speedpastes.org">bans@speedpastes.org</a>.</p>
+</div>

@@ -7,6 +7,14 @@
           <% if @user.admin? %>
             <div class="text-xs text-[var(--muted)] font-bold uppercase tracking-wide">Admin</div>
           <% end %>
+          <% if @user.pro? %>
+            <div class="text-xs text-[var(--muted)] font-bold uppercase tracking-wide">Supporter</div>
+          <% end %>
+          <% if @user.banned? %>
+            <div class="text-xs text-red-700 font-bold uppercase tracking-wide">Banned</div>
+          <% elsif @user.inactive? %>
+            <div class="text-xs text-gray-700 font-bold uppercase tracking-wide">Inactive</div>
+          <% end %>
           <div class="text-sm text-center">
             <div class="font-semibold text-[var(--text)]">Member since <%= @user.created_at.strftime("%b %-d, %Y") %></div>
             <div class="font-semibold text-[var(--text)]"><%= @paste_count %> <%= "paste".pluralize(@paste_count) %></div>
@@ -63,10 +71,14 @@
       <% if current_user&.admin? %>
         <div class="mt-4 border border-[var(--border-muted)] bg-[var(--surface2)] p-3">
           <div class="font-bold mb-2">Admin Actions</div>
-          <div class="mt-2 flex flex-wrap gap-2">
-            <%= button_to "Generate 5 invites", admin_user_invite_codes_path(@user.username), method: :post, class: button_class(variant: :default, size: :sm) %>
-            <%= button_to "Remove avatar", admin_user_remove_avatar_path(@user.username), method: :delete, data: { turbo_confirm: "Are you sure you want to remove this user's avatar?" }, class: button_class(variant: :default, size: :sm) %>
-            <%= button_to "Ban user", admin_user_ban_path(@user.username), method: :delete, data: { turbo_confirm: "Are you sure you want to ban this user? This is not reversible." }, class: button_class(variant: :danger, size: :sm) %>
+          <div class="mt-2 flex flex-col gap-2">
+            <%= button_to "Generate 5 invites", admin_user_invite_codes_path(@user.username), method: :post, class: "#{button_class(variant: :default, size: :sm)} w-full" %>
+            <%= button_to "Remove avatar", admin_user_remove_avatar_path(@user.username), method: :delete, data: { turbo_confirm: "Are you sure you want to remove this user's avatar?" }, class: "#{button_class(variant: :default, size: :sm)} w-full" %>
+            <%= button_to "Nuke user", admin_user_nuke_path(@user.username), method: :delete, data: { turbo_confirm: "Are you sure you want to nuke this user? This is not reversible." }, class: "#{button_class(variant: :danger, size: :sm)} w-full" %>
+            <%= form_with url: admin_user_ban_path(@user.username), method: :post, data: {turbo_confirm: "Are you sure you want to ban this user?"}, class: "flex flex-col gap-2" do %>
+              <%= text_field_tag :reason, nil, placeholder: "Ban reason", class: "border border-[var(--border)] px-2 py-1 text-sm w-full bg-[var(--surface)]" %>
+              <%= submit_tag "Ban user", class: "#{button_class(variant: :danger, size: :sm)} w-full" %>
+            <% end %>
           </div>
         </div>
       <% end %>

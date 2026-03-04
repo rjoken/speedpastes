@@ -23,6 +23,21 @@ class Admin::UsersController < ApplicationController
             return redirect_to profile_path(@user.id), alert: "You cannot ban another admin."
         end
 
+        reason = params[:reason].to_s.strip.presence || "No reason provided"
+
+        @user.update(role: :banned, ban_reason: reason)
+        redirect_to profile_path(@user.id), notice: "User has been banned."
+    end
+
+    def nuke
+        if @user == current_user
+            return redirect_to profile_path(@user.id), alert: "You cannot nuke yourself."
+        end
+
+        if @user.admin?
+            return redirect_to profile_path(@user.id), alert: "You cannot nuke another admin."
+        end
+
         Users::Anonymize.call(user: @user)
         redirect_to root_path, notice: "Bomb has been planted."
     end
