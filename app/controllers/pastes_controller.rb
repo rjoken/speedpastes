@@ -58,21 +58,26 @@ class PastesController < ApplicationController
   def index
     pastes_scope = Paste.where(visibility: :open).joins(:user).where(users: { role: User::ACTIVATED_ROLES })
 
-    @all_tags = pastes_scope
-      .where.not(tags: nil)
-      .pluck(:tags)
-      .flatten
-      .map { |t| t.to_s.strip.downcase }
-      .reject(&:blank?)
-      .tally
-      .sort_by { |tag, count| [ -count, tag ] }
-      .first(50)
-      .map(&:first)
 
-    @selected_tags = normalize_tags(params[:tags])
-    if @selected_tags.any?
-      # PostgreSQL '&&' operator means 'array overlap' so we get OR behavior
-      pastes_scope = pastes_scope.where("tags::text[] && ARRAY[?]::text[]", @selected_tags)
+    # Gate this behind current_user being present because we are experiencing a prime example of "this is why we can't have nice things"
+    if current_user.present? && !current_user.inactive?
+      @all_tags = pastes_scope
+        .where.not(tags: nil)
+        .pluck(:tags)
+        .flatten
+        .map { |t| t.to_s.strip.downcase }
+        .reject(&:blank?)
+        .tally
+        .sort_by { |tag, count| [ -count, tag ] }
+        .first(50)
+        .map(&:first)
+
+      @selected_tags = normalize_tags(params[:tags])
+
+      if @selected_tags.any?
+        # PostgreSQL '&&' operator means 'array overlap' so we get OR behavior
+        pastes_scope = pastes_scope.where("tags::text[] && ARRAY[?]::text[]", @selected_tags)
+      end
     end
 
     if params[:q].present?

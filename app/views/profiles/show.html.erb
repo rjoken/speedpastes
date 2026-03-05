@@ -40,7 +40,7 @@
         <% end %>
       </div>
 
-      <% if @all_tags.any? %>
+      <% if current_user.present? && !current_user.inactive? && @all_tags.any? %>
         <%= render "shared/tags_selector", all_tags: @all_tags %>
       <% end %>
 
