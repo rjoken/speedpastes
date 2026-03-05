@@ -1,5 +1,7 @@
 <%= render "shared/heading", title: "Public Pastes" do %>
-    <%= render "shared/tags_selector", all_tags: @all_tags %>
+    <% if current_user.present? && !current_user.inactive? && @all_tags.any? %>
+        <%= render "shared/tags_selector", all_tags: @all_tags %>
+    <% end %>
     <div class="block md:flex justify-between items-center px-4 py-2 border-b border-[var(--border-muted)] ">
         <% preserved_params = request.query_parameters.except(:sort, :page) %>
         <div class="flex items-center gap-3">
