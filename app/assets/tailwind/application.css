@@ -183,3 +183,27 @@
     --muted: var(--color-slate-700);
     --external-link: var(--color-blue-400);
 }
+
+#paste-content h1 {
+    @apply text-4xl font-bold mt-4 mb-2;
+}
+
+#paste-content h2 {
+    @apply text-3xl font-bold mt-4 mb-2;
+}
+
+#paste-content h3 {
+    @apply text-2xl font-bold mt-4 mb-2;
+}
+
+#paste-content h4 {
+    @apply text-xl font-bold mt-4 mb-2;
+}
+
+#paste-content h5 {
+    @apply text-lg font-bold mt-4 mb-2;
+}
+
+#paste-content h6 {
+    @apply text-base font-bold mt-4 mb-2;
+}

@@ -23,6 +23,13 @@
         </div>
 
         <div>
+            <%= f.label :render_type, class: "block text-sm font-semibold" do %>
+                <%= f.check_box :render_type, { class: "mr-2" }, "markdown", "plain" %>
+                Use markdown?
+            <% end %>
+        </div>
+
+        <div>
             <%= f.label :tags, "Tags (comma separated)", class: "block text-sm font-semibold" %>
             <%= f.text_field :tags, value: @paste.tags.join(", "), class: "mt-1 w-full border border-[var(--border)] px-3 py-2" %>
             <div class="text-xs text-[var(--muted)] mt-1">

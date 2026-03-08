@@ -5,6 +5,8 @@ class Paste < ApplicationRecord
 
   enum :visibility, { open: 0, unlisted: 1 }
 
+  enum :render_type, { plain: 0, markdown: 1 }
+
   validates :shortcode, presence: true, uniqueness: true
   validates :body, presence: true
   validates :title, length: { maximum: 255, message: "is too long" }

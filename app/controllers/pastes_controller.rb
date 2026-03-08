@@ -107,7 +107,7 @@ class PastesController < ApplicationController
   private
 
   def paste_params
-    permitted = params.require(:paste).permit(:title, :body, :visibility, :tags)
+    permitted = params.require(:paste).permit(:title, :body, :visibility, :tags, :render_type)
     permitted[:tags] = normalize_tags(permitted[:tags]) if permitted[:tags].present?
     permitted
   end
