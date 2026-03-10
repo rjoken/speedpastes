@@ -19,13 +19,12 @@
         <div>
             <%= f.label :body, "Paste", class: "block text-sm font-semibold" %>
             <%= render "shared/paste_editor", f: f, field: :body, rows: 14 %>
-            <div class="text-xs text-[var(--muted)] mt-1">Plaintext only for now. Markdown support coming soon!</div>
         </div>
 
         <div>
             <%= f.label :render_type, class: "block text-sm font-semibold" do %>
                 <%= f.check_box :render_type, { class: "mr-2" }, "markdown", "plain" %>
-                Use markdown?
+                Use markdown
             <% end %>
         </div>
 
@@ -49,3 +48,4 @@
         </div>
     <% end %>
 </div>
+
