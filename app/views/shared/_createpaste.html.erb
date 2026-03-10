@@ -1,4 +1,8 @@
-<div class="p-4">
+<div
+    data-controller="markdown-preview" 
+    data-markdown-preview-url-value="<%= preview_pastes_path %>" 
+    data-action="input->markdown-preview#queue change->markdown-preview#queue">
+    <div class="p-4">
     <%= form_with model: @paste, class: "space-y-3" do |f| %>
         <% if @paste.errors.any? %>
             <div class="border border-red-300 bg-red-50 p-3 text-sm">
@@ -47,5 +51,13 @@
             <%= f.submit(@paste.persisted? ? "Save changes" : "Create paste", class: button_class(variant: :default, size: :sm)) %>
         </div>
     <% end %>
+    </div>
+
+    <details data-markdown-preview-target="details" class="w-full p-4 bg-[var(--surface)] border-y border-[var(--border)] hover:bg-[var(--surface2) hidden">
+        <summary class="cursor-pointer text-md text-[var(--text)]">Markdown preview</summary>
+        <div data-markdown-preview-target="output" class="mt-3">
+            <%= render "shared/markdown_viewer", content: @paste.body %>
+        </div>
+    </details>
 </div>
 

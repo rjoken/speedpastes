@@ -104,6 +104,15 @@ class PastesController < ApplicationController
     render plain: @paste.body
   end
 
+  def preview
+    body = params[:body].to_s
+    render_type = params[:render_type].to_s
+
+    if render_type == "markdown"
+      render partial: "shared/markdown_viewer", locals: {content: body}, layout: false
+    end
+  end
+
   private
 
   def paste_params

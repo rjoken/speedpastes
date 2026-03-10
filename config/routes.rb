@@ -45,7 +45,11 @@ Rails.application.routes.draw do
 
   get "/account_change/:token", to: "account_changes#show", as: :account_change
 
-  resources :pastes, except: [ :index, :show ]
+  resources :pastes, except: [ :index, :show ] do
+    collection do
+      post :preview
+    end
+  end
 
   resources :user_pins, only: [ :create, :destroy, :update ]
 
