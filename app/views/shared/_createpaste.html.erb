@@ -53,7 +53,7 @@
     <% end %>
     </div>
 
-    <details data-markdown-preview-target="details" class="w-full p-4 bg-[var(--surface)] border-y border-[var(--border)] hover:bg-[var(--surface2) hidden">
+    <details data-markdown-preview-target="details" class="w-full p-4 bg-[var(--surface)] border-y border-[var(--border)] hover:bg-[var(--surface2)] hidden">
         <summary class="cursor-pointer text-md text-[var(--text)]">Markdown preview</summary>
         <div data-markdown-preview-target="output" class="mt-3">
             <%= render "shared/markdown_viewer", content: @paste.body %>
