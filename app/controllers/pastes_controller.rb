@@ -104,10 +104,19 @@ class PastesController < ApplicationController
     render plain: @paste.body
   end
 
+  def preview
+    body = params[:body].to_s
+    render_type = params[:render_type].to_s
+
+    if render_type == "markdown"
+      render partial: "shared/markdown_viewer", locals: { content: body }, layout: false
+    end
+  end
+
   private
 
   def paste_params
-    permitted = params.require(:paste).permit(:title, :body, :visibility, :tags)
+    permitted = params.require(:paste).permit(:title, :body, :visibility, :tags, :render_type)
     permitted[:tags] = normalize_tags(permitted[:tags]) if permitted[:tags].present?
     permitted
   end

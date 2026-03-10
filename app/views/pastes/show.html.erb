@@ -43,6 +43,10 @@
     </div>
   <% end %>
   <div class="border border-[var(--border)] bg-[var(--surface)] shadow-sm">
+  <% if @paste.plain? %>
     <%= render "shared/paste_viewer", content: @paste.body %>
+  <% elsif @paste.markdown? %>
+    <%= render "shared/markdown_viewer", content: @paste.body %>
+  <% end %>
   </div>
 </div>
