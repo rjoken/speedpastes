@@ -109,7 +109,7 @@ class PastesController < ApplicationController
     render_type = params[:render_type].to_s
 
     if render_type == "markdown"
-      render partial: "shared/markdown_viewer", locals: {content: body}, layout: false
+      render partial: "shared/markdown_viewer", locals: { content: body }, layout: false
     end
   end
 
