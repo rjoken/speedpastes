@@ -250,8 +250,6 @@
 #markdown-content p {
     margin: 0.75rem 0;
     line-height: 1.4rem;
-    text-align: justify;
-    text-wrap: break-word;
 }
 
 #markdown-content blockquote {

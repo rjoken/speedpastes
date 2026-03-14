@@ -21,11 +21,11 @@
       <div class="p-3 space-y-3">
         <% @latest_pastes.each do |paste| %>
           <div class="text-sm">
-            <div class="flex items-center justify-between gap-2">
-              <%= link_to short_paste_path(paste.shortcode), class: link_class(variant: :bold) do %>
+            <div class="grid grid-cols-12 items-center">
+              <%= link_to short_paste_path(paste.shortcode), class: "#{link_class(variant: :bold)} col-span-9 truncate" do %>
                 <%= paste.title %>
               <% end %>
-              <span class="text-xs text-[var(--muted)]"><%= time_ago_in_words(paste.created_at) %> ago</span>
+              <span class="col-span-3 text-right text-xs text-[var(--muted)]"><%= time_ago_in_words(paste.created_at) %> ago</span>
             </div>
             <div class="text-xs text-[var(--muted)]">by <%= link_to "#{paste.user.username}", profile_path(paste.user.id), class: link_class(variant: :muted) %></div>
           </div>
