@@ -60,12 +60,12 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
 
   config.action_mailer.smtp_settings = {
-    address: "smtp.sendgrid.net",
-    port: 2525,
-    authentication: :plain,
-    password: ENV["SENDGRID_API_KEY"],
-    user_name: "apikey",
-    domain: "speedpastes.org",
+    address: ENV["SMTP_ADDRESS"],
+    port: ENV["SMTP_PORT"].to_i,
+    authentication: :login,
+    password: ENV["SMTP_PASSWORD"],
+    user_name: ENV["SMTP_USERNAME"],
+    domain: ENV["SMTP_DOMAIN"],
     enable_starttls_auto: true
   }
 
