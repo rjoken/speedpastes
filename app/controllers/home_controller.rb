@@ -9,5 +9,10 @@ class HomeController < ApplicationController
     if signed_in?
       @paste = current_user.pastes.new
     end
+
+    @stats = {
+      pastes_count: Paste.count,
+      users_count: User.activated.count
+    }
   end
 end

@@ -38,5 +38,6 @@
         <% end %>
       </div>
     <% end %>
+    <%= render "shared/stats", users: @stats[:users_count], pastes: @stats[:pastes_count] %>
   </aside>
 </div>
