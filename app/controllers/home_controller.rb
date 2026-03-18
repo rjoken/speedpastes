@@ -12,7 +12,7 @@ class HomeController < ApplicationController
 
     @stats = {
       pastes_count: Paste.count,
-      users_count: User.activated.count,
+      users_count: User.activated.count
     }
   end
 end
