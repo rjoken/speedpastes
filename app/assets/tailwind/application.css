@@ -6,6 +6,10 @@
         image-rendering: crisp-edges;
     }
 
+    [data-april-fools="true"] {
+        font-family: "Comic Sans MS", "Comic Sans", "Comic Neue", cursive, sans-serif;
+    }
+
     button,
     [type="button"],
     [type="submit"],
@@ -32,6 +36,8 @@
     --muted: var(--color-slate-300);
     --external-link: var(--color-blue-400);
 }
+
+
 
 [data-theme="cyber"] {
     --bg: var(--color-slate-900);
@@ -183,6 +189,13 @@
     --border-muted: var(--color-orange-400);
     --muted: var(--color-slate-700);
     --external-link: var(--color-blue-400);
+}
+
+
+
+#markdown-content {
+    /* Override april fools joke for markdown content. I'm not that evil. */
+    font-family: Ubuntu, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
 }
 
 #markdown-content a {
