@@ -13,6 +13,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
 
     <link rel="appple-touch-icon" sizes="180x180" href="<%= asset_path('apple-touch-icon.png') %>">
 
@@ -21,6 +22,14 @@
       (function () {
         var t = localStorage.getItem("theme");
         if (t) document.documentElement.setAttribute("data-theme", t);
+
+        const date = new Date();
+        // This shit zero indexed
+        if(date.getMonth() === 3 && date.getDate() === 1) {
+          var hatesFun = localStorage.getItem("hatesFun");
+          if(hatesFun === "true") document.documentElement.setAttribute("data-april-fools", "false");
+          else document.documentElement.setAttribute("data-april-fools", "true");
+        }
       })();
     </script>
 
@@ -74,7 +83,9 @@
         <a href="https://github.com/rjoken/speedpastes" class="<%= link_class(variant: :muted, size: :xs) %>" target="_blank" rel="noopener noreferrer">GitHub</a> |
         <a href="https://discord.gg/nTk7FcPbgh" class="<%= link_class(variant: :muted, size: :xs) %>" target="_blank" rel="noopener noreferrer">Discord</a> |
         <%= link_to "Friends & Affiliates", friends_path, class: link_class(variant: :muted, size: :xs) %> |
-        <a href="https://buymeacoffee.com/hippochan" class="<%= link_class(variant: :muted, size: :xs) %>" target="_blank" rel="noopener noreferrer">Support the site</a></div>
+        <a href="https://buymeacoffee.com/hippochan" class="<%= link_class(variant: :muted, size: :xs) %>" target="_blank" rel="noopener noreferrer">Support the site</a>
+          <span id="april-fools-container" class="hidden"><%= " | " %><%= link_to "I hate fun", "#", id: "april-fools-toggle", class: link_class(variant: :muted, size: :xs), data: { controller: "aprilfools", action: "click->aprilfools#disable" } %></span>
+        </div>
         <div data-controller="theme" class="flex items-center gap-2">
           <label for="theme">theme:</label>
           <select id="theme" class="<%= button_class(variant: :default, size: :xs) %>" data-theme-target="select" data-action="change->theme#change">
