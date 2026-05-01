@@ -1,3 +1,5 @@
+User-agent: *
+Disallow: /*?tags= /*?page= /pastes /profiles
 User-agent: GPTBot
 Disallow: /
 User-agent: ChatGPT-User
