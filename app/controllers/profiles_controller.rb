@@ -81,7 +81,7 @@ class ProfilesController < ApplicationController
     when "pastes"
       users_scope = users_scope.order(Arel.sql("#{open_paste_count_sql} DESC"))
     when "views"
-      users_scope = users_scope.order(Arel.sql("#{open_views_count_sql} DESC"))
+      users_scope = users_scope.where(show_view_count: true).order(Arel.sql("#{open_views_count_sql} DESC"))
     else
       users_scope = users_scope.order(created_at: :desc)
     end
