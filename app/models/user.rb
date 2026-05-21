@@ -23,6 +23,10 @@ class User < ApplicationRecord
   scope :activated, -> { where(role: ACTIVATED_ROLES) }
   scope :inactive, -> { where(role: INACTIVE_ROLES) }
 
+  def show_view_count?
+    show_view_count
+  end
+
   def activated?
     user? || pro? || admin?
   end

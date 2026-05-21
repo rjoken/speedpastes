@@ -18,6 +18,7 @@
                     </div>
                     <div class="flex-1">
                         <%= form_with model: current_user, url: settings_path, method: :patch, multipart: true, data: { turbo: false }, class: "space-y-6" do |f| %>
+                            <div class="text-lg font-bold">Profile settings</div>
                             <div>
                                 <%= f.label :avatar, "Upload avatar", class: "block text-sm font-semibold" %>
                                 <%= f.file_field :avatar, accept: "image/*", class: "mt-1 block w-full text-sm cursor-pointer border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface2)] px-3 py-2" %>
@@ -31,6 +32,19 @@
                                 <div class="flex-1">
                                     <%= f.label :link, "External link", class: "block text-sm font-semibold" %>
                                     <%= f.url_field :link, class: "mt-1 w-full border border-[var(--border)] px-3 py-2" %>
+                                </div>
+                            </div>
+
+                            <div class="divider border-t border-[var(--border-muted)]"></div>
+
+                            <div class="text-lg font-bold">Other settings</div>
+                            <div class="flex flex-row items-center gap-4">
+                                <div class="flex flex-col gap-2">
+                                    <div class="flex flex-row items-center gap-2">
+                                        <%= f.label :show_view_count, "Show view count on my pastes", class: "text-sm font-semibold" %>
+                                        <%= f.check_box :show_view_count, class: "mt-1" %>
+                                    </div>
+                                    <div class="text-xs text-[var(--muted)]">Uncheck this to hide the view count on your pastes. You will still be able to see your own view counts whilst logged in. Your pastes will be filtered out of the "most views" sort on the Browse page.</div>
                                 </div>
                             </div>
 
