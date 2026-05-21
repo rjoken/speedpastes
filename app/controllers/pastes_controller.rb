@@ -96,7 +96,7 @@ class PastesController < ApplicationController
     when "new"
       pastes_scope = pastes_scope.order(created_at: :desc)
     when "views"
-      pastes_scope = pastes_scope.order(views: :desc)
+      pastes_scope = pastes_scope.where(users: { show_view_count: true }).order(views: :desc)
     else
       pastes_scope = pastes_scope.order(created_at: :desc)
     end

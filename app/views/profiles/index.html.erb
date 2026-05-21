@@ -19,7 +19,7 @@
                     Member since <%= user.created_at.strftime("%b %-d, %Y") %>
                 </div>
                 <div class="text-xs text-[var(--muted)] mt-1">
-                    <%= pluralize(user.open_paste_count, "paste") %> | <%= pluralize(user.open_views_count, "view") %>
+                    <%= pluralize(user.open_paste_count, "paste") %> <% if user.show_view_count || user == current_user %> | <%= pluralize(user.open_views_count, "view") %> <% end %>
                 </div>
             </div>
         <% end %>

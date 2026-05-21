@@ -150,6 +150,6 @@ class SettingsController < ApplicationController
     private
 
     def profile_params
-        params.require(:user).permit(:bio, :link, :avatar)
+        params.require(:user).permit(:bio, :link, :avatar, :show_view_count)
     end
 end
