@@ -57,6 +57,24 @@
             </details>
 
             <details class="border border-[var(--border-muted)] bg-[var(--surface2)] p-3">
+                <summary class="cursor-pointer font-bold">Supporter settings</summary>
+                <div class="mt-3">
+                    <div class="border border-[var(--border-muted)] bg-[var(--surface)] p-3 flex flex-row justify-between items-center">
+                        <% if current_user.patreon_connection.present? %>
+                            <div class="flex flex-col gap-2">
+                                <div><strong>Connected to Patreon</strong></div>
+                                <div>Supporter status: <%= patron_status_to_readable(current_user.patreon_connection.patron_status) %></div>
+                            </div>
+                            <%= button_to "Disconnect", disconnect_patreon_path, method: :delete, class: button_class(variant: :default, size: :md) %>
+                        <% else %>
+                            <div><strong>Not connected to Patreon</strong></div>
+                            <%= link_to "Connect", connect_patreon_path, method: :post, class: button_class(variant: :default, size: :md) %>
+                        <% end %>
+                    </div>
+                </div>
+            </details>
+
+            <details class="border border-[var(--border-muted)] bg-[var(--surface2)] p-3">
                 <summary class="cursor-pointer font-bold">Change your email address</summary>
                 <div class="mt-3">
                     <%= form_with url: email_settings_path, method: :patch do %>

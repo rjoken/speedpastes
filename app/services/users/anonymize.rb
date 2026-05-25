@@ -16,6 +16,14 @@ module Users
                 # Delete invitations
                 User.where(invited_by_id: @user.id).update_all(invited_by_id: nil)
 
+                UserPin.where(user_id: @user.id).delete_all
+
+                PatreonConnection.where(user_id: @user.id).delete_all
+
+                UserSession.where(user_id: @user.id).delete_all
+
+                AccountChangeRequest.where(user_id: @user.id).delete_all
+
                 # Purge avatar
                 @user.avatar.purge_later if @user.respond_to?(:avatar)
 
