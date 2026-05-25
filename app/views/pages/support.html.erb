@@ -1,0 +1,25 @@
+<%= render "shared/heading", title: "Supporting speedpastes.org" do %>
+    <div class="prose prose-inverted max-w-none p-4 flex flex-col gap-4">
+        <p class="text-lg font-bold">Support us on Patreon!</p>
+        <p class="text-sm">Speedpastes.org is a free website not driven by profit. The site is paid for out-of-pocket by its sole creator and developer. By supporting us on Patreon, you will gain access to some cool and fun features:</p>
+        <ul class="list-disc list-inside space-y-1">
+            <li class="text-sm">A "supporter" title on your profile</li>
+            <li class="text-sm">More coming soon!</li>
+        </ul>
+        <div class="flex items-center justify-center">
+            <a href="https://www.patreon.com/cw/speedpastes" target="_blank" rel="noopener"><img src="<%= asset_path('patreon-banner.png') %>" alt="Support us on Patreon" class="scale-50"></a>
+        </div>
+
+        <p class="text-lg font-bold">Cost breakdown</p>
+        <p class="text-sm">For the sake of full transparency, all patreon money first goes towards keeping the site running, then it is divided between anyone who has worked on the site in the past month. Following that, money will be donated to whichever speedrunning marathons might need it. The full cost breakdown is as follows:</p>
+        <ul class="list-disc list-inside space-y-1">
+            <li class="text-sm">DigitalOcean app platform (512MB RAM, 1 Shared vCPU, 50GB bandwidth): $5/month</li>
+            <li class="text-sm">PostgreSQL database (1GB RAM, 10GiB storage, 1 vCPU): $15/month</li>
+            <li class="text-sm">Spaces file storage (250GiB, 1TiB bandwidth): $5/month</li>
+            <li class="text-sm">Outbound email (Protonmail): $10/month</li>
+        </ul>
+
+        <div class="divider border-t border-[var(--border-muted)]"></div>
+        <p class="text-sm">I dream of an internet where simple websites can exist without selling your data, shoving ads in your face, and being overrun by AI, bots, and spam in the name of profit. Everything here is made by hand, for better or for worse. If that's something you like the sound of, consider becoming a supporter :)</p>
+    </div>
+<% end %>

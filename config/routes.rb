@@ -25,6 +25,8 @@ Rails.application.routes.draw do
 
   get "/pastes", to: "pastes#index", as: :pastes
 
+  get "/support", to: "pages#support", as: :support
+
   resource :settings, only: [ :show, :update ] do
     post :data_export
     delete :account
