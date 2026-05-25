@@ -7,7 +7,7 @@
           <% if @user.admin? %>
             <div class="text-xs text-[var(--muted)] font-bold uppercase tracking-wide">Admin</div>
           <% end %>
-          <% if @user.pro? %>
+          <% if @user.is_supporter? %>
             <div class="text-xs text-[var(--muted)] font-bold uppercase tracking-wide">Supporter</div>
           <% end %>
           <% if @user.banned? %>

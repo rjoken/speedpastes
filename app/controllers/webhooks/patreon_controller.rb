@@ -22,10 +22,10 @@ module Webhooks
         if connection
           connection.update!(last_synced_at: Time.current, patron_status: patron_status)
           user = connection.user
-          if user && user.pro? && patron_status != "active_patron"
-            user.update!(role: :user)
-          elsif user && user.user? && patron_status == "active_patron"
-            user.update!(role: :pro)
+          if user && patron_status != "active_patron"
+            user.update!(is_supporter: false)
+          elsif user && patron_status == "active_patron"
+            user.update!(is_supporter: true)
           end
         end
       when "members:delete"
@@ -34,7 +34,7 @@ module Webhooks
         if connection
           connection.update!(last_synced_at: Time.current, patron_status: nil)
           user = connection.user
-          user.update!(role: :user) if user && user.pro?
+          user.update!(is_supporter: false) if user
         end
       end
       head :ok

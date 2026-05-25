@@ -197,7 +197,7 @@ class SettingsController < ApplicationController
             last_synced_at: Time.current
           )
 
-          current_user.update!(role: :pro) if patreon_status(identity_payload) == "active_patron" && current_user.user?
+          current_user.update!(is_supporter: true) if patreon_status(identity_payload) == "active_patron" && current_user.user?
         end
 
         redirect_to settings_path, notice: "Patreon account connected successfully"
@@ -213,7 +213,7 @@ class SettingsController < ApplicationController
 
         ActiveRecord::Base.transaction do
             connection.destroy!
-            current_user.update!(role: :user) if current_user.pro?
+            current_user.update!(is_supporter: false)
         end
 
         redirect_to settings_path, notice: "Patreon account disconnected successfully"
