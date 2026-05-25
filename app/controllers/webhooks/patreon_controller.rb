@@ -15,8 +15,8 @@ module Webhooks
 
       event = request.headers["X-Patreon-Event"]
       case event
-      when "members:pledge:create", "members:pledge:update"
-        patron_id = data.dig("data", "relationships", "patron", "data", "id")
+      when "members:create", "members:update", "members:pledge:create", "members:pledge:update"
+        patron_id = data.dig("data", "relationships", "user", "data", "id")
         patron_status = data.dig("data", "attributes", "patron_status").to_s
         connection = PatreonConnection.find_by(patreon_user_id: patron_id)
         if connection
@@ -28,8 +28,8 @@ module Webhooks
             user.update!(role: :pro)
           end
         end
-      when "members:pledge:delete"
-        patron_id = data.dig("data", "relationships", "patron", "data", "id")
+      when "members:delete"
+        patron_id = data.dig("data", "relationships", "user", "data", "id")
         connection = PatreonConnection.find_by(patreon_user_id: patron_id)
         if connection
           connection.update!(last_synced_at: Time.current, patron_status: nil)
