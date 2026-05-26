@@ -43,7 +43,7 @@ Rails.application.routes.draw do
     patch :username
   end
 
-  get "/settings/patreon/connect", to: "settings#connect_patreon", as: :connect_patreon
+  post "/settings/patreon/connect", to: "settings#connect_patreon", as: :connect_patreon
   get "/settings/patreon/callback", to: "settings#patreon_callback", as: :patreon_callback
   delete "/settings/patreon/disconnect", to: "settings#disconnect_patreon", as: :disconnect_patreon
 

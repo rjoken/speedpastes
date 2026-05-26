@@ -169,6 +169,7 @@ class SettingsController < ApplicationController
 
         if expected_state.blank? || received_state.blank? || expected_state != received_state
             redirect_to settings_path, alert: "Invalid Patreon OAuth state. Please try again."
+            return
         end
 
         code = params[:code].to_s
@@ -177,27 +178,33 @@ class SettingsController < ApplicationController
         token_payload = exchange_patreon_code_for_token(code)
         identity_payload = fetch_patreon_identity(token_payload.fetch("access_token"))
 
+        puts "Patreon identity payload: #{identity_payload.inspect}"
+
         patreon_user_id = identity_payload.dig("data", "id").to_s
         if patreon_user_id.blank?
             redirect_to settings_path, alert: "Failed to retrieve Patreon user ID"
+            return
         end
 
         existing = PatreonConnection.find_by(patreon_user_id: patreon_user_id)
         if existing && existing.user_id != current_user.id
             redirect_to settings_path, alert: "This Patreon account is already connected to a user"
+            return
         end
 
         patreon_username = identity_payload.dig("data", "attributes", "vanity").presence || identity_payload.dig("data", "attributes", "full_name").to_s || "anonymous"
+        patron_status = get_patron_status(identity_payload)
 
         ActiveRecord::Base.transaction do
           connection = PatreonConnection.find_or_initialize_by(user: current_user)
           connection.update!(
             patreon_user_id: patreon_user_id,
             patreon_username: patreon_username,
+            patron_status: patron_status,
             last_synced_at: Time.current
           )
 
-          current_user.update!(is_supporter: true) if patreon_status(identity_payload) == "active_patron" && current_user.user?
+          current_user.update!(is_supporter: true) if patron_status == "active_patron" && current_user.user?
         end
 
         redirect_to settings_path, notice: "Patreon account connected successfully"
@@ -209,7 +216,7 @@ class SettingsController < ApplicationController
 
     def disconnect_patreon
         connection = current_user.patreon_connection
-        redirect_to settings_path, alert: "No Patreon account connected" unless connection
+        return redirect_to settings_path, alert: "No Patreon account connected" unless connection
 
         ActiveRecord::Base.transaction do
             connection.destroy!
@@ -237,15 +244,14 @@ class SettingsController < ApplicationController
       )
 
       res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(req) }
-      body = JSON.parse(res.body)
-
       raise "Token exchange failed: #{res.code}" unless res.is_a?(Net::HTTPSuccess)
 
+      body = JSON.parse(res.body)
       body
     end
 
     def fetch_patreon_identity(access_token)
-      uri = URI("https://www.patreon.com/api/oauth2/v2/identity?include=memberships")
+      uri = URI("https://www.patreon.com/api/oauth2/v2/identity?include=memberships,memberships.campaign&fields%5Bmember%5D=patron_status")
       req = Net::HTTP::Get.new(uri)
       req["Authorization"] = "Bearer #{access_token}"
 
@@ -257,10 +263,23 @@ class SettingsController < ApplicationController
       body
     end
 
-    def patreon_status(identity_payload)
+    def get_patron_status(identity_payload)
+      campaign_id = ENV["PATREON_CAMPAIGN_ID"].to_s
+      return nil if campaign_id.blank?
+
+      memberships_data = Array(identity_payload.dig("data", "relationships", "memberships", "data"))
       included = Array(identity_payload["included"])
-      membership = included.find { |item| item["type"] == "member" }
-      status = membership.dig("attributes", "patron_status").to_s
-      status
+
+      memberships_data.each do |membership_ref|
+        membership_id = membership_ref["id"]
+        full_membership = included.find { |item| item["type"] == "member" && item["id"] == membership_id }
+
+        membership_campaign_id = full_membership.dig("relationships", "campaign", "data", "id").to_s
+        if membership_campaign_id == campaign_id
+          status = full_membership.dig("attributes", "patron_status").to_s
+          return status if status.present?
+        end
+      end
+      nil
     end
 end

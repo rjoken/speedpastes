@@ -123,8 +123,6 @@ module Users
               user_id: pc.user_id,
               patreon_user_id: pc.patreon_user_id,
               patreon_username: pc.patreon_username,
-              access_token: pc.access_token,
-              refresh_token: pc.refresh_token,
               last_synced_at: pc.last_synced_at&.iso8601,
               created_at: pc.created_at.iso8601,
               updated_at: pc.updated_at.iso8601

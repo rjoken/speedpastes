@@ -68,7 +68,7 @@
                             <%= button_to "Disconnect", disconnect_patreon_path, method: :delete, class: button_class(variant: :default, size: :md) %>
                         <% else %>
                             <div><strong>Not connected to Patreon</strong></div>
-                            <%= link_to "Connect", connect_patreon_path, method: :post, class: button_class(variant: :default, size: :md) %>
+                            <%= button_to "Connect", connect_patreon_path, method: :post, data: { turbo: false }, class: button_class(variant: :default, size: :md) %>
                         <% end %>
                     </div>
                 </div>

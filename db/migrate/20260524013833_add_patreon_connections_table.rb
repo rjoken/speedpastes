@@ -4,7 +4,6 @@ class AddPatreonConnectionsTable < ActiveRecord::Migration[8.1]
       t.references :user, null: false, foreign_key: true
       t.string :patreon_user_id, null: false
       t.string :patreon_username
-      t.string :campaign_id
       t.string :patron_status
       t.datetime :last_synced_at
       t.timestamps

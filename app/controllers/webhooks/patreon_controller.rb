@@ -48,6 +48,7 @@ module Webhooks
       secret = ENV["PATREON_WEBHOOK_SECRET"].to_s
       return false if secret.blank? || signature.blank?
 
+      # Patreon's choice to use MD5, not mine :P
       expected = OpenSSL::HMAC.hexdigest("MD5", secret, payload)
       ActiveSupport::SecurityUtils.secure_compare(expected, signature)
     end
