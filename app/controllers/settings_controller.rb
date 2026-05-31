@@ -178,8 +178,6 @@ class SettingsController < ApplicationController
         token_payload = exchange_patreon_code_for_token(code)
         identity_payload = fetch_patreon_identity(token_payload.fetch("access_token"))
 
-        puts "Patreon identity payload: #{identity_payload.inspect}"
-
         patreon_user_id = identity_payload.dig("data", "id").to_s
         if patreon_user_id.blank?
             redirect_to settings_path, alert: "Failed to retrieve Patreon user ID"
@@ -204,7 +202,7 @@ class SettingsController < ApplicationController
             last_synced_at: Time.current
           )
 
-          current_user.update!(is_supporter: true) if patron_status == "active_patron" && current_user.user?
+          current_user.update!(is_supporter: true) if patron_status == "active_patron"
         end
 
         redirect_to settings_path, notice: "Patreon account connected successfully"
