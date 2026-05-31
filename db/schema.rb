@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_21_205635) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_31_002813) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -86,6 +86,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_21_205635) do
     t.index ["user_id", "created_at"], name: "index_pastes_on_user_id_and_created_at"
     t.index ["user_id"], name: "index_pastes_on_user_id"
     t.index ["visibility", "created_at"], name: "index_pastes_on_visibility_and_created_at"
+  end
+
+  create_table "patreon_connections", force: :cascade do |t|
+    t.string "campaign_id"
+    t.datetime "created_at", null: false
+    t.datetime "last_synced_at"
+    t.string "patreon_user_id", null: false
+    t.string "patreon_username"
+    t.string "patron_status"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["patreon_user_id"], name: "index_patreon_connections_on_patreon_user_id", unique: true
+    t.index ["user_id"], name: "index_patreon_connections_on_user_id"
   end
 
   create_table "scratchpads", force: :cascade do |t|
@@ -266,6 +279,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_21_205635) do
     t.index ["user_id"], name: "index_user_sessions_on_user_id"
   end
 
+  create_table "userpages", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "paste_id"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["paste_id"], name: "index_userpages_on_paste_id"
+    t.index ["user_id"], name: "index_userpages_on_user_id", unique: true
+  end
+
   create_table "users", force: :cascade do |t|
     t.datetime "anonymized_at"
     t.text "ban_reason"
@@ -273,11 +295,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_21_205635) do
     t.datetime "created_at", null: false
     t.string "email", null: false
     t.bigint "invited_by_id"
+    t.boolean "is_supporter", default: false, null: false
     t.datetime "last_sign_in_at"
     t.string "last_sign_in_ip"
     t.string "link"
     t.string "password_digest", null: false
     t.integer "role", default: 0, null: false
+    t.boolean "show_supporter", default: true, null: false
     t.boolean "show_view_count", default: true, null: false
     t.datetime "updated_at", null: false
     t.string "username", null: false
@@ -295,6 +319,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_21_205635) do
   add_foreign_key "invite_codes", "users", column: "created_by_id"
   add_foreign_key "invite_codes", "users", column: "used_by_id"
   add_foreign_key "pastes", "users"
+  add_foreign_key "patreon_connections", "users"
   add_foreign_key "scratchpads", "users"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
@@ -305,5 +330,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_21_205635) do
   add_foreign_key "user_pins", "pastes"
   add_foreign_key "user_pins", "users"
   add_foreign_key "user_sessions", "users"
+  add_foreign_key "userpages", "pastes"
+  add_foreign_key "userpages", "users"
   add_foreign_key "users", "users", column: "invited_by_id"
 end

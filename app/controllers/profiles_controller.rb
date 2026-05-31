@@ -50,6 +50,8 @@ class ProfilesController < ApplicationController
       pastes_scope = pastes_scope.where("tags::text[] && ARRAY[?]::text[]", @selected_tags)
     end
 
+    @userpage_paste = Paste.find_by(id: @user.userpage&.paste_id) if @user.userpage&.paste_id.present?
+
     @pagy, @pastes = pagy(:offset, pastes_scope, limit: 8)
   end
 

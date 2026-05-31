@@ -7,6 +7,8 @@ class User < ApplicationRecord
   has_many :user_pins, -> { order(:position) }, dependent: :destroy
   has_many :user_pin_records, through: :user_pins, source: :paste
   has_one :scratchpad, dependent: :destroy
+  has_one :patreon_connection, dependent: :destroy
+  has_one :userpage, dependent: :destroy
 
   belongs_to :invited_by, class_name: "User", optional: true
   has_many :invitees, class_name: "User", foreign_key: "invited_by_id", dependent: :nullify
@@ -16,6 +18,7 @@ class User < ApplicationRecord
     format: { with: /\A(?!\d+\z)[a-zA-Z0-9_]+\z/, message: "May only contain letters (at least one), numbers, and underscores and must be between 3 and 20 characters long." }
 
   enum :role, { user: 0, pro: 1, deactivated: 2, banned: 3, admin: 999 }, default: :user
+  # Pro is deprecated as a role in favour of using the is_supporter column
 
   ACTIVATED_ROLES = %w[user pro admin].freeze
   INACTIVE_ROLES = %w[deactivated banned].freeze

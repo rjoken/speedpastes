@@ -25,6 +25,8 @@ Rails.application.routes.draw do
 
   get "/pastes", to: "pastes#index", as: :pastes
 
+  get "/support", to: "pages#support", as: :support
+
   resource :settings, only: [ :show, :update ] do
     post :data_export
     delete :account
@@ -41,6 +43,10 @@ Rails.application.routes.draw do
     patch :username
   end
 
+  post "/settings/patreon/connect", to: "settings#connect_patreon", as: :connect_patreon
+  get "/settings/patreon/callback", to: "settings#patreon_callback", as: :patreon_callback
+  delete "/settings/patreon/disconnect", to: "settings#disconnect_patreon", as: :disconnect_patreon
+
   resource :scratchpad, only: [ :show, :update ]
 
   get "/account_change/:token", to: "account_changes#show", as: :account_change
@@ -53,6 +59,8 @@ Rails.application.routes.draw do
 
   resources :user_pins, only: [ :create, :destroy, :update ]
 
+  resources :userpages, only: [ :create, :update, :destroy ]
+
   namespace :admin do
     resources :users, param: :username, only: [] do
       post :invite_codes, action: :generate_invite_codes
@@ -62,6 +70,8 @@ Rails.application.routes.draw do
       delete :remove_avatar
     end
   end
+
+  post "/webhook/patreon", to: "webhooks/patreon#create", as: :patreon_webhook
 
   match "/400", to: "errors#show", via: :all, defaults: { code: 400, message: "Bad Request" }
   match "/404", to: "errors#show", via: :all, defaults: { code: 404, message: "Not Found" }

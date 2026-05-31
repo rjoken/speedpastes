@@ -147,9 +147,139 @@ class SettingsController < ApplicationController
         redirect_to settings_path, notice: notice
     end
 
+    def connect_patreon
+        state = SecureRandom.hex(24)
+        session[:patreon_oauth_state] = state
+
+        authorize_uri = URI("https://www.patreon.com/oauth2/authorize")
+        authorize_uri.query = URI.encode_www_form(
+            response_type: "code",
+            client_id: ENV["PATREON_CLIENT_ID"],
+            redirect_uri: patreon_callback_url,
+            scope: "identity identity.memberships",
+            state: state
+        )
+
+        redirect_to authorize_uri.to_s, allow_other_host: true
+    end
+
+    def patreon_callback
+        expected_state = session.delete(:patreon_oauth_state).to_s
+        received_state = params[:state].to_s
+
+        if expected_state.blank? || received_state.blank? || expected_state != received_state
+            redirect_to settings_path, alert: "Invalid Patreon OAuth state. Please try again."
+            return
+        end
+
+        code = params[:code].to_s
+        redirect_to(settings_path, alert: "Missing Patreon authorization code") if code.blank?
+
+        token_payload = exchange_patreon_code_for_token(code)
+        identity_payload = fetch_patreon_identity(token_payload.fetch("access_token"))
+
+        puts "Patreon identity payload: #{identity_payload.inspect}"
+
+        patreon_user_id = identity_payload.dig("data", "id").to_s
+        if patreon_user_id.blank?
+            redirect_to settings_path, alert: "Failed to retrieve Patreon user ID"
+            return
+        end
+
+        existing = PatreonConnection.find_by(patreon_user_id: patreon_user_id)
+        if existing && existing.user_id != current_user.id
+            redirect_to settings_path, alert: "This Patreon account is already connected to a user"
+            return
+        end
+
+        patreon_username = identity_payload.dig("data", "attributes", "vanity").presence || identity_payload.dig("data", "attributes", "full_name").to_s || "anonymous"
+        patron_status = get_patron_status(identity_payload)
+
+        ActiveRecord::Base.transaction do
+          connection = PatreonConnection.find_or_initialize_by(user: current_user)
+          connection.update!(
+            patreon_user_id: patreon_user_id,
+            patreon_username: patreon_username,
+            patron_status: patron_status,
+            last_synced_at: Time.current
+          )
+
+          current_user.update!(is_supporter: true) if patron_status == "active_patron" && current_user.user?
+        end
+
+        redirect_to settings_path, notice: "Patreon account connected successfully"
+    rescue KeyError
+        redirect_to settings_path, alert: "Patreon connection is currently unavailable. Please try again later."
+    rescue StandardError => e
+        redirect_to settings_path, alert: "Failed to connect Patreon account: #{e.message}"
+    end
+
+    def disconnect_patreon
+        connection = current_user.patreon_connection
+        return redirect_to settings_path, alert: "No Patreon account connected" unless connection
+
+        ActiveRecord::Base.transaction do
+            connection.destroy!
+            current_user.update!(is_supporter: false)
+        end
+
+        redirect_to settings_path, notice: "Patreon account disconnected successfully"
+    end
+
     private
 
     def profile_params
-        params.require(:user).permit(:bio, :link, :avatar, :show_view_count)
+        params.require(:user).permit(:bio, :link, :avatar, :show_view_count, :show_supporter)
+    end
+
+    def exchange_patreon_code_for_token(code)
+      uri = URI("https://www.patreon.com/api/oauth2/token")
+      req = Net::HTTP::Post.new(uri)
+      req.set_form_data(
+        code: code,
+        grant_type: "authorization_code",
+        client_id: ENV["PATREON_CLIENT_ID"],
+        client_secret: ENV["PATREON_CLIENT_SECRET"],
+        redirect_uri: patreon_callback_url
+      )
+
+      res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(req) }
+      raise "Token exchange failed: #{res.code}" unless res.is_a?(Net::HTTPSuccess)
+
+      body = JSON.parse(res.body)
+      body
+    end
+
+    def fetch_patreon_identity(access_token)
+      uri = URI("https://www.patreon.com/api/oauth2/v2/identity?include=memberships,memberships.campaign&fields%5Bmember%5D=patron_status")
+      req = Net::HTTP::Get.new(uri)
+      req["Authorization"] = "Bearer #{access_token}"
+
+      res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(req) }
+      body = JSON.parse(res.body)
+
+      raise "Failed to fetch Patreon identity: #{res.code}" unless res.is_a?(Net::HTTPSuccess)
+
+      body
+    end
+
+    def get_patron_status(identity_payload)
+      campaign_id = ENV["PATREON_CAMPAIGN_ID"].to_s
+      return nil if campaign_id.blank?
+
+      memberships_data = Array(identity_payload.dig("data", "relationships", "memberships", "data"))
+      included = Array(identity_payload["included"])
+
+      memberships_data.each do |membership_ref|
+        membership_id = membership_ref["id"]
+        full_membership = included.find { |item| item["type"] == "member" && item["id"] == membership_id }
+
+        membership_campaign_id = full_membership.dig("relationships", "campaign", "data", "id").to_s
+        if membership_campaign_id == campaign_id
+          status = full_membership.dig("attributes", "patron_status").to_s
+          return status if status.present?
+        end
+      end
+      nil
     end
 end

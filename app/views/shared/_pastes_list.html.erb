@@ -48,6 +48,14 @@
                                 <% else %>
                                     <%= button_to "Pin", user_pins_path(paste_id: paste.id, user_id: @user.id), method: :post, data: { turbo_method: :post, turbo_frame: "_top" }, class: link_class(variant: :muted, size: :xs) %>
                                 <% end %>
+                                <% if @user.is_supporter? %>
+                                    <span>|</span>
+                                    <% if @user.userpage.nil? || @user.userpage.paste_id != paste.id %>
+                                        <%= button_to "Set userpage", userpages_path(user_id: @user.id, paste_id: paste.id), method: :post, data: { turbo_frame: "_top" }, class: link_class(variant: :muted, size: :xs) %>
+                                    <% else %>
+                                        <%= button_to "Remove userpage", userpage_path(@user.userpage, user_id: @user.id), method: :delete, data: { turbo_frame: "_top" }, class: link_class(variant: :muted, size: :xs) %>
+                                    <% end %>
+                                <% end %>
                             <% end %>
                         <% end %>
                     </div>

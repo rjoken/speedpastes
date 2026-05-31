@@ -66,6 +66,16 @@ module Users
             created_at: @user.created_at.iso8601
           },
           pastes: paste_entries,
+          user_pins: UserPin.where(user_id: @user.id).order(:position).map { |up|
+            {
+              id: up.id,
+              user_id: up.user_id,
+              paste_id: up.paste_id,
+              position: up.position,
+              created_at: up.created_at.iso8601,
+              updated_at: up.updated_at.iso8601
+            }
+          },
           scratchpad: {
             id: @user.scratchpad.id,
             body: @user.scratchpad.body,
@@ -79,6 +89,43 @@ module Users
               max_uses: ic.max_uses,
               used_at: ic.used_at&.iso8601,
               created_at: ic.created_at.iso8601
+            }
+          },
+          sessions: UserSession.where(user_id: @user.id).order(created_at: :desc).map { |s|
+            {
+              id: s.id,
+              user_id: s.user_id,
+              user_agent: s.user_agent,
+              ip_address: s.ip,
+              token_digest: s.token_digest,
+              created_at: s.created_at.iso8601,
+              updated_at: s.updated_at.iso8601,
+              expires_at: s.expires_at.iso8601,
+              revoked_at: s.revoked_at&.iso8601
+            }
+          },
+          account_change_requests: AccountChangeRequest.where(user_id: @user.id).order(created_at: :desc).map { |acr|
+            {
+              id: acr.id,
+              user_id: acr.user_id,
+              created_at: acr.created_at.iso8601,
+              updated_at: acr.updated_at.iso8601,
+              kind: acr.kind,
+              new_email: acr.new_email,
+              new_username: acr.new_username,
+              new_password_digest: acr.new_password_digest,
+              expires_at: acr.expires_at.iso8601,
+              used_at: acr.used_at&.iso8601
+            }
+          },
+          patreon_connection: PatreonConnection.where(user_id: @user.id).map { |pc|
+            {
+              user_id: pc.user_id,
+              patreon_user_id: pc.patreon_user_id,
+              patreon_username: pc.patreon_username,
+              last_synced_at: pc.last_synced_at&.iso8601,
+              created_at: pc.created_at.iso8601,
+              updated_at: pc.updated_at.iso8601
             }
           }
         }

@@ -146,4 +146,8 @@ class PastesController < ApplicationController
 
     raise ActiveRecord::RecordNotFound
   end
+
+  def is_markdown?(paste)
+    paste.render_type == "markdown"
+  end
 end
