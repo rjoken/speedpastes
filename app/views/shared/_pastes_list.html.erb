@@ -16,18 +16,19 @@
                         <span class="text-xs text-[var(--muted)] mt-1"> by <%= link_to paste.user.username, profile_path(paste.user.id), class: link_class(variant: :muted, size: :xs), data: { turbo: false } %></span>
                     <% end %>
 
-                    <div class="text-xs text-[var(--muted)] mt-1 flex items-center gap-1">
+                    <div class="text-xs text-[var(--muted)] mt-1 flex flex-wrap items-center gap-1">
                         <%= paste.created_at.strftime("%Y-%m-%d %H:%M") %>
                         <% if paste.user.show_view_count? || paste.user == current_user %>
                             <span>|</span> 
-                            <div class="text-xs text-[var(--muted)] flex gap-1" title="Total views"><%= heroicon "eye", options: {class: "w-4 h-4"} %> <%= paste.views %></div>
+                            <div class="text-xs text-[var(--muted)] flex gap-1" title="Total views"><%= icon "eye", variant: "solid", options: {class: "w-4 h-4"}, width: 16, height: 16, aria: { hidden: true } %> <%= paste.views %></div>
                         <% end %>
                         <% if current_user == paste.user || current_user&.admin? %>
                             <span>|</span> 
                             <%= render "shared/visibility", visibility: paste.visibility %>
-                            <span>|</span> 
+                            <span class="basis-full lg:hidden"></span>
+                            <span class="hidden lg:inline">|</span>
                             <%= link_to "Edit", edit_paste_path(paste), class: link_class(variant: :muted, size: :xs), data: { turbo: false } %> 
-                            <span>|</span> 
+                            <span>|</span>
                             <%= button_to "Delete", paste_path(paste, context: (@user.present? ? "profile" : "pastes")), method: :delete, data: { turbo_confirm: "Are you sure you want to delete this paste?", turbo_frame: "_top"}, form_class: "inline", class: link_class(variant: :muted, size: :xs) %>
                             <% if @user.present? %>
                                 <span>|</span>
@@ -37,23 +38,26 @@
                                     <% if pin_context %>
                                         <% can_move_up = current_user.user_pins.where("position < ?", pin.position).exists? %>
                                         <% can_move_down = current_user.user_pins.where("position > ?", pin.position).exists? %>
-                                        <span>|</span>
                                         <% if can_move_up %>
-                                            <%= button_to "↑", user_pin_path(id: pin.id, user_id: @user.id, direction: "up"), method: :patch, data: { turbo_method: :patch, turbo_frame: "_top" }, class: link_class(variant: :muted, size: :lg) %>
+                                            <%= button_to user_pin_path(id: pin.id, user_id: @user.id, direction: "up"), method: :patch, data: { turbo_method: :patch, turbo_frame: "_top" }, class: link_class(variant: :muted, size: :lg), title: "Move pin up", aria: { label: "Move pin up" } do %>
+                                                <%= icon "arrow-up", variant: "solid", class: link_class(variant: :muted, size: :lg), width: 16, height: 16, aria: { hidden: true } %>
+                                            <% end %>
                                         <% end %>
                                         <% if can_move_down %>
-                                            <%= button_to "↓", user_pin_path(id: pin.id, user_id: @user.id, direction: "down"), method: :patch, data: { turbo_method: :patch, turbo_frame: "_top" }, class: link_class(variant: :muted, size: :lg) %>
+                                            <%= button_to user_pin_path(id: pin.id, user_id: @user.id, direction: "down"), method: :patch, data: { turbo_method: :patch, turbo_frame: "_top" }, class: link_class(variant: :muted, size: :lg), title: "Move pin down", aria: { label: "Move pin down" } do %>
+                                                <%= icon "arrow-down", variant: "solid", class: link_class(variant: :muted, size: :lg), width: 16, height: 16, aria: { hidden: true } %>
+                                            <% end %>
                                         <% end %>
                                     <% end %>
                                 <% else %>
                                     <%= button_to "Pin", user_pins_path(paste_id: paste.id, user_id: @user.id), method: :post, data: { turbo_method: :post, turbo_frame: "_top" }, class: link_class(variant: :muted, size: :xs) %>
                                 <% end %>
                                 <% if @user.is_supporter? %>
-                                    <span>|</span>
+                                    <span>|</span> 
                                     <% if @user.userpage.nil? || @user.userpage.paste_id != paste.id %>
-                                        <%= button_to "Set userpage", userpages_path(user_id: @user.id, paste_id: paste.id), method: :post, data: { turbo_frame: "_top" }, class: link_class(variant: :muted, size: :xs) %>
+                                        <%= button_to "Set userpage",userpages_path(user_id: @user.id, paste_id: paste.id), method: :post, data: { turbo_frame: "_top" }, class: link_class(variant: :muted, size: :xs) %>
                                     <% else %>
-                                        <%= button_to "Remove userpage", userpage_path(@user.userpage, user_id: @user.id), method: :delete, data: { turbo_frame: "_top" }, class: link_class(variant: :muted, size: :xs) %>
+                                        <%= button_to "Unset userpage", userpage_path(@user.userpage, user_id: @user.id), method: :delete, data: { turbo_frame: "_top" }, class: link_class(variant: :muted, size: :xs) %>
                                     <% end %>
                                 <% end %>
                             <% end %>

@@ -1,0 +1,9 @@
+A report has been submitted for the following paste:
+<%= @report.url %>
+
+Details:
+<%= @report.details %>
+
+<% if @report.reply_to.present? %>
+Contact: <%= @report.reply_to %>
+<% end %>

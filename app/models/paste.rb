@@ -2,6 +2,7 @@ class Paste < ApplicationRecord
   belongs_to :user
 
   has_many :user_pins, dependent: :destroy
+  has_one :userpage, dependent: :destroy
 
   enum :visibility, { open: 0, unlisted: 1 }
 

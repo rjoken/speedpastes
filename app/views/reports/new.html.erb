@@ -1,0 +1,29 @@
+<%= render "shared/heading", title: "New report" do %>
+    <div class="p-4">
+        <%= form_with url: reports_path, method: :post, class: "space-y-4" do %>
+            <%= hidden_field_tag :shortcode, @shortcode %>
+
+            <div>
+                Paste URL: <a href="<%= ENV['ROOT_URL'] %>/<%= @shortcode %>" class="<%= link_class(variant: :external, size: :md) %>" target="_blank" rel="noopener"><%= ENV['ROOT_URL'] %>/<%= @shortcode %></a>
+            </div>
+
+            <div>
+                <%= label_tag :details, "Report details", class: "block text-sm font-semibold" %>
+                <%= text_area_tag :details, nil, rows: 4, required: true, class: "mt-1 w-full border border-[var(--border)] px-3 py-2 pre" %>
+            </div>
+
+            <div>
+                <%= label_tag :reply_to, "Your email (optional)", class: "block text-sm font-semibold" %>
+                <%= email_field_tag :reply_to, nil, autocomplete: "email", class: "mt-1 w-full border border-[var(--border)] px-3 py-2" %>
+                <div class="text-xs text-[var(--text-muted)] mt-1">Email is optional to provide for the event that you want us to contact you about the result of this report.</div>
+            </div>
+
+            <div class="flex justify-end pt-1">
+                <%= submit_tag "Submit report", class: button_class(variant: :default, size: :md) %>
+            </div>
+
+        <% end %>
+    </div>
+<% end %>
+
+

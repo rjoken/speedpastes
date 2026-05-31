@@ -24,7 +24,7 @@
 
         <div class="md:hidden" data-controller="dropdown">
             <button id="navbar-hamburger" class="ml-2" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navbar-menu" data-action="click->dropdown#toggle">
-                <%= heroicon "bars-3", options: { class: "w-6 h-6 text-[var(--text)]" } %>
+                <%= icon "bars-3", options: { class: "w-6 h-6 text-[var(--text)]" }, width: 24, height: 24 %>
             </button>
             <div data-dropdown-target="menu" class="absolute right-0 mt-2 w-48 border border-[var(--border)] bg-[var(--surface)] shadow-lg hidden md:hidden" data-action="click@window->dropdown#close">
                 <%= link_to "New", new_paste_path, class: "block px-4 py-2 text-sm hover:bg-[var(--surface2)]" %>

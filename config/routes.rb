@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount RailsIcons::Engine, at: "/rails_icons"
   root "home#index"
 
   get "/favicon.ico", to: redirect("/assets/favicon.ico")
@@ -60,6 +61,8 @@ Rails.application.routes.draw do
   resources :user_pins, only: [ :create, :destroy, :update ]
 
   resources :userpages, only: [ :create, :update, :destroy ]
+
+  resources :reports, only: [ :new, :create ]
 
   namespace :admin do
     resources :users, param: :username, only: [] do
