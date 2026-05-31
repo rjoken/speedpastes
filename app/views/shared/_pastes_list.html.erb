@@ -16,7 +16,7 @@
                         <span class="text-xs text-[var(--muted)] mt-1"> by <%= link_to paste.user.username, profile_path(paste.user.id), class: link_class(variant: :muted, size: :xs), data: { turbo: false } %></span>
                     <% end %>
 
-                    <div class="text-xs text-[var(--muted)] mt-1 flex items-center gap-1">
+                    <div class="text-xs text-[var(--muted)] mt-1 flex flex-wrap items-center gap-1">
                         <%= paste.created_at.strftime("%Y-%m-%d %H:%M") %>
                         <% if paste.user.show_view_count? || paste.user == current_user %>
                             <span>|</span> 
@@ -25,19 +25,16 @@
                         <% if current_user == paste.user || current_user&.admin? %>
                             <span>|</span> 
                             <%= render "shared/visibility", visibility: paste.visibility %>
+                            <span class="basis-full lg:hidden"></span>
+                            <span class="hidden lg:inline">|</span>
+                            <%= link_to "Edit", edit_paste_path(paste), class: link_class(variant: :muted, size: :xs), data: { turbo: false } %> 
                             <span>|</span>
-                            <%= link_to edit_paste_path(paste), class: link_class(variant: :muted, size: :xs), data: { turbo: false }, aria: { label: "Edit paste" }, title: "Edit paste" do %> 
-                                <%= icon "pencil", variant: "solid", class: link_class(variant: :muted, size: :xs), width: 16, height: 16, aria: { hidden: true } %>
-                            <% end %>
-                            <%= button_to paste_path(paste, context: (@user.present? ? "profile" : "pastes")), method: :delete, data: { turbo_confirm: "Are you sure you want to delete this paste?", turbo_frame: "_top"}, form_class: "inline", class: link_class(variant: :muted, size: :xs), title: "Delete paste", aria: { label: "Delete paste" } do %>
-                                <%= icon "trash", variant: "solid", class: link_class(variant: :muted, size: :xs), width: 16, height: 16, aria: { hidden: true } %>
-                            <% end %>
+                            <%= button_to "Delete", paste_path(paste, context: (@user.present? ? "profile" : "pastes")), method: :delete, data: { turbo_confirm: "Are you sure you want to delete this paste?", turbo_frame: "_top"}, form_class: "inline", class: link_class(variant: :muted, size: :xs) %>
                             <% if @user.present? %>
+                                <span>|</span>
                                 <% pin = current_user.user_pins.find_by(paste_id: paste.id) %>
                                 <% if pin.present? %>
-                                    <%= button_to user_pin_path(id: pin.id, user_id: @user.id), method: :delete, data: { turbo_method: :delete, turbo_frame: "_top" }, class: link_class(variant: :muted, size: :xs), title: "Unpin paste", aria: { label: "Unpin paste" } do %>
-                                        <%= icon "pin-slash", library: "sidekickicons", variant: "solid", class: link_class(variant: :muted, size: :xs), width: 16, height: 16, aria: { hidden: true } %>
-                                    <% end %>
+                                    <%= button_to "Unpin", user_pin_path(id: pin.id, user_id: @user.id), method: :delete, data: { turbo_method: :delete, turbo_frame: "_top" }, class: link_class(variant: :muted, size: :xs) %>
                                     <% if pin_context %>
                                         <% can_move_up = current_user.user_pins.where("position < ?", pin.position).exists? %>
                                         <% can_move_down = current_user.user_pins.where("position > ?", pin.position).exists? %>
@@ -53,19 +50,14 @@
                                         <% end %>
                                     <% end %>
                                 <% else %>
-                                    <%= button_to user_pins_path(paste_id: paste.id, user_id: @user.id), method: :post, data: { turbo_method: :post, turbo_frame: "_top" }, class: link_class(variant: :muted, size: :xs), title: "Pin paste", aria: { label: "Pin paste" } do %>
-                                        <%= icon "pin", library: "sidekickicons", variant: "solid", class: link_class(variant: :muted, size: :xs), width: 16, height: 16, aria: { hidden: true } %>
-                                    <% end %>
+                                    <%= button_to "Pin", user_pins_path(paste_id: paste.id, user_id: @user.id), method: :post, data: { turbo_method: :post, turbo_frame: "_top" }, class: link_class(variant: :muted, size: :xs) %>
                                 <% end %>
                                 <% if @user.is_supporter? %>
+                                    <span>|</span> 
                                     <% if @user.userpage.nil? || @user.userpage.paste_id != paste.id %>
-                                        <%= button_to userpages_path(user_id: @user.id, paste_id: paste.id), method: :post, data: { turbo_frame: "_top" }, class: link_class(variant: :muted, size: :xs), title: "Set userpage", aria: { label: "Set userpage" } do %>
-                                            <%= icon "home", variant: "solid", class: link_class(variant: :muted, size: :xs), width: 16, height: 16, aria: { hidden: true } %>
-                                        <% end %>
+                                        <%= button_to "Set userpage",userpages_path(user_id: @user.id, paste_id: paste.id), method: :post, data: { turbo_frame: "_top" }, class: link_class(variant: :muted, size: :xs) %>
                                     <% else %>
-                                        <%= button_to  userpage_path(@user.userpage, user_id: @user.id), method: :delete, data: { turbo_frame: "_top" }, class: link_class(variant: :muted, size: :xs), title: "Remove userpage", aria: { label: "Remove userpage" } do %>
-                                            <%= icon "home", variant: "outline", class: link_class(variant: :muted, size: :xs), width: 16, height: 16, aria: { hidden: true } %>
-                                        <% end %>
+                                        <%= button_to "Unset userpage", userpage_path(@user.userpage, user_id: @user.id), method: :delete, data: { turbo_frame: "_top" }, class: link_class(variant: :muted, size: :xs) %>
                                     <% end %>
                                 <% end %>
                             <% end %>
