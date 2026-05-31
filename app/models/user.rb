@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :user_pin_records, through: :user_pins, source: :paste
   has_one :scratchpad, dependent: :destroy
   has_one :patreon_connection, dependent: :destroy
+  has_one :userpage, dependent: :destroy
 
   belongs_to :invited_by, class_name: "User", optional: true
   has_many :invitees, class_name: "User", foreign_key: "invited_by_id", dependent: :nullify
