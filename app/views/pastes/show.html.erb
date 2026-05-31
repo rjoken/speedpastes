@@ -32,7 +32,12 @@
           <%= button_to "Delete", paste_path(@paste), method: :delete, data: { turbo_confirm: "Are you sure you want to delete this paste?" }, form_class: "inline-flex", class: link_class(variant: :muted, size: :xs) %>
           <span class="text-xs text-[var(--muted)]">|</span>
         <% end %>
+        <span class="text-xs text-[var(--muted)]">|</span>
         <%= link_to "View raw", raw_paste_path(@paste.shortcode), class: link_class(variant: :muted, size: :xs), target: "_blank", rel: "noopener" %>
+        <% if current_user != @paste.user && !current_user&.admin? %>
+          <span class="text-xs text-[var(--muted)]">|</span>
+          <%= link_to "Report", new_report_path(shortcode: @paste.shortcode), class: link_class(variant: :muted, size: :xs) %>
+        <% end %>
   </div>
   <% if @paste.tags.any? %>
     <div class="flex items-center gap-2 mb-4 flex-wrap">
