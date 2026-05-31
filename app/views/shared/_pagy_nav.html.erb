@@ -5,11 +5,11 @@
     <%# Prev %>
     <% if pagy.previous %>
         <%= link_to pagy.page_url(pagy.previous), class: pagy_nav_class(variant: :active), aria: { label: "Previous page" } do %>
-            <%= heroicon "chevron-left", options: { class: "h-5 w-5" } %>
+            <%= icon "chevron-left", options: { class: "h-5 w-5" }, width: 20, height: 20 %>
         <% end %>
     <% else %>
         <span class="<%= pagy_nav_class(variant: :inactive) %>" aria-disabled="true">
-            <%= heroicon "chevron-left", options: { class: "h-5 w-5" } %>
+            <%= icon "chevron-left", options: { class: "h-5 w-5" }, width: 20, height: 20 %>
         </span>
     <% end %>
 
@@ -43,11 +43,11 @@
     <%# Next %>
     <% if pagy.next %>
         <%= link_to pagy.page_url(pagy.next), class: pagy_nav_class(variant: :active), aria: { label: "Next page" } do %>
-            <%= heroicon "chevron-right", options: { class: "h-5 w-5" } %>
+            <%= icon "chevron-right", options: { class: "h-5 w-5" }, width: 20, height: 20 %>
         <% end %>
     <% else %>
         <span class="<%= pagy_nav_class(variant: :inactive) %>" aria-disabled="true">
-            <%= heroicon "chevron-right", options: { class: "h-5 w-5" } %>
+            <%= icon "chevron-right", options: { class: "h-5 w-5" }, width: 20, height: 20 %>
         </span>
     <% end %>
 </nav>

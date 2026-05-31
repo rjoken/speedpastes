@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount RailsIcons::Engine, at: '/rails_icons'
   root "home#index"
 
   get "/favicon.ico", to: redirect("/assets/favicon.ico")
