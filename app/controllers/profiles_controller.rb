@@ -90,4 +90,10 @@ class ProfilesController < ApplicationController
 
     @pagy, @users = pagy(:offset, users_scope, limit: 16)
   end
+
+  private
+
+  def page_style_owner
+    @user if @user.is_supporter?
+  end
 end

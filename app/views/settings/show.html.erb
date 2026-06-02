@@ -84,10 +84,29 @@
                                     <%= f.label :show_supporter, "Show supporter tag on my profile" %>
                                     <%= f.check_box :show_supporter %>
                                 </div>
+                                <div class="text-md font-bold">Profile styling</div>
+                                <div class="text-sm text-[var(--muted)]">Ugly is fine. Make it legible, or I will reset it :)</div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                    <% User::PROFILE_STYLE_SCHEMA.each do |variable, config| %>
+                                        <div class="flex flex-col gap-1">
+                                            <%= f.label "profile_style_#{variable}", variable, class: "text-sm font-medium" %>
+
+                                            <% value = current_user.profile_style.to_h[variable] %>
+
+                                            <% case config[:type] %>
+                                            <% when :color %>
+                                                <%= text_field_tag("user[profile_style][#{variable}]", value, id: "user_profile_style_#{variable}", placeholder: "No override", pattern: "#[0-9a-fA-F]{6}", class: "w-full border-[var(--border-muted)] bg-[var(--surface)] px-2 py-1 text-[var(--text)]") %>
+                                            <% end %>
+                                        </div>
+                                    <% end %>
+                                </div>
                                 <div class="flex justify-end mt-4">
                                     <%= f.submit "Update Settings", class: button_class(variant: :default, size: :md) %>
                                 </div>
                             <% end %>
+
+                            
+
                         </div>
                     <% end %>
                 </div>

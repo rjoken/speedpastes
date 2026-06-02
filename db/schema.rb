@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_31_002813) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_01_212547) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -300,6 +300,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_31_002813) do
     t.string "last_sign_in_ip"
     t.string "link"
     t.string "password_digest", null: false
+    t.jsonb "profile_style", default: {}, null: false
     t.integer "role", default: 0, null: false
     t.boolean "show_supporter", default: true, null: false
     t.boolean "show_view_count", default: true, null: false

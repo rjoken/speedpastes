@@ -26,6 +26,34 @@ class User < ApplicationRecord
   scope :activated, -> { where(role: ACTIVATED_ROLES) }
   scope :inactive, -> { where(role: INACTIVE_ROLES) }
 
+  PROFILE_STYLE_SCHEMA = {
+    "--bg" => { type: :color },
+    "--surface" => { type: :color },
+    "--surface2" => { type: :color },
+    "--border" => { type: :color },
+    "--text" => { type: :color },
+    "--button-border" => { type: :color },
+    "--button-bg" => { type: :color },
+    "--button-bg-hover" => { type: :color },
+    "--border-danger" => { type: :color },
+    "--bg-danger" => { type: :color },
+    "--text-danger" => { type: :color },
+    "--button-bg-danger" => { type: :color },
+    "--button-bg-danger-hover" => { type: :color },
+    "--border-muted" => { type: :color },
+    "--muted" => { type: :color },
+    "--external-link" => { type: :color }
+  }.freeze
+
+  PROFILE_STYLE_KEYS = PROFILE_STYLE_SCHEMA.keys.freeze
+
+  HEX_COLOR_REGEX = /\A#[0-9a-fA-F]{6}\z/
+
+  before_validation :normalize_profile_style
+
+  validate :profile_style_overrides_are_allowed
+  validate :profile_style_overrides_are_valid
+
   def show_view_count?
     show_view_count
   end
@@ -40,5 +68,36 @@ class User < ApplicationRecord
 
   def build_scratchpad
     scratchpad || create_scratchpad
+  end
+
+  private
+
+  def normalize_profile_style
+    self.profile_style = profile_style
+      .to_h
+      .transform_values { |value| value.is_a?(String) ? value.strip : value }
+      .compact_blank
+      .slice(*PROFILE_STYLE_KEYS)
+  end
+
+  def profile_style_overrides_are_allowed
+    unknown_keys = profile_style.to_h.keys - PROFILE_STYLE_KEYS
+
+    return if unknown_keys.empty?
+
+    errors.add(:profile_style, "contains unknown keys: #{unknown_keys.join(', ')}")
+  end
+
+  def profile_style_overrides_are_valid
+    profile_style.to_h.each do |key, value|
+      case PROFILE_STYLE_SCHEMA.dig(key, :type)
+      when :color
+        next if value.is_a?(String) && value.match?(HEX_COLOR_REGEX)
+
+        errors.add(:profile_style, "#{key} must be a valid hex color")
+      else
+        errors.add(:profile_style, "#{key} has an unsupported type")
+      end
+    end
   end
 end

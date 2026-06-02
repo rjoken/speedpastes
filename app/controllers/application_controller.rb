@@ -6,6 +6,8 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user, :signed_in?, :admin?, :activated_user?
 
+  helper_method :page_style_owner
+
   before_action :load_current_user
 
   private
@@ -51,5 +53,9 @@ class ApplicationController < ActionController::Base
 
   def admin?
     current_user&.admin?
+  end
+
+  def page_style_owner
+    nil
   end
 end
