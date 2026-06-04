@@ -27,6 +27,9 @@ module Users
                 # Purge avatar
                 @user.avatar.purge_later if @user.respond_to?(:avatar)
 
+                # Purge background image
+                @user.background_image.purge_later if @user.respond_to?(:background_image)
+
                 # Anonymize user data
                 anon_username = generate_unique_username
                 anon_email = "#{anon_username}@speedpastes.org"

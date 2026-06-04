@@ -1,23 +1,25 @@
 // Import and register all your controllers from the importmap via controllers/**/*_controller
-import { application } from "controllers/application"
-import DropdownController from "controllers/dropdown_controller"
-import LinenumbersEditorController from "controllers/linenumbers_editor_controller"
-import PasteViewerController from "controllers/paste_viewer_controller"
-import InviteCodesController from "controllers/invite_codes_controller"
-import ThemeController from "controllers/theme_controller"
-import SearchQueryController from "controllers/search_query_controller"
-import PrefillController from "controllers/prefill_controller"
-import MarkdownPreviewController from "controllers/markdown_preview_controller"
-import AprilFoolsController from "controllers/aprilfools_controller"
-import { eagerLoadControllersFrom } from "@hotwired/stimulus-loading"
-eagerLoadControllersFrom("controllers", application)
+import { application } from "controllers/application";
+import DropdownController from "controllers/dropdown_controller";
+import LinenumbersEditorController from "controllers/linenumbers_editor_controller";
+import PasteViewerController from "controllers/paste_viewer_controller";
+import InviteCodesController from "controllers/invite_codes_controller";
+import ThemeController from "controllers/theme_controller";
+import SearchQueryController from "controllers/search_query_controller";
+import PrefillController from "controllers/prefill_controller";
+import MarkdownPreviewController from "controllers/markdown_preview_controller";
+import AprilFoolsController from "controllers/aprilfools_controller";
+import ColorPickerController from "controllers/color_picker_controller";
+import { eagerLoadControllersFrom } from "@hotwired/stimulus-loading";
+eagerLoadControllersFrom("controllers", application);
 
-application.register("dropdown", DropdownController)
-application.register("linenumbers-editor", LinenumbersEditorController)
-application.register("invite-codes", InviteCodesController)
-application.register("theme", ThemeController)
-application.register("paste-viewer", PasteViewerController)
-application.register("search-query", SearchQueryController)
-application.register("prefill", PrefillController)
-application.register("markdown-preview", MarkdownPreviewController)
-application.register("aprilfools", AprilFoolsController)
+application.register("dropdown", DropdownController);
+application.register("linenumbers-editor", LinenumbersEditorController);
+application.register("invite-codes", InviteCodesController);
+application.register("theme", ThemeController);
+application.register("paste-viewer", PasteViewerController);
+application.register("search-query", SearchQueryController);
+application.register("prefill", PrefillController);
+application.register("markdown-preview", MarkdownPreviewController);
+application.register("aprilfools", AprilFoolsController);
+application.register("color-picker", ColorPickerController);

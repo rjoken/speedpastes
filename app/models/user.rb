@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_secure_password
   has_one_attached :avatar
+  has_one_attached :background_image
   has_many :pastes, dependent: :destroy
   has_many :user_sessions, dependent: :destroy
   has_many :account_change_requests, dependent: :destroy
@@ -27,27 +28,28 @@ class User < ApplicationRecord
   scope :inactive, -> { where(role: INACTIVE_ROLES) }
 
   PROFILE_STYLE_SCHEMA = {
-    "--bg" => { type: :color },
-    "--surface" => { type: :color },
-    "--surface2" => { type: :color },
-    "--border" => { type: :color },
-    "--text" => { type: :color },
-    "--button-border" => { type: :color },
-    "--button-bg" => { type: :color },
-    "--button-bg-hover" => { type: :color },
-    "--border-danger" => { type: :color },
-    "--bg-danger" => { type: :color },
-    "--text-danger" => { type: :color },
-    "--button-bg-danger" => { type: :color },
-    "--button-bg-danger-hover" => { type: :color },
-    "--border-muted" => { type: :color },
-    "--muted" => { type: :color },
-    "--external-link" => { type: :color }
+    "--bg" => { type: :color, label: "Page background" },
+    "--surface" => { type: :color, label: "Primary surface" },
+    "--surface2" => { type: :color, label: "Secondary surface" },
+    "--border" => { type: :color, label: "Border" },
+    "--text" => { type: :color, label: "Text" },
+    "--button-border" => { type: :color, label: "Button border" },
+    "--button-bg" => { type: :color, label: "Button background" },
+    "--button-bg-hover" => { type: :color, label: "Button hover background" },
+    "--border-danger" => { type: :color, label: "Danger border" },
+    "--bg-danger" => { type: :color, label: "Danger background" },
+    "--text-danger" => { type: :color, label: "Danger text" },
+    "--button-bg-danger" => { type: :color, label: "Danger button background" },
+    "--button-bg-danger-hover" => { type: :color, label: "Danger button hover background" },
+    "--border-muted" => { type: :color, label: "Muted border" },
+    "--muted" => { type: :color, label: "Muted text" },
+    "--external-link" => { type: :color, label: "External link" },
+    "--bg-display" => { type: :choice, label: "Background display mode", choices: [ "tile", "stretch", "center" ] }
   }.freeze
 
   PROFILE_STYLE_KEYS = PROFILE_STYLE_SCHEMA.keys.freeze
 
-  HEX_COLOR_REGEX = /\A#[0-9a-fA-F]{6}\z/
+  HEX_COLOR_REGEX = /\A(?:#[0-9a-fA-F]{3}|#[0-9a-fA-F]{6}|#[0-9a-fA-F]{8})\z/.freeze
 
   before_validation :normalize_profile_style
 
@@ -95,6 +97,11 @@ class User < ApplicationRecord
         next if value.is_a?(String) && value.match?(HEX_COLOR_REGEX)
 
         errors.add(:profile_style, "#{key} must be a valid hex color")
+      when :choice
+        choices = PROFILE_STYLE_SCHEMA.dig(key, :choices)
+        next if choices.include?(value)
+
+        errors.add(:profile_style, "#{key} must be one of: #{choices.join(', ')}")
       else
         errors.add(:profile_style, "#{key} has an unsupported type")
       end

@@ -1,0 +1,8 @@
+<% size ||= 32 %>
+<%= link_to profile_path(user.id) do %>
+    <% if user.background_image.attached? %>
+        <%= image_tag user.background_image, class: "border border-[var(--border)]", style: "max-height: 200px; width: auto; height: auto; object-fit: cover;" %>
+    <% else %>
+        <div class="text-sm text-[var(--text)] border border-[var(--border)] w-64 h-64 flex items-center justify-center">No background image</div>
+    <% end %>
+<% end %>

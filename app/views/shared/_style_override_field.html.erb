@@ -1,0 +1,36 @@
+<% value = user.profile_style.to_h[variable] %>
+<% input_id = "user_profile_style_#{variable.to_s.parameterize}" %>
+
+<div class="flex flex-col gap-1" data-controller="color-picker" data-color-picker-empty-class="opacity-40">
+    <%= label_tag input_id, label.presence || variable, class: "text-sm font-medium" %>
+
+    <div class="flex items-center gap-2">
+        <%= color_field_tag(
+            nil, 
+            value.presence || "#00000000", 
+            id: "#{input_id}_picker", 
+            class: "h-9 w-12 border border-[var(--border-muted)] bg-[var(--surface)]",
+            data: { 
+                color_picker_target: "picker", 
+                action: "input->color-picker#pick" 
+            }
+        ) %>
+
+        <%= text_field_tag(
+            "user[profile_style][#{variable}]",
+            value,
+            id: input_id,
+            placeholder: "No override",
+            pattern: /\A(?:#[0-9a-fA-F]{3}|#[0-9a-fA-F]{6}|#[0-9a-fA-F]{8})\z/,
+            class: "w-full border-[var(--border-muted)] bg-[var(--surface)] px-2 py-1 text-[var(--text)]",
+            data: {
+                color_picker_target: "input",
+                action: "input->color-picker#type"
+            }
+        ) %>
+
+        <button type="button" class="<%= button_class(variant: :default, size: :sm) %>">
+            Clear
+        </button>
+    </div>
+</div>
