@@ -53,7 +53,7 @@
                                 </div>
                             <% end %>
                         </div>
-                    <div>
+                    </div>
                 </div>
             </details>
 
@@ -91,7 +91,7 @@
                                     <%= render "shared/background_image", user: current_user %>
                                     <% if current_user.background_image.attached? %>
                                         <div class="mt-2">
-                                            <%= button_to "Remove background image", background_image_settings_path, method: :delete, data: { turbo_confirm: "Remove your background image?" }, form_class: "inline", class: button_class(variant: :default, size: :sm) %>
+                                            <%= link_to "Remove background image", background_image_settings_path, data: { turbo_confirm: "Remove your background image?", turbo_method: :delete }, form_class: "inline", class: button_class(variant: :default, size: :sm) %>
                                         </div>
                                     <% end %>
 
@@ -102,8 +102,15 @@
                                     <div class="text-xs text-[var(--muted)] mt-1 flex flex-row-reverse">PNG/JPG/WEBP/GIF</div>
 
                                     <div class="flex flex-row items-center gap-2">
-                                        <%= f.label :background_display, "Background display mode", class: "block text-sm font-semibold w-full" %>
-                                        <%= f.select :background_display, User::PROFILE_STYLE_SCHEMA["--bg-display"][:choices], {}, class: "mt-1 block w-full text-sm border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface2)] px-3 py-2" %>
+                                        <% bg_display_value = current_user.profile_style["--bg-display"] %>
+                                        <% bg_display_choices = User::PROFILE_STYLE_SCHEMA["--bg-display"][:choices] %>
+                                        <%= label_tag "user_profile_style_bg_display", "Background display mode", class: "block text-sm font-semibold w-full" %>
+                                        <%= select_tag(
+                                                "user[profile_style][--bg-display]",
+                                                options_for_select([["Default", ""]] + bg_display_choices.map { |v| [v.titleize, v] }, bg_display_value),
+                                                id: "user_profile_style_bg_display",
+                                                class: "mt-1 block w-full text-sm border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface2)] px-3 py-2"
+                                            ) %>
                                     </div>
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -113,7 +120,7 @@
                                     <% end %>
                                 </div>
                                 <div class="flex justify-end mt-4">
-                                    <%= f.submit "Update Settings", class: button_class(variant: :default, size: :md) %>
+                                    <%= f.submit "Update settings", class: button_class(variant: :default, size: :md) %>
                                 </div>
                             <% end %>
                         </div>

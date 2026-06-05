@@ -233,7 +233,7 @@ class SettingsController < ApplicationController
     private
 
     def profile_params
-        params.require(:user).permit(:bio, :link, :avatar, :show_view_count, :show_supporter, :background_image, :background_display, profile_style: User::PROFILE_STYLE_KEYS)
+        params.require(:user).permit(:bio, :link, :avatar, :show_view_count, :show_supporter, :background_image, profile_style: User::PROFILE_STYLE_KEYS)
     end
 
     def exchange_patreon_code_for_token(code)

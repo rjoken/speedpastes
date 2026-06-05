@@ -6,17 +6,22 @@ export default class extends Controller {
 
   pick() {
     this.inputTarget.value = this.pickerTarget.value;
+    this.sync();
   }
 
   type() {
     const value = this.inputTarget.value.trim();
-
-    if (HEX_COLOR_REGEX.text(value)) {
-      this.pickerTarget.value = value;
-    }
+    this.sync();
   }
 
   clear() {
     this.inputTarget.value = "";
+    this.sync();
+  }
+
+  sync() {
+    const value = this.inputTarget.value.trim();
+
+    this.pickerTarget.value = value;
   }
 }
