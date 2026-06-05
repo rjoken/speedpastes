@@ -94,6 +94,6 @@ class ProfilesController < ApplicationController
   private
 
   def page_style_owner
-    @user if @user.is_supporter?
+    @user if @user&.is_supporter?
   end
 end
