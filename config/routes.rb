@@ -33,6 +33,7 @@ Rails.application.routes.draw do
     delete :account
 
     delete :avatar
+    delete :background_image
     post :import_pastebin
 
     patch "revoke_session/:id", to: "settings#revoke_session", as: :revoke_session

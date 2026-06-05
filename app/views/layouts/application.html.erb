@@ -56,7 +56,7 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="min-h-screen bg-[var(--bg)] text-[var(--text)]">
+  <body class="min-h-screen bg-[var(--bg)] text-[var(--text)]" style="<%= profile_style_overrides_attribute(page_style_owner) if page_style_owner.present? %>">
   <% if signed_in? && current_user.banned? %>
     <%= render "shared/banned" %>
   <% elsif signed_in? && current_user.inactive? %>

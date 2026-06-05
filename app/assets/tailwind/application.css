@@ -1,292 +1,311 @@
 @import "tailwindcss";
 
 @layer base {
-    html {
-        font-family: Ubuntu, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
-        image-rendering: crisp-edges;
-    }
+  html {
+    font-family:
+      Ubuntu,
+      ui-sans-serif,
+      system-ui,
+      -apple-system,
+      "Segoe UI",
+      Roboto,
+      "Helvetica Neue",
+      Arial,
+      "Noto Sans",
+      "Liberation Sans",
+      sans-serif;
+    image-rendering: crisp-edges;
+  }
 
-    [data-april-fools="true"] {
-        font-family: "Comic Sans MS", "Comic Sans", "Comic Neue", cursive, sans-serif;
-    }
+  [data-april-fools="true"] {
+    font-family:
+      "Comic Sans MS", "Comic Sans", "Comic Neue", cursive, sans-serif;
+  }
 
-    button,
-    [type="button"],
-    [type="submit"],
-    [role="button"] {
-        @apply cursor-pointer;
-    }
+  button,
+  [type="button"],
+  [type="submit"],
+  [role="button"] {
+    @apply cursor-pointer;
+  }
 }
 
 :root {
-    --bg: var(--color-slate-900);
-    --surface: var(--color-slate-800);
-    --surface2: var(--color-slate-900);
-    --border: var(--color-cyan-900);
-    --text: var(--color-slate-100);
-    --button-border: var(--color-cyan-700);
-    --button-bg: var(--color-cyan-800);
-    --button-bg-hover: var(--color-cyan-700);
-    --border-danger: var(--color-slate-200);
-    --bg-danger: var(--color-red-700);
-    --text-danger: var(--color-slate-100);
-    --button-bg-danger: var(--color-red-600);
-    --button-bg-danger-hover: var(--color-red-500);
-    --border-muted: var(--color-cyan-800);
-    --muted: var(--color-slate-300);
-    --external-link: var(--color-blue-400);
+  --bg: var(--color-slate-900);
+  --surface: var(--color-slate-800);
+  --surface2: var(--color-slate-900);
+  --border: var(--color-cyan-900);
+  --text: var(--color-slate-100);
+  --button-border: var(--color-cyan-700);
+  --button-bg: var(--color-cyan-800);
+  --button-bg-hover: var(--color-cyan-700);
+  --border-danger: var(--color-slate-200);
+  --bg-danger: var(--color-red-700);
+  --text-danger: var(--color-slate-100);
+  --button-bg-danger: var(--color-red-600);
+  --button-bg-danger-hover: var(--color-red-500);
+  --border-muted: var(--color-cyan-800);
+  --muted: var(--color-slate-300);
+  --external-link: var(--color-blue-400);
 }
 
-
-
 [data-theme="cyber"] {
-    --bg: var(--color-slate-900);
-    --surface: var(--color-slate-800);
-    --surface2: var(--color-slate-900);
-    --border: var(--color-cyan-900);
-    --text: var(--color-slate-100);
-    --button-border: var(--color-cyan-700);
-    --button-bg: var(--color-cyan-800);
-    --button-bg-hover: var(--color-cyan-700);
-    --border-danger: var(--color-slate-200);
-    --bg-danger: var(--color-red-700);
-    --text-danger: var(--color-slate-100);
-    --button-bg-danger: var(--color-red-600);
-    --button-bg-danger-hover: var(--color-red-500);
-    --border-muted: var(--color-cyan-800);
-    --muted: var(--color-slate-300);
-    --external-link: var(--color-blue-400);
+  --bg: var(--color-slate-900);
+  --surface: var(--color-slate-800);
+  --surface2: var(--color-slate-900);
+  --border: var(--color-cyan-900);
+  --text: var(--color-slate-100);
+  --button-border: var(--color-cyan-700);
+  --button-bg: var(--color-cyan-800);
+  --button-bg-hover: var(--color-cyan-700);
+  --border-danger: var(--color-slate-200);
+  --bg-danger: var(--color-red-700);
+  --text-danger: var(--color-slate-100);
+  --button-bg-danger: var(--color-red-600);
+  --button-bg-danger-hover: var(--color-red-500);
+  --border-muted: var(--color-cyan-800);
+  --muted: var(--color-slate-300);
+  --external-link: var(--color-blue-400);
 }
 
 [data-theme="mono"] {
-    --bg: var(--color-black);
-    --surface: var(--color-black);
-    --surface2: var(--color-black);
-    --border: var(--color-white);
-    --text: var(--color-slate-100);
-    --button-border: var(--color-white);
-    --button-bg: var(--color-slate-950);
-    --button-bg-hover: var(--color-slate-800);
-    --border-danger: var(--color-slate-200);
-    --bg-danger: var(--color-red-700);
-    --text-danger: var(--color-slate-100);
-    --button-bg-danger: var(--color-red-600);
-    --button-bg-danger-hover: var(--color-red-500);
-    --border-muted: var(--color-slate-300);
-    --muted: var(--color-slate-200);
-    --external-link: var(--color-blue-400);
+  --bg: var(--color-black);
+  --surface: var(--color-black);
+  --surface2: var(--color-black);
+  --border: var(--color-white);
+  --text: var(--color-slate-100);
+  --button-border: var(--color-white);
+  --button-bg: var(--color-slate-950);
+  --button-bg-hover: var(--color-slate-800);
+  --border-danger: var(--color-slate-200);
+  --bg-danger: var(--color-red-700);
+  --text-danger: var(--color-slate-100);
+  --button-bg-danger: var(--color-red-600);
+  --button-bg-danger-hover: var(--color-red-500);
+  --border-muted: var(--color-slate-300);
+  --muted: var(--color-slate-200);
+  --external-link: var(--color-blue-400);
 }
 
 [data-theme="matrix"] {
-    --bg: var(--color-black);
-    --surface: var(--color-black);
-    --surface2: var(--color-black);
-    --border: var(--color-green-500);
-    --text: var(--color-slate-100);
-    --button-border: var(--color-green-500);
-    --button-bg: var(--color-slate-950);
-    --button-bg-hover: var(--color-green-950);
-    --border-danger: var(--color-slate-200);
-    --bg-danger: var(--color-red-700);
-    --text-danger: var(--color-slate-100);
-    --button-bg-danger: var(--color-red-600);
-    --button-bg-danger-hover: var(--color-red-500);
-    --border-muted: var(--color-green-700);
-    --muted: var(--color-slate-100);
-    --external-link: var(--color-blue-400);
+  --bg: var(--color-black);
+  --surface: var(--color-black);
+  --surface2: var(--color-black);
+  --border: var(--color-green-500);
+  --text: var(--color-slate-100);
+  --button-border: var(--color-green-500);
+  --button-bg: var(--color-slate-950);
+  --button-bg-hover: var(--color-green-950);
+  --border-danger: var(--color-slate-200);
+  --bg-danger: var(--color-red-700);
+  --text-danger: var(--color-slate-100);
+  --button-bg-danger: var(--color-red-600);
+  --button-bg-danger-hover: var(--color-red-500);
+  --border-muted: var(--color-green-700);
+  --muted: var(--color-slate-100);
+  --external-link: var(--color-blue-400);
 }
 
 [data-theme="blackpink"] {
-    --bg: var(--color-black);
-    --surface: var(--color-neutral-900);
-    --surface2: var(--color-neutral-950);
-    --border: var(--color-fuchsia-800);
-    --text: var(--color-slate-100);
-    --button-border: var(--color-fuchsia-800);
-    --button-bg: var(--color-slate-950);
-    --button-bg-hover: var(--color-fuchsia-950);
-    --border-danger: var(--color-slate-200);
-    --bg-danger: var(--color-red-700);
-    --text-danger: var(--color-slate-100);
-    --button-bg-danger: var(--color-red-600);
-    --button-bg-danger-hover: var(--color-red-500);
-    --border-muted: var(--color-fuchsia-900);
-    --muted: var(--color-slate-100);
-    --external-link: var(--color-blue-400);
+  --bg: var(--color-black);
+  --surface: var(--color-neutral-900);
+  --surface2: var(--color-neutral-950);
+  --border: var(--color-fuchsia-800);
+  --text: var(--color-slate-100);
+  --button-border: var(--color-fuchsia-800);
+  --button-bg: var(--color-slate-950);
+  --button-bg-hover: var(--color-fuchsia-950);
+  --border-danger: var(--color-slate-200);
+  --bg-danger: var(--color-red-700);
+  --text-danger: var(--color-slate-100);
+  --button-bg-danger: var(--color-red-600);
+  --button-bg-danger-hover: var(--color-red-500);
+  --border-muted: var(--color-fuchsia-900);
+  --muted: var(--color-slate-100);
+  --external-link: var(--color-blue-400);
 }
 
 [data-theme="hospital"] {
-    --bg: var(--color-slate-100);
-    --surface: var(--color-white);
-    --surface2: var(--color-slate-50);
-    --border: var(--color-slate-300);
-    --text: var(--color-slate-900);
-    --button-border: var(--color-slate-400);
-    --button-bg: var(--color-slate-200);
-    --button-bg-hover: var(--color-slate-300);
-    --border-danger: var(--color-red-400);
-    --bg-danger: var(--color-red-50);
-    --text-danger: var(--color-red-700);
-    --button-bg-danger: var(--color-red-100);
-    --button-bg-danger-hover: var(--color-red-200);
-    --border-muted: var(--color-slate-200);
-    --muted: var(--color-slate-500);
-    --external-link: var(--color-blue-400);
+  --bg: var(--color-slate-100);
+  --surface: var(--color-white);
+  --surface2: var(--color-slate-50);
+  --border: var(--color-slate-300);
+  --text: var(--color-slate-900);
+  --button-border: var(--color-slate-400);
+  --button-bg: var(--color-slate-200);
+  --button-bg-hover: var(--color-slate-300);
+  --border-danger: var(--color-red-400);
+  --bg-danger: var(--color-red-50);
+  --text-danger: var(--color-red-700);
+  --button-bg-danger: var(--color-red-100);
+  --button-bg-danger-hover: var(--color-red-200);
+  --border-muted: var(--color-slate-200);
+  --muted: var(--color-slate-500);
+  --external-link: var(--color-blue-400);
 }
 
 [data-theme="olive"] {
-    --bg: var(--color-lime-200);
-    --surface: var(--color-lime-100);
-    --surface2: var(--color-lime-200);
-    --border: var(--color-lime-500);
-    --text: var(--color-slate-900);
-    --button-border: var(--color-lime-500);
-    --button-bg: var(--color-lime-100);
-    --button-bg-hover: var(--color-lime-200);
-    --border-danger: var(--color-red-400);
-    --bg-danger: var(--color-red-200);
-    --text-danger: var(--color-red-900);
-    --button-bg-danger: var(--color-red-100);
-    --button-bg-danger-hover: var(--color-red-200);
-    --border-muted: var(--color-lime-400);
-    --muted: var(--color-slate-700);
-    --external-link: var(--color-blue-400);
+  --bg: var(--color-lime-200);
+  --surface: var(--color-lime-100);
+  --surface2: var(--color-lime-200);
+  --border: var(--color-lime-500);
+  --text: var(--color-slate-900);
+  --button-border: var(--color-lime-500);
+  --button-bg: var(--color-lime-100);
+  --button-bg-hover: var(--color-lime-200);
+  --border-danger: var(--color-red-400);
+  --bg-danger: var(--color-red-200);
+  --text-danger: var(--color-red-900);
+  --button-bg-danger: var(--color-red-100);
+  --button-bg-danger-hover: var(--color-red-200);
+  --border-muted: var(--color-lime-400);
+  --muted: var(--color-slate-700);
+  --external-link: var(--color-blue-400);
 }
 
 [data-theme="sky"] {
-    --bg: var(--color-sky-200);
-    --surface: var(--color-sky-100);
-    --surface2: var(--color-sky-200);
-    --border: var(--color-sky-500);
-    --text: var(--color-slate-900);
-    --button-border: var(--color-sky-500);
-    --button-bg: var(--color-sky-100);
-    --button-bg-hover: var(--color-sky-200);
-    --border-danger: var(--color-red-400);
-    --bg-danger: var(--color-red-200);
-    --text-danger: var(--color-red-900);
-    --button-bg-danger: var(--color-red-100);
-    --button-bg-danger-hover: var(--color-red-200);
-    --border-muted: var(--color-sky-400);
-    --muted: var(--color-slate-700);
-    --external-link: var(--color-blue-400);
+  --bg: var(--color-sky-200);
+  --surface: var(--color-sky-100);
+  --surface2: var(--color-sky-200);
+  --border: var(--color-sky-500);
+  --text: var(--color-slate-900);
+  --button-border: var(--color-sky-500);
+  --button-bg: var(--color-sky-100);
+  --button-bg-hover: var(--color-sky-200);
+  --border-danger: var(--color-red-400);
+  --bg-danger: var(--color-red-200);
+  --text-danger: var(--color-red-900);
+  --button-bg-danger: var(--color-red-100);
+  --button-bg-danger-hover: var(--color-red-200);
+  --border-muted: var(--color-sky-400);
+  --muted: var(--color-slate-700);
+  --external-link: var(--color-blue-400);
 }
 
 [data-theme="peach"] {
-    --bg: var(--color-orange-200);
-    --surface: var(--color-orange-100);
-    --surface2: var(--color-orange-200);
-    --border: var(--color-orange-500);
-    --text: var(--color-slate-900);
-    --button-border: var(--color-orange-500);
-    --button-bg: var(--color-orange-100);
-    --button-bg-hover: var(--color-orange-200);
-    --border-danger: var(--color-red-400);
-    --bg-danger: var(--color-red-200);
-    --text-danger: var(--color-red-900);
-    --button-bg-danger: var(--color-red-100);
-    --button-bg-danger-hover: var(--color-red-200);
-    --border-muted: var(--color-orange-400);
-    --muted: var(--color-slate-700);
-    --external-link: var(--color-blue-400);
+  --bg: var(--color-orange-200);
+  --surface: var(--color-orange-100);
+  --surface2: var(--color-orange-200);
+  --border: var(--color-orange-500);
+  --text: var(--color-slate-900);
+  --button-border: var(--color-orange-500);
+  --button-bg: var(--color-orange-100);
+  --button-bg-hover: var(--color-orange-200);
+  --border-danger: var(--color-red-400);
+  --bg-danger: var(--color-red-200);
+  --text-danger: var(--color-red-900);
+  --button-bg-danger: var(--color-red-100);
+  --button-bg-danger-hover: var(--color-red-200);
+  --border-muted: var(--color-orange-400);
+  --muted: var(--color-slate-700);
+  --external-link: var(--color-blue-400);
 }
 
-
-
 #markdown-content {
-    /* Override april fools joke for markdown content. I'm not that evil. */
-    font-family: Ubuntu, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  /* Override april fools joke for markdown content. I'm not that evil. */
+  font-family:
+    Ubuntu,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    "Noto Sans",
+    "Liberation Sans",
+    sans-serif;
 }
 
 #markdown-content a {
-    color: var(--external-link);
-    text-decoration: underline;
+  color: var(--external-link);
+  text-decoration: underline;
 }
 
 #markdown-content h1 {
-    font-size: 2em;
-    font-weight: bold;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
+  font-size: 2em;
+  font-weight: bold;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
 }
 
 #markdown-content h2 {
-    font-size: 1.5em;
-    font-weight: bold;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
 }
 
 #markdown-content h3 {
-    font-size: 1.25em;
-    font-weight: bold;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
+  font-size: 1.25em;
+  font-weight: bold;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
 }
 
 #markdown-content h4 {
-    font-size: 1em;
-    font-weight: bold;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
+  font-size: 1em;
+  font-weight: bold;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
 }
 
 #markdown-content h5 {
-    font-size: 0.9em;
-    font-weight: bold;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
+  font-size: 0.9em;
+  font-weight: bold;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
 }
 
 #markdown-content h6 {
-    font-size: 0.85em;
-    font-weight: bold;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
+  font-size: 0.85em;
+  font-weight: bold;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
 }
 
 #markdown-content ul {
-    list-style: disc;
-    padding-left: 1.5rem;
+  list-style: disc;
+  padding-left: 1.5rem;
 }
 
 #markdown-content ol {
-    list-style: decimal;
-    margin: 0.75rem 0;
-    padding-left: 1.5rem;
+  list-style: decimal;
+  margin: 0.75rem 0;
+  padding-left: 1.5rem;
 }
 
 #markdown-content li {
-    margin: 0.25rem 0;
+  margin: 0.25rem 0;
 }
 
 #markdown-content p {
-    margin: 0.75rem 0;
-    line-height: 1.4rem;
+  margin: 0.75rem 0;
+  line-height: 1.4rem;
 }
 
 #markdown-content blockquote {
-    margin: 0;
-    padding: 0 1em;
-    color: var(--muted);
-    border-left: .25em solid var(--border);
+  margin: 0;
+  padding: 0 1em;
+  color: var(--muted);
+  border-left: 0.25em solid var(--border);
 }
 
 #markdown-content table {
-    border-spacing: 0;
-    border-collapse: collapse;
-    display: block;
-    width: max-content;
-    max-width: 100%;
-    overflow: auto;
+  border-spacing: 0;
+  border-collapse: collapse;
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  overflow: auto;
 }
 
 #markdown-content table tr {
-    border-top: 1px solid var(--border);
+  border-top: 1px solid var(--border);
 }
 
 #markdown-content table th,
 td {
-    padding: 6px 13px;
-    border: 1px solid var(--border);
+  padding: 6px 13px;
+  border: 1px solid var(--border);
 }

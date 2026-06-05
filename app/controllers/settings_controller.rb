@@ -43,6 +43,12 @@ class SettingsController < ApplicationController
         redirect_to settings_path, notice: "Avatar removed successfully"
     end
 
+    def background_image
+        user = current_user
+        user.background_image.purge_later if user.background_image.attached?
+        redirect_to settings_path, notice: "Background image removed successfully"
+    end
+
     # POST /settings/data_export
     def data_export
         zip_path, zip_filename = Users::ZipExport.call(user: current_user)
@@ -227,7 +233,7 @@ class SettingsController < ApplicationController
     private
 
     def profile_params
-        params.require(:user).permit(:bio, :link, :avatar, :show_view_count, :show_supporter)
+        params.require(:user).permit(:bio, :link, :avatar, :show_view_count, :show_supporter, :background_image, profile_style: User::PROFILE_STYLE_KEYS)
     end
 
     def exchange_patreon_code_for_token(code)

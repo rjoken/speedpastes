@@ -47,6 +47,11 @@ class Admin::UsersController < ApplicationController
         redirect_to profile_path(@user.id), notice: "User avatar has been removed."
     end
 
+    def remove_background_image
+        @user.background_image.purge_later
+        redirect_to profile_path(@user.id), notice: "User background image has been removed."
+    end
+
     private
 
     def require_admin!
