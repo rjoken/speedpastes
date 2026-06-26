@@ -1,3 +1,5 @@
+<% content_for :title, "Scratchpad" %>
+
 <%= render "shared/heading", title: "Your scratchpad", description: "Your scratchpad is a personal area attached to your account where you can jot down notes and access them anywhere without publishing them. Content is saved automatically." do %>
   <%= form_with model: @scratchpad, url: scratchpad_path, method: :patch, local: false, data: {controller: "autosave" } do |f| %>
     <%= render "shared/paste_editor", f: f, field: :body, rows: 20, autosave: true %>
