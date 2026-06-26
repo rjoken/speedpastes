@@ -1,3 +1,5 @@
+<% content_for :title, "Report paste" %>
+
 <%= render "shared/heading", title: "New report" do %>
     <div class="p-4">
         <%= form_with url: reports_path, method: :post, class: "space-y-4" do %>

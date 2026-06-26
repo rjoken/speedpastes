@@ -1,3 +1,5 @@
+<% content_for :title, "#{@paste.title}" %>
+
 <% content_for :head do %>
   <meta property="og:title" content="<%= @paste.title %>">
   <meta property="og:description" content="<%= truncate(@paste.body, length: 200) %>">

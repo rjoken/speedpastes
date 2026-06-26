@@ -1,10 +1,14 @@
 <!DOCTYPE HTML>
 <html data-theme="cyber">
   <head>
-    <title>Speedpastes</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <% if content_for?(:title) %>
+      <title><%= yield(:title) %> | Speedpastes</title>
+    <% elsif !content_for?(:head) %>
+      <title>Speedpastes</title>
+    <% end %>
     <%= yield :head %>
-    <% unless content_for?(:head) %>
+    <% unless content_for?(:head) || content_for?(:title) %>
       <meta property="og:title" content="Speedpastes">
       <meta property="og:description" content="A simple, ad and virus-free, invite-only text sharing platform">
     <% end %>
