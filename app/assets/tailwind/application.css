@@ -125,6 +125,82 @@
   --external-link: var(--color-blue-400);
 }
 
+[data-theme="fuchsia"] {
+  --bg: #552b88;
+  --surface: #603b94;
+  --surface2: #512d82;
+  --border: #8f60ca;
+  --text: var(--color-slate-100);
+  --button-border: #8f60ca;
+  --button-bg: #5514a8;
+  --button-bg-hover: #421083;
+  --border-danger: var(--color-slate-200);
+  --bg-danger: var(--color-red-700);
+  --text-danger: var(--color-slate-100);
+  --button-bg-danger: var(--color-red-600);
+  --button-bg-danger-hover: var(--color-red-500);
+  --border-muted: #8d76d1;
+  --muted: var(--color-slate-300);
+  --external-link: var(--color-blue-600);
+}
+
+[data-theme="seafloor"] {
+  --bg: #2f3c90;
+  --surface: #333986;
+  --surface2: #282975;
+  --border: #6065ca;
+  --text: var(--color-slate-100);
+  --button-border: #6065ca;
+  --button-bg: #1439a8;
+  --button-bg-hover: #101d83;
+  --border-danger: var(--color-slate-200);
+  --bg-danger: var(--color-red-700);
+  --text-danger: var(--color-slate-100);
+  --button-bg-danger: var(--color-red-600);
+  --button-bg-danger-hover: var(--color-red-500);
+  --border-muted: #7694d1;
+  --muted: var(--color-slate-300);
+  --external-link: var(--color-blue-600);
+}
+
+[data-theme="firebrick"] {
+  --bg: #571c1c;
+  --surface: #702d2d;
+  --surface2: #923535;
+  --border: #f47f7f;
+  --text: var(--color-slate-100);
+  --button-border: #f47f7f;
+  --button-bg: #841010;
+  --button-bg-hover: #4e0a0a;
+  --border-danger: var(--color-slate-200);
+  --bg-danger: var(--color-slate-700);
+  --text-danger: var(--color-slate-100);
+  --button-bg-danger: var(--color-slate-600);
+  --button-bg-danger-hover: var(--color-slate-500);
+  --border-muted: #d17676;
+  --muted: var(--color-slate-300);
+  --external-link: var(--color-blue-600);
+}
+
+[data-theme="forest"] {
+  --bg: #21672e;
+  --surface: #2a4a2a;
+  --surface2: #1f3a1f;
+  --border: #4c8c4c;
+  --text: var(--color-slate-100);
+  --button-border: #4c8c4c;
+  --button-bg: #346c34;
+  --button-bg-hover: #285828;
+  --border-danger: var(--color-slate-200);
+  --bg-danger: var(--color-red-700);
+  --text-danger: var(--color-slate-100);
+  --button-bg-danger: var(--color-red-600);
+  --button-bg-danger-hover: var(--color-red-500);
+  --border-muted: #66b666;
+  --muted: var(--color-slate-300);
+  --external-link: var(--color-blue-600);
+}
+
 [data-theme="hospital"] {
   --bg: var(--color-slate-100);
   --surface: var(--color-white);
