@@ -126,9 +126,9 @@
 }
 
 [data-theme="fuchsia"] {
-  --bg: #5a2f90;
-  --surface: #66419d;
-  --surface2: #57318b;
+  --bg: #552b88;
+  --surface: #603b94;
+  --surface2: #512d82;
   --border: #8f60ca;
   --text: var(--color-slate-100);
   --button-border: #8f60ca;
@@ -165,8 +165,8 @@
 
 [data-theme="firebrick"] {
   --bg: #571c1c;
-  --surface: #7d3333;
-  --surface2: #9f3b3b;
+  --surface: #702d2d;
+  --surface2: #923535;
   --border: #f47f7f;
   --text: var(--color-slate-100);
   --button-border: #f47f7f;
