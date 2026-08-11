@@ -1,6 +1,7 @@
 class HomeController < ApplicationController
   def index
     @latest_pastes = Paste.open
+                          .where(hide_frontpage: false)
                           .joins(:user)
                           .merge(User.activated)
                           .order(created_at: :desc)
