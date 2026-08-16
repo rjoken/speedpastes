@@ -10,6 +10,7 @@ import PrefillController from "controllers/prefill_controller";
 import MarkdownPreviewController from "controllers/markdown_preview_controller";
 import AprilFoolsController from "controllers/aprilfools_controller";
 import ColorPickerController from "controllers/color_picker_controller";
+import UnsavedChangesController from "controllers/unsaved_changes_controller";
 import { eagerLoadControllersFrom } from "@hotwired/stimulus-loading";
 eagerLoadControllersFrom("controllers", application);
 
@@ -23,3 +24,4 @@ application.register("prefill", PrefillController);
 application.register("markdown-preview", MarkdownPreviewController);
 application.register("aprilfools", AprilFoolsController);
 application.register("color-picker", ColorPickerController);
+application.register("unsaved-changes", UnsavedChangesController);

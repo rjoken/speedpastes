@@ -3,7 +3,7 @@
     data-markdown-preview-url-value="<%= preview_pastes_path %>" 
     data-action="input->markdown-preview#queue change->markdown-preview#queue">
     <div class="p-4">
-    <%= form_with model: @paste, class: "space-y-3" do |f| %>
+    <%= form_with data: { controller: "unsaved-changes" }, model: @paste, class: "space-y-3" do |f| %>
         <% if @paste.errors.any? %>
             <div class="border border-red-300 bg-red-50 p-3 text-sm">
                 <div class="font-bold mb-1">Error</div>
@@ -17,7 +17,7 @@
 
         <div>
             <%= f.label :title, "Title", class: "block text-sm font-semibold" %>
-            <%= f.text_field :title, class: "mt-1 w-full border border-[var(--border)] px-3 py-2" %>
+            <%= f.text_field :title, class: "mt-1 w-full border border-[var(--border)] px-3 py-2", data: { unsaved_changes_target: "title" } %>
         </div>
 
         <div>
@@ -34,7 +34,7 @@
 
         <div>
             <%= f.label :tags, "Tags (comma separated)", class: "block text-sm font-semibold" %>
-            <%= f.text_field :tags, value: @paste.tags.join(", "), class: "mt-1 w-full border border-[var(--border)] px-3 py-2" %>
+            <%= f.text_field :tags, value: @paste.tags.join(", "), class: "mt-1 w-full border border-[var(--border)] px-3 py-2", data: { unsaved_changes_target: "tags" } %>
             <div class="text-xs text-[var(--muted)] mt-1">
                 <p>Tags are optional and can be used to categorize your paste.</p>
                 <p>Separate multiple tags with commas. E.g. "pokemon, faq, hgss, gen 4"</p>
