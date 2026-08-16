@@ -13,6 +13,7 @@
             class: "flex-1 resize-none overflow-auto px-3 py-3 font-mono text-sm leading-5 focus:outline-none",
             data: {
                 linenumbers_editor_target: "input",
+                unsaved_changes_target: "body",
                 action: "input->linenumbers-editor#update scroll->linenumbers-editor#syncScroll keydown->linenumbers-editor#keydown"
             }.merge(local_assigns[:autosave] ? { autosave_target: "input" } : {})
         %>
