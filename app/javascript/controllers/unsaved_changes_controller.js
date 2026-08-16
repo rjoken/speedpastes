@@ -12,12 +12,14 @@ export default class extends Controller {
 
     this.beforeUnloadHandler = this.onBeforeUnload.bind(this);
     this.turboBeforeVisitHandler = this.onTurboBeforeVisit.bind(this);
+    this.submitHandler = this.onSubmit.bind(this);
 
     window.addEventListener("beforeunload", this.beforeUnloadHandler);
     document.addEventListener(
       "turbo:before-visit",
       this.turboBeforeVisitHandler,
     );
+    this.element.addEventListener("submit", this.submitHandler);
   }
 
   disconnect() {
@@ -26,6 +28,15 @@ export default class extends Controller {
       "turbo:before-visit",
       this.turboBeforeVisitHandler,
     );
+    this.element.removeEventListener("submit", this.submitHandler);
+  }
+
+  onSubmit() {
+    this.initialValues = {
+      title: this.titleTarget.value,
+      body: this.bodyTarget.value,
+      tags: this.tagsTarget.value,
+    };
   }
 
   onBeforeUnload(event) {
