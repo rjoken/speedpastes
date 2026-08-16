@@ -63,7 +63,8 @@ module Users
                         paste = @user.pastes.new(
                             title: title.presence,
                             body: data.to_s,
-                            visibility: visibility
+                            visibility: visibility,
+                            hide_frontpage: true
                         )
 
                         # Try to reuse shortcode if it looks acceptable
