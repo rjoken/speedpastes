@@ -22,7 +22,8 @@
 
         <div>
             <%= f.label :body, "Paste", class: "block text-sm font-semibold" %>
-            <%= render "shared/paste_editor", f: f, field: :body, rows: 14 %>
+            <%= render "shared/paste_editor", f: f, field: :body, rows: 14, image_upload: true %>
+            <p class="text-xs text-[var(--muted)] mt-1">With markdown enabled, paste or drag an image here to upload it.</p>
         </div>
 
         <div>

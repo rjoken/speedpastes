@@ -10,13 +10,19 @@ module Users
 
         def call
             User.transaction do
+                paste_ids = Paste.where(user_id: @user.id).pluck(:id)
+
+                # Anyone may pin or feature this user's pastes, so clear those
+                # references before the pastes they point at go away
+                UserPin.where(paste_id: paste_ids).delete_all
+                UserPin.where(user_id: @user.id).delete_all
+                Userpage.where(paste_id: paste_ids).update_all(paste_id: nil)
+
                 # Delete pastes
-                Paste.where(user_id: @user.id).delete_all
+                Paste.where(id: paste_ids).delete_all
 
                 # Delete invitations
                 User.where(invited_by_id: @user.id).update_all(invited_by_id: nil)
-
-                UserPin.where(user_id: @user.id).delete_all
 
                 PatreonConnection.where(user_id: @user.id).delete_all
 
@@ -29,6 +35,8 @@ module Users
 
                 # Purge background image
                 @user.background_image.purge_later if @user.respond_to?(:background_image)
+
+                @user.paste_images.purge_later if @user.respond_to?(:paste_images)
 
                 # Anonymize user data
                 anon_username = generate_unique_username

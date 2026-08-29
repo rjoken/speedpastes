@@ -23,3 +23,11 @@ other:
   password_digest: <%= BCrypt::Password.create('password') %>
   bio: I am another regular user.
   role: 0
+
+deactivated:
+  id: 4
+  email: deactivated@speedpastes.org
+  username: deactivated
+  password_digest: <%= BCrypt::Password.create('password') %>
+  bio: I am a deactivated user.
+  role: 2
