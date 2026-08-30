@@ -5,7 +5,7 @@
     <div class="p-4">
     <%= form_with data: { controller: "unsaved-changes" }, model: @paste, class: "space-y-3" do |f| %>
         <% if @paste.errors.any? %>
-            <div class="border border-red-300 bg-red-50 p-3 text-sm">
+            <div class="border border-[var(--border-danger)] bg-[var(--bg-danger)] text-[var(--text-danger)] p-3 text-sm">
                 <div class="font-bold mb-1">Error</div>
                 <ul class="list-disc pl-5">
                     <% @paste.errors.full_messages.each do |msg| %>

@@ -24,7 +24,7 @@
         <% @latest_pastes.each do |paste| %>
           <div class="text-sm">
             <div class="grid grid-cols-12 items-center">
-              <%= link_to short_paste_path(paste.shortcode), class: "#{link_class(variant: :bold)} col-span-9 truncate" do %>
+              <%= link_to short_paste_path(paste.shortcode), class: "#{link_class(variant: :bold)} col-span-9 truncate", title: paste.title do %>
                 <%= paste.title %>
               <% end %>
               <span class="col-span-3 text-right text-xs text-[var(--muted)]"><%= time_ago_in_words(paste.created_at) %> ago</span>
