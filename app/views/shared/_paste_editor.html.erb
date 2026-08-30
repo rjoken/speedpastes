@@ -1,5 +1,30 @@
-<%# locals: f:, field:, rows: (optional), placeholder: (optional), autosave: (optional) %>
-<div class="border border-[var(--border)] bg-[var(--surface)] shadow-sm overflow-hidden" data-controller="linenumbers-editor">
+<%# locals: f:, field:, rows: (optional), placeholder: (optional), autosave: (optional), image_upload: (optional) %>
+<%
+    image_upload = local_assigns[:image_upload]
+
+    wrapper_data = { controller: "linenumbers-editor" }
+    if image_upload
+        wrapper_data[:controller] = "linenumbers-editor image-paste"
+        wrapper_data[:image_paste_url_value] = images_pastes_path
+        wrapper_data[:image_paste_max_size_value] = PasteImages::Upload::MAX_BYTES
+    end
+
+    actions = %w[
+        input->linenumbers-editor#update
+        scroll->linenumbers-editor#syncScroll
+        keydown->linenumbers-editor#keydown
+    ]
+    actions += %w[paste->image-paste#onPaste dragover->image-paste#onDragover drop->image-paste#onDrop] if image_upload
+
+    input_data = {
+        linenumbers_editor_target: "input",
+        unsaved_changes_target: "body",
+        action: actions.join(" ")
+    }
+    input_data[:autosave_target] = "input" if local_assigns[:autosave]
+    input_data[:image_paste_target] = "input" if image_upload
+%>
+<%= tag.div class: "border border-[var(--border)] bg-[var(--surface)] shadow-sm overflow-hidden", data: wrapper_data do %>
     <div class="flex max-h-[480px] overflow-hidden">
         <pre class="select-none shrink-0 w-14 bg-[var(--surface2)] overflow-hidden border-r border-[var(--border-muted)] text-right pr-2 pl-2 py-3 font-mono text-sm leading-5 text-[var(--muted)]"
             data-linenumbers-editor-target="numbers"
@@ -11,11 +36,7 @@
             placeholder: (local_assigns[:placeholder] || ""),
             wrap: "soft",
             class: "flex-1 resize-none overflow-x-hidden overflow-y-auto px-3 py-3 font-mono text-sm leading-5 focus:outline-none whitespace-pre-wrap break-words",
-            data: {
-                linenumbers_editor_target: "input",
-                unsaved_changes_target: "body",
-                action: "input->linenumbers-editor#update scroll->linenumbers-editor#syncScroll keydown->linenumbers-editor#keydown"
-            }.merge(local_assigns[:autosave] ? { autosave_target: "input" } : {})
+            data: input_data
         %>
     </div>
 
@@ -24,4 +45,12 @@
         data-linenumbers-editor-target="mirror"
         aria-hidden="true"
     ></pre>
-</div>
+
+    <% if image_upload %>
+        <div class="hidden border-t border-[var(--border-danger)] bg-[var(--bg-danger)] text-[var(--text-danger)] px-3 py-2 text-sm"
+            data-image-paste-target="status"
+            role="status"
+            aria-live="polite"></div>
+    <% end %>
+<% end %>
+

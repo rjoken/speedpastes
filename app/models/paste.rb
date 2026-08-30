@@ -17,6 +17,19 @@ class Paste < ApplicationRecord
 
   before_update :stamp_edited_at, if: :content_changed?
 
+  # Wanna try and have actual words as part of the title,
+  # but don't need to be too serious about it.
+  # Definitely strip markdown image formatting, though.
+  IMAGE_SYNTAX = /!\[[^\]]*\]\s*(?:\([^)]*\)|\[[^\]]*\])/
+  TITLE_ALLOWED = /[^[:alnum:]\s.,-_]/
+
+  def default_title
+    text = body.to_s.gsub(IMAGE_SYNTAX, " ").gsub(TITLE_ALLOWED, " ")
+    words = text.split.select { |word| word.match?(/[[:alnum:]]/) }.first(5)
+
+    words.join(" ").presence&.truncate(255) || "Untitled paste"
+  end
+
   def content_changed?
     will_save_change_to_body? || will_save_change_to_title? || will_save_change_to_tags?
   end

@@ -2,6 +2,7 @@ class User < ApplicationRecord
   has_secure_password
   has_one_attached :avatar
   has_one_attached :background_image
+  has_many_attached :paste_images
   has_many :pastes, dependent: :destroy
   has_many :user_sessions, dependent: :destroy
   has_many :account_change_requests, dependent: :destroy

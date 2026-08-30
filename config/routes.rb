@@ -56,6 +56,7 @@ Rails.application.routes.draw do
   resources :pastes, except: [ :index, :show ] do
     collection do
       post :preview
+      post :images, to: "paste_images#create"
     end
   end
 
