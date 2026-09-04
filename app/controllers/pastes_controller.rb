@@ -12,6 +12,7 @@ class PastesController < ApplicationController
   def create
     @paste = current_user.pastes.new(paste_params)
     @paste.title = @paste.default_title if @paste.title.blank?
+
     if @paste.save
       redirect_to short_paste_path(@paste.shortcode)
     else
@@ -32,11 +33,12 @@ class PastesController < ApplicationController
   end
 
   def edit
-    require_owner_or_admin!(@paste)
+    require_editor_or_admin!(@paste)
   end
 
   def update
-    require_owner_or_admin!(@paste)
+    require_editor_or_admin!(@paste)
+
     if @paste.update(paste_params)
       redirect_to short_paste_path(@paste.shortcode)
     else
@@ -121,9 +123,24 @@ class PastesController < ApplicationController
   private
 
   def paste_params
-    permitted = params.require(:paste).permit(:title, :body, :visibility, :tags, :render_type, :hide_frontpage)
+    permitted_attrs = [ :title, :body, :visibility, :tags, :render_type, :hide_frontpage ]
+    permitted_attrs << { collaborators: [] } if can_manage_collaborators?
+
+    permitted = params.require(:paste).permit(*permitted_attrs)
     permitted[:tags] = normalize_tags(permitted[:tags]) if permitted[:tags].present?
+    permitted[:collaborators] = normalize_collaborators(permitted[:collaborators]) if can_manage_collaborators?
     permitted
+  end
+
+  def can_manage_collaborators?
+    action_name == "create" || (defined?(@paste) && @paste.present? && current_user == @paste.user)
+  end
+
+  def normalize_collaborators(raw_ids)
+    collaborator_ids = Array(raw_ids).map(&:to_i).uniq
+    return [] if collaborator_ids.empty?
+
+    User.activated.where(id: collaborator_ids).where.not(id: current_user.id).pluck(:id)
   end
 
   def set_paste_by_id
@@ -138,6 +155,12 @@ class PastesController < ApplicationController
 
   def require_owner_or_admin!(paste)
     raise ActiveRecord::RecordNotFound unless current_user == paste.user || current_user&.admin?
+  end
+
+  def require_editor_or_admin!(paste)
+    return if current_user == paste.user || current_user&.admin? || paste.collaborators.include?(current_user.id)
+
+    raise ActiveRecord::RecordNotFound
   end
 
   def authorize_view!(paste)

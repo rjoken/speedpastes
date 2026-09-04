@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
-  static targets = ["output", "details"];
+  static targets = ["output", "details", "markdownHint"];
   static values = { url: String, debounce: { type: Number, default: 200 } };
 
   connect() {
@@ -30,6 +30,10 @@ export default class extends Controller {
     if (this.hasDetailsTarget) {
       this.detailsTarget.classList.toggle("hidden", !useMarkdown);
       if (!useMarkdown) this.detailsTarget.open = false;
+    }
+
+    if (this.hasMarkdownHintTarget) {
+      this.markdownHintTarget.classList.toggle("hidden", !useMarkdown);
     }
 
     if (!useMarkdown) {

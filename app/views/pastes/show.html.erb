@@ -27,19 +27,35 @@
     <div class="text-xs text-[var(--muted)] flex" title="Visibility: <%= @paste.visibility.capitalize %>">
     <%= render "shared/visibility", visibility: @paste.visibility %>
     </div>
+      <% if current_user == @paste.user || @paste.collaborators.include?(current_user.id) || current_user&.admin? %>
+        <span class="text-xs text-[var(--muted)]">|</span>
+        <%= link_to "Edit", edit_paste_path(@paste), class: link_class(variant: :muted, size: :xs) %>
+      <% end %>
       <% if current_user == @paste.user || current_user&.admin? %>
         <span class="text-xs text-[var(--muted)]">|</span>
-          <%= link_to "Edit", edit_paste_path(@paste), class: link_class(variant: :muted, size: :xs) %>
-          <span class="text-xs text-[var(--muted)]">|</span>
           <%= button_to "Delete", paste_path(@paste), method: :delete, data: { turbo_confirm: "Are you sure you want to delete this paste?" }, form_class: "inline-flex", class: link_class(variant: :muted, size: :xs) %>
-        <% end %>
+      <% end %>
+      <span class="text-xs text-[var(--muted)]">|</span>
+      <%= link_to "View raw", raw_paste_path(@paste.shortcode), class: link_class(variant: :muted, size: :xs), target: "_blank", rel: "noopener" %>
+      <% if current_user != @paste.user && !current_user&.admin? %>
         <span class="text-xs text-[var(--muted)]">|</span>
-        <%= link_to "View raw", raw_paste_path(@paste.shortcode), class: link_class(variant: :muted, size: :xs), target: "_blank", rel: "noopener" %>
-        <% if current_user != @paste.user && !current_user&.admin? %>
-          <span class="text-xs text-[var(--muted)]">|</span>
-          <%= link_to "Report", new_report_path(shortcode: @paste.shortcode), class: link_class(variant: :muted, size: :xs) %>
-        <% end %>
+        <%= link_to "Report", new_report_path(shortcode: @paste.shortcode), class: link_class(variant: :muted, size: :xs) %>
+      <% end %>
   </div>
+  <% if @paste.collaborators.any? %>
+    <div class="flex items-center gap-2 mb-4 flex-wrap">
+      <span class="text-xs text-[var(--muted)]">Collaborators:</span>
+      <% @paste.collaborators.each do |collaborator_id| %>
+        <% collaborator = User.find_by(id: collaborator_id) %>
+        <% if collaborator %>
+          <div class="flex items-center justify-between gap-1">
+            <%= render "shared/avatar", user: collaborator, size: 16 %>
+            <span><%= link_to collaborator.username, profile_path(collaborator.id), class: link_class(variant: :text, size: :xs) %></span>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %> 
   <% if @paste.tags.any? %>
     <div class="flex items-center gap-2 mb-4 flex-wrap">
       <span class="text-xs text-[var(--muted)]">Tags:</span>

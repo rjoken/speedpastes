@@ -3,6 +3,17 @@
     data-markdown-preview-url-value="<%= preview_pastes_path %>" 
     data-action="input->markdown-preview#queue change->markdown-preview#queue">
     <div class="p-4">
+    <% available_collaborators = User.activated.where.not(id: current_user.id).order(:username).map do |user| %>
+        <% {
+          id: user.id,
+          username: user.username,
+          initial: user.username.first.upcase,
+          avatar_url: (user.avatar.attached? ? url_for(user.avatar) : nil)
+        } %>
+    <% end %>
+    <% valid_collaborator_ids = available_collaborators.map { |user| user[:id] } %>
+    <% selected_collaborator_ids = Array(@paste.collaborators).map(&:to_i).uniq & valid_collaborator_ids %>
+    <% can_manage_collaborators = @paste.new_record? || current_user == @paste.user %>
     <%= form_with data: { controller: "unsaved-changes" }, model: @paste, class: "space-y-3" do |f| %>
         <% if @paste.errors.any? %>
             <div class="border border-[var(--border-danger)] bg-[var(--bg-danger)] text-[var(--text-danger)] p-3 text-sm">
@@ -23,7 +34,7 @@
         <div>
             <%= f.label :body, "Paste", class: "block text-sm font-semibold" %>
             <%= render "shared/paste_editor", f: f, field: :body, rows: 14, image_upload: true %>
-            <p class="text-xs text-[var(--muted)] mt-1">With markdown enabled, paste or drag an image here to upload it.</p>
+            <p data-markdown-preview-target="markdownHint" class="text-xs text-[var(--muted)] mt-1 hidden">With markdown enabled, paste or drag an image here to upload it.</p>
         </div>
 
         <div>
@@ -42,12 +53,49 @@
 
         <div>
             <%= f.label :tags, "Tags (comma separated)", class: "block text-sm font-semibold" %>
-            <%= f.text_field :tags, value: @paste.tags.join(", "), class: "mt-1 w-full border border-[var(--border)] px-3 py-2", data: { unsaved_changes_target: "tags" } %>
+            <%= f.text_field :tags, value: @paste.tags.join(", "), class: "mt-1 w-full border border-[var(--border)] px-2 py-1 text-xs", data: { unsaved_changes_target: "tags" } %>
             <div class="text-xs text-[var(--muted)] mt-1">
                 <p>Tags are optional and can be used to categorize your paste.</p>
                 <p>Separate multiple tags with commas. E.g. "pokemon, faq, hgss, gen 4"</p>
             </div>
         </div>
+
+        <% if can_manage_collaborators %>
+            <div
+                data-controller="collaborators-picker"
+                data-collaborators-picker-users-value="<%= available_collaborators.to_json %>"
+                data-collaborators-picker-selected-ids-value="<%= selected_collaborator_ids.to_json %>">
+                <%= f.label :collaborators, "Collaborators", class: "block text-sm font-semibold" %>
+
+                <div class="mt-1 flex items-center gap-2">
+                    <input
+                        type="text"
+                        class="w-full border border-[var(--border)] px-2 py-1 text-xs"
+                        placeholder="Enter username"
+                        data-collaborators-picker-target="input"
+                        data-action="keydown.enter->collaborators-picker#addFromInput"
+                    >
+                    <button
+                        type="button"
+                        class="<%= button_class(variant: :default, size: :xs) %>"
+                        data-action="click->collaborators-picker#addFromInput">
+                        Add
+                    </button>
+                </div>
+
+                <div data-collaborators-picker-target="hiddenContainer" data-unsaved-changes-target="collaborators"></div>
+
+                <ul class="mt-2 flex flex-wrap gap-2" data-collaborators-picker-target="list"></ul>
+
+                <template data-collaborators-picker-target="itemTemplate">
+                    <li class="inline-flex items-center gap-2 border border-[var(--border)] bg-[var(--surface2)] pl-1 pr-2 py-1">
+                        <span data-role="avatar" class="h-6 w-6 overflow-hidden border border-[var(--border)] bg-[var(--surface)] flex items-center justify-center text-[10px] font-bold text-[var(--muted)]"></span>
+                        <span data-role="username" class="text-xs font-semibold"></span>
+                        <button type="button" data-role="remove" class="text-xs leading-none text-[var(--muted)] hover:text-[var(--text)]" aria-label="Remove collaborator">x</button>
+                    </li>
+                </template>
+            </div>
+        <% end %>
 
         <div class="flex items-center justify-between gap-3">
             <div class="flex items-center gap-2">
