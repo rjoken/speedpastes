@@ -1,13 +1,14 @@
 import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
-  static targets = ["title", "body", "tags"];
+  static targets = ["title", "body", "tags", "collaborators"];
 
   connect() {
     this.initialValues = {
       title: this.titleTarget.value,
       body: this.bodyTarget.value,
       tags: this.tagsTarget.value,
+      collaborators: this.collaboratorsSnapshot(),
     };
 
     this.beforeUnloadHandler = this.onBeforeUnload.bind(this);
@@ -36,7 +37,20 @@ export default class extends Controller {
       title: this.titleTarget.value,
       body: this.bodyTarget.value,
       tags: this.tagsTarget.value,
+      collaborators: this.collaboratorsSnapshot(),
     };
+  }
+
+  collaboratorsSnapshot() {
+    if (!this.hasCollaboratorsTarget) return "";
+
+    const values = Array.from(
+      this.collaboratorsTarget.querySelectorAll('input[name="paste[collaborators][]"]'),
+    )
+      .map((input) => input.value)
+      .sort();
+
+    return values.join(",");
   }
 
   onBeforeUnload(event) {
@@ -60,7 +74,8 @@ export default class extends Controller {
     return (
       this.titleTarget.value !== this.initialValues.title ||
       this.bodyTarget.value !== this.initialValues.body ||
-      this.tagsTarget.value !== this.initialValues.tags
+      this.tagsTarget.value !== this.initialValues.tags ||
+      this.collaboratorsSnapshot() !== this.initialValues.collaborators
     );
   }
 }

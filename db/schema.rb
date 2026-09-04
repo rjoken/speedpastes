@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_11_110151) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_04_195607) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -71,6 +71,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_11_110151) do
 
   create_table "pastes", force: :cascade do |t|
     t.text "body", null: false
+    t.bigint "collaborators", default: [], null: false, array: true
     t.datetime "created_at", null: false
     t.datetime "edited_at"
     t.boolean "hide_frontpage", default: false, null: false
@@ -82,6 +83,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_11_110151) do
     t.bigint "user_id", null: false
     t.integer "views", default: 0, null: false
     t.integer "visibility", default: 0, null: false
+    t.index ["collaborators"], name: "index_pastes_on_collaborators", using: :gin
     t.index ["render_type"], name: "index_pastes_on_render_type"
     t.index ["shortcode"], name: "index_pastes_on_shortcode", unique: true
     t.index ["user_id", "created_at"], name: "index_pastes_on_user_id_and_created_at"
