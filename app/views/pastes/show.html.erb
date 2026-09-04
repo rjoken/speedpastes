@@ -42,6 +42,20 @@
         <%= link_to "Report", new_report_path(shortcode: @paste.shortcode), class: link_class(variant: :muted, size: :xs) %>
       <% end %>
   </div>
+  <% if @paste.collaborators.any? %>
+    <div class="flex items-center gap-2 mb-4 flex-wrap">
+      <span class="text-xs text-[var(--muted)]">Collaborators:</span>
+      <% @paste.collaborators.each do |collaborator_id| %>
+        <% collaborator = User.find_by(id: collaborator_id) %>
+        <% if collaborator %>
+          <div class="flex items-center justify-between gap-1">
+            <%= render "shared/avatar", user: collaborator, size: 16 %>
+            <span><%= link_to collaborator.username, profile_path(collaborator.id), class: link_class(variant: :text, size: :xs) %></span>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %> 
   <% if @paste.tags.any? %>
     <div class="flex items-center gap-2 mb-4 flex-wrap">
       <span class="text-xs text-[var(--muted)]">Tags:</span>
