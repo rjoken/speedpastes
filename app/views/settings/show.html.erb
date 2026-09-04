@@ -93,7 +93,7 @@
                                     <%= render "shared/background_image", user: current_user %>
                                     <% if current_user.background_image.attached? %>
                                         <div class="mt-2">
-                                            <%= link_to "Remove background image", background_image_settings_path, data: { turbo_confirm: "Remove your background image?", turbo_method: :delete }, form_class: "inline", class: button_class(variant: :default, size: :sm) %>
+                                            <%= link_to "Remove background image", background_image_settings_path, data: { turbo: true, turbo_method: :delete, turbo_confirm: "Remove your background image?" }, class: button_class(variant: :default, size: :sm) %>
                                         </div>
                                     <% end %>
 
