@@ -27,7 +27,7 @@
     <div class="text-xs text-[var(--muted)] flex" title="Visibility: <%= @paste.visibility.capitalize %>">
     <%= render "shared/visibility", visibility: @paste.visibility %>
     </div>
-      <% if current_user == @paste.user || @paste.collaborators.include?(current_user.id) || current_user&.admin? %>
+      <% if current_user == @paste.user || @paste.collaborators.include?(current_user&.id) || current_user&.admin? %>
         <span class="text-xs text-[var(--muted)]">|</span>
         <%= link_to "Edit", edit_paste_path(@paste), class: link_class(variant: :muted, size: :xs) %>
       <% end %>
