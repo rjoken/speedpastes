@@ -48,7 +48,7 @@ gem "bcrypt", "~> 3.1"
 
 gem "pagy"
 
-gem "rubyzip", "~> 2.3"
+gem "rubyzip"
 
 gem "aws-sdk-s3", require: false
 
