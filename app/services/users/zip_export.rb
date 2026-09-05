@@ -28,6 +28,7 @@ module Users
         export_root = File.join(dir, "export")
         pastes_dir  = File.join(export_root, "pastes")
         FileUtils.mkdir_p(pastes_dir)
+        scratchpad = @user.scratchpad
 
         # 1) Write paste text files
         paste_entries = @user.pastes.order(created_at: :desc).map do |p|
@@ -54,6 +55,15 @@ module Users
         end
 
         # 2) Write user data json (no bodies, since they're in txt files)
+        scratchpad_payload = if scratchpad
+          {
+            id: scratchpad.id,
+            body: scratchpad.body,
+            updated_at: scratchpad.updated_at.iso8601,
+            created_at: scratchpad.created_at.iso8601
+          }
+        end
+
         data = {
           exported_at: @now.iso8601,
           user: {
@@ -76,12 +86,7 @@ module Users
               updated_at: up.updated_at.iso8601
             }
           },
-          scratchpad: {
-            id: @user.scratchpad.id,
-            body: @user.scratchpad.body,
-            updated_at: @user.scratchpad.updated_at.iso8601,
-            created_at: @user.scratchpad.created_at.iso8601
-          },
+          scratchpad: scratchpad_payload,
           invite_codes_created: InviteCode.where(created_by_id: @user.id).order(created_at: :desc).map { |ic|
             {
               code: ic.code,
