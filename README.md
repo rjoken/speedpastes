@@ -56,4 +56,4 @@ This application has basic email and password authentication with rails default 
 
 ## Testing
 
-not working atm Lol
+`bin/rails test`
