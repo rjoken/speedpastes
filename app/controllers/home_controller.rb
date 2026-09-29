@@ -7,6 +7,12 @@ class HomeController < ApplicationController
                           .order(created_at: :desc)
                           .limit(10)
 
+    @news_pastes = Paste.open
+                        .where(user_id: 1)
+                        .where("tags @> ARRAY[?]::varchar[]", "frontpage")
+                        .order(created_at: :desc)
+                        .limit(4)
+
     if signed_in?
       @paste = current_user.pastes.new
     end
