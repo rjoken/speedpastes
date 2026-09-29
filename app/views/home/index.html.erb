@@ -19,24 +19,44 @@
   </div>
   <!-- Sidebar -->
   <aside class="md:col-span-1">
-    <%= render "shared/heading", title: "Latest Public Pastes" do %>
-      <div class="p-3 space-y-3">
-        <% @latest_pastes.each do |paste| %>
-          <div class="text-sm">
-            <div class="grid grid-cols-12 items-center">
-              <%= link_to short_paste_path(paste.shortcode), class: "#{link_class(variant: :bold)} col-span-9 truncate", title: paste.title do %>
-                <%= paste.title %>
-              <% end %>
-              <span class="col-span-3 text-right text-xs text-[var(--muted)]"><%= time_ago_in_words(paste.created_at) %> ago</span>
+    <div class="mb-6">
+      <%= render "shared/heading", title: "Latest Public Pastes" do %>
+        <div class="p-3 space-y-3">
+          <% @latest_pastes.each do |paste| %>
+            <div class="text-sm">
+              <div class="grid grid-cols-12 items-center">
+                <%= link_to short_paste_path(paste.shortcode), class: "#{link_class(variant: :bold)} col-span-9 truncate", title: paste.title do %>
+                  <%= paste.title %>
+                <% end %>
+                <span class="col-span-3 text-right text-xs text-[var(--muted)]"><%= time_ago_in_words(paste.created_at) %> ago</span>
+              </div>
+              <div class="text-xs text-[var(--muted)]">by <%= link_to "#{paste.user.username}", profile_path(paste.user.id), class: link_class(variant: :muted) %></div>
             </div>
-            <div class="text-xs text-[var(--muted)]">by <%= link_to "#{paste.user.username}", profile_path(paste.user.id), class: link_class(variant: :muted) %></div>
-          </div>
-        <% end %>
+          <% end %>
 
-        <% if @latest_pastes.empty? %>
-          <div class="text-sm text-[var(--muted)]">
-            No public pastes yet.
-          </div>
+          <% if @latest_pastes.empty? %>
+            <div class="text-sm text-[var(--muted)]">
+              No public pastes yet.
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+    <% if @news_pastes.any? %>
+      <div class="mb-6">
+        <%= render "shared/heading", title: "Site News" do %>
+          <div class="p-3 space-y-3">
+            <% @news_pastes.each do |paste| %>
+              <div class="text-sm">
+                <div class="grid grid-cols-12 items-center">
+                  <%= link_to short_paste_path(paste.shortcode), class: "#{link_class(variant: :bold)} col-span-9 truncate", title: paste.title do %>
+                    <%= paste.title %>
+                  <% end %>
+                  <span class="col-span-3 text-right text-xs text-[var(--muted)]"><%= time_ago_in_words(paste.created_at) %> ago</span>
+                </div>
+                <div class="text-xs text-[var(--muted)]">by <%= link_to "#{paste.user.username}", profile_path(paste.user.id), class: link_class(variant: :muted) %></div>
+              </div>
+            <% end %>
         <% end %>
       </div>
     <% end %>
