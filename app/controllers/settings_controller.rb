@@ -179,7 +179,7 @@ class SettingsController < ApplicationController
         end
 
         code = params[:code].to_s
-        redirect_to(settings_path, alert: "Missing Patreon authorization code") if code.blank?
+        return redirect_to(settings_path, alert: "Missing Patreon authorization code") if code.blank?
 
         token_payload = exchange_patreon_code_for_token(code)
         identity_payload = fetch_patreon_identity(token_payload.fetch("access_token"))
@@ -201,14 +201,8 @@ class SettingsController < ApplicationController
 
         ActiveRecord::Base.transaction do
           connection = PatreonConnection.find_or_initialize_by(user: current_user)
-          connection.update!(
-            patreon_user_id: patreon_user_id,
-            patreon_username: patreon_username,
-            patron_status: patron_status,
-            last_synced_at: Time.current
-          )
-
-          current_user.update!(is_supporter: true) if patron_status == "active_patron"
+          connection.update!(patreon_user_id: patreon_user_id, patreon_username: patreon_username)
+          connection.sync_patron_status!(patron_status)
         end
 
         redirect_to settings_path, notice: "Patreon account connected successfully"
@@ -271,19 +265,10 @@ class SettingsController < ApplicationController
       campaign_id = ENV["PATREON_CAMPAIGN_ID"].to_s
       return nil if campaign_id.blank?
 
-      memberships_data = Array(identity_payload.dig("data", "relationships", "memberships", "data"))
-      included = Array(identity_payload["included"])
-
-      memberships_data.each do |membership_ref|
-        membership_id = membership_ref["id"]
-        full_membership = included.find { |item| item["type"] == "member" && item["id"] == membership_id }
-
-        membership_campaign_id = full_membership.dig("relationships", "campaign", "data", "id").to_s
-        if membership_campaign_id == campaign_id
-          status = full_membership.dig("attributes", "patron_status").to_s
-          return status if status.present?
-        end
+      membership = Array(identity_payload["included"]).find do |item|
+        item["type"] == "member" && item.dig("relationships", "campaign", "data", "id").to_s == campaign_id
       end
-      nil
+
+      membership&.dig("attributes", "patron_status").presence
     end
 end
