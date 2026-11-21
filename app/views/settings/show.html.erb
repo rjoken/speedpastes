@@ -252,6 +252,62 @@
                 </div>
             </details>
 
+            <details class="border border-[var(--border-muted)] bg-[var(--surface2)] p-3" <%= "open" if @raw_api_token %>>
+                <summary class="cursor-pointer font-bold">API tokens</summary>
+                <div class="text-sm text-[var(--muted)] mt-1">Create tokens to access your account through the API. Write access to a resource includes read access to it.</div>
+
+                <% if @raw_api_token %>
+                    <div class="mt-3 border border-[var(--border)] bg-[var(--surface)] p-3 space-y-2">
+                        <div class="font-bold">Token "<%= @api_token.name %>" created</div>
+                        <div class="text-sm">Copy it now. You won't be able to see it again.</div>
+                        <%= text_field_tag :raw_api_token, @raw_api_token, readonly: true, class: "w-full border border-[var(--border)] px-3 py-2 font-mono text-sm" %>
+                    </div>
+                <% end %>
+
+                <div class="mt-3">
+                    <% current_user.api_tokens.active.order(created_at: :desc).each do |token| %>
+                        <div class="border border-[var(--border-muted)] bg-[var(--surface)] p-3 mb-3 flex flex-col md:flex-row md:items-center gap-3">
+                            <div>
+                                <div><strong>Name:</strong> <%= token.name %></div>
+                                <div><strong>Token:</strong> <span class="font-mono"><%= token.token_prefix %>...</span></div>
+                                <div><strong>Scopes:</strong> <%= token.scopes.join(", ") %></div>
+                                <div><strong>Expires:</strong> <%= token.expires_at&.strftime("%Y-%m-%d %H:%M %Z") || "Never" %></div>
+                                <div><strong>Last used:</strong> <%= token.last_used_at&.strftime("%Y-%m-%d %H:%M %Z") || "Never" %></div>
+                            </div>
+                            <div class="flex justify-end min-w-[10rem] md:ml-auto">
+                                <%= button_to "Revoke token", revoke_api_token_settings_path(token), method: :patch, data: { turbo_confirm: "Are you sure you want to revoke this token?" }, class: button_class(variant: :default, size: :md) %>
+                            </div>
+                        </div>
+                    <% end %>
+                </div>
+
+                <%= form_with url: add_api_token_settings_path, method: :post, data: { turbo: false }, class: "mt-3 space-y-4" do %>
+                    <div class="text-lg font-bold">New token</div>
+                    <div>
+                        <%= label_tag :name, "Name", class: "block text-sm font-semibold" %>
+                        <%= text_field_tag :name, nil, maxlength: 50, required: true, class: "mt-1 w-full border border-[var(--border)] px-3 py-2" %>
+                    </div>
+                    <div>
+                        <div class="text-sm font-semibold">Scopes</div>
+                        <% ApiToken::SCOPES.each do |scope| %>
+                            <div class="flex flex-row items-center gap-2 mt-1">
+                                <% scope_id = "scope_#{scope.tr(':', '_')}" %>
+                                <%= check_box_tag "scopes[]", scope, false, id: scope_id %>
+                                <%= label_tag scope_id, scope, class: "text-sm font-mono" %>
+                            </div>
+                        <% end %>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <%= label_tag :expires_in, "Expires in", class: "text-sm font-semibold" %>
+                        <%= select_tag :expires_in, options_for_select(ApiToken::EXPIRY_OPTIONS.keys.map { |k| [k.humanize, k] }, "90_days"),
+                            class: "border border-[var(--button-border)] bg-[var(--button-bg)] px-2 py-1 text-sm font-bold shadow-sm hover:bg-[var(--button-bg-hover)]" %>
+                    </div>
+                    <div class="flex justify-end mt-4">
+                        <%= submit_tag "Create token", class: button_class(variant: :default, size: :md) %>
+                    </div>
+                <% end %>
+            </details>
+
             <details class="border border-[var(--border-danger)] bg-[var(--bg-danger)] p-3">
                 <summary class="cursor-pointer font-bold text-[var(--text-danger)]">Delete your account</summary>
                 <div class="mt-3 text-sm text-[var(--text-danger)]">This action is irreversible. All of your pastes and account information will be permanently deleted.</div>

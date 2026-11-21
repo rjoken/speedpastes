@@ -73,6 +73,63 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to login_path
   end
 
+  test "add api token shows the raw token once and stores only its digest" do
+    sign_in_as @user
+
+    assert_difference -> { @user.api_tokens.count }, 1 do
+      post add_api_token_settings_path, params: { name: "CLI", scopes: [ "pastes:read", "scratchpad:write" ], expires_in: "never" }
+    end
+
+    assert_response :success
+    assert_equal "no-store", response.headers["Cache-Control"]
+
+    token = @user.api_tokens.order(:created_at).last
+    raw_token = css_select("#raw_api_token").first["value"]
+    assert_equal ApiToken.digest(raw_token), token.token_digest
+    assert_equal [ "pastes:read", "scratchpad:write" ], token.scopes
+    assert_nil token.expires_at
+  end
+
+  test "add api token without scopes is rejected" do
+    sign_in_as @user
+
+    assert_no_difference -> { ApiToken.count } do
+      post add_api_token_settings_path, params: { name: "CLI", expires_in: "30_days" }
+    end
+
+    assert_redirected_to settings_path
+  end
+
+  test "add api token with an invalid expiry is rejected" do
+    sign_in_as @user
+
+    assert_no_difference -> { ApiToken.count } do
+      post add_api_token_settings_path, params: { name: "CLI", scopes: [ "pastes:read" ], expires_in: "forever" }
+    end
+
+    assert_redirected_to settings_path
+  end
+
+  test "revoke api token revokes own token" do
+    sign_in_as @user
+    token = api_tokens(:active)
+
+    patch revoke_api_token_settings_path(token)
+
+    assert_redirected_to settings_path
+    assert_not token.reload.active?
+  end
+
+  test "revoke api token cannot revoke another user's token" do
+    sign_in_as @user
+    token = api_tokens(:other_user)
+
+    patch revoke_api_token_settings_path(token)
+
+    assert_redirected_to settings_path
+    assert token.reload.active?
+  end
+
   private
 
   def zip_entries_and_data

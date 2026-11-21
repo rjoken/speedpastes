@@ -1,0 +1,24 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+active:
+  user: regular
+  name: Active token
+  token_digest: ApiTokenDigest1
+  token_prefix: sp_abcdef
+  scopes: ["pastes:write", "users:read"]
+  expires_at: <%= 30.days.from_now %>
+
+revoked:
+  user: regular
+  name: Revoked token
+  token_digest: ApiTokenDigest2
+  token_prefix: sp_ghijkl
+  scopes: ["pastes:read"]
+  revoked_at: <%= 1.day.ago %>
+
+other_user:
+  user: other
+  name: Other user's token
+  token_digest: ApiTokenDigest3
+  token_prefix: sp_mnopqr
+  scopes: ["pastes:read"]

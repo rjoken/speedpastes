@@ -109,6 +109,21 @@ module Users
               revoked_at: s.revoked_at&.iso8601
             }
           },
+          api_tokens: ApiToken.where(user_id: @user.id).order(created_at: :desc).map { |t|
+            {
+              id: t.id,
+              user_id: t.user_id,
+              name: t.name,
+              token_prefix: t.token_prefix,
+              token_digest: t.token_digest,
+              scopes: t.scopes,
+              last_used_at: t.last_used_at&.iso8601,
+              created_at: t.created_at.iso8601,
+              updated_at: t.updated_at.iso8601,
+              expires_at: t.expires_at&.iso8601,
+              revoked_at: t.revoked_at&.iso8601
+            }
+          },
           account_change_requests: AccountChangeRequest.where(user_id: @user.id).order(created_at: :desc).map { |acr|
             {
               id: acr.id,
