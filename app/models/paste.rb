@@ -4,9 +4,10 @@ class Paste < ApplicationRecord
   has_many :user_pins, dependent: :destroy
   has_one :userpage, dependent: :destroy
 
-  enum :visibility, { open: 0, unlisted: 1 }
+  # validate: true turns invalid values into validation errors instead of raising ArgumentError
+  enum :visibility, { open: 0, unlisted: 1 }, validate: true
 
-  enum :render_type, { plain: 0, markdown: 1 }
+  enum :render_type, { plain: 0, markdown: 1 }, validate: true
 
   validates :shortcode, presence: true, uniqueness: true
   validates :body, presence: true
@@ -28,6 +29,29 @@ class Paste < ApplicationRecord
     words = text.split.select { |word| word.match?(/[[:alnum:]]/) }.first(5)
 
     words.join(" ").presence&.truncate(255) || "Untitled paste"
+  end
+
+  def self.collaborator_ids_for(raw_ids, owner:)
+    collaborator_ids = Array(raw_ids).map(&:to_i).uniq
+    return [] if collaborator_ids.empty?
+
+    User.activated.where(id: collaborator_ids).where.not(id: owner.id).pluck(:id)
+  end
+
+  def owned_by?(user)
+    user.present? && user_id == user.id
+  end
+
+  def collaborator?(user)
+    user.present? && collaborators.include?(user.id)
+  end
+
+  def editable_by?(user)
+    owned_by?(user) || collaborator?(user) || user&.admin? || false
+  end
+
+  def deletable_by?(user)
+    owned_by?(user) || user&.admin? || false
   end
 
   def content_changed?

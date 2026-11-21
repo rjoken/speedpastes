@@ -1,18 +1,21 @@
 module Api
   class BaseController < ActionController::API
     include ActionController::HttpAuthentication::Token::ControllerMethods
+    include Pagy::Method
+
+    class BadRequest < StandardError; end
+    class Forbidden < StandardError; end
 
     READ_SCOPES = ApiToken::SCOPES.select { |scope| scope.end_with?(":read") }.freeze
+    RATE_LIMITS = { read: 120, write: 30 }.freeze
 
     before_action :authenticate_api_token!
+    before_action :throttle!
 
     rescue_from ActiveRecord::RecordNotFound, with: -> { render_error("Not found", :not_found) }
-
-    # Must stay below authenticate_api_token! so current_user is set
-    rate_limit to: 120, within: 1.minute, scope: "api", name: "read",
-      by: -> { current_user.id }, with: -> { render_rate_limited }, if: :read_request?
-    rate_limit to: 30, within: 1.minute, scope: "api", name: "write",
-      by: -> { current_user.id }, with: -> { render_rate_limited }, unless: :read_request?
+    rescue_from BadRequest, with: ->(e) { render_error(e.message, :bad_request) }
+    rescue_from Forbidden, with: ->(e) { render_error(e.message, :forbidden) }
+    rescue_from ActionDispatch::Http::Parameters::ParseError, with: -> { render_error("Invalid JSON", :bad_request) }
 
     private
 
@@ -39,22 +42,52 @@ module Api
       end
     end
 
-    def require_any_scope!(*scopes)
-      return if scopes.any? { |scope| current_api_token.allows?(scope) }
+    # Fixed one-minute window per user, shared across all API endpoints.
+    # cost lets a batch request count once per item.
+    def throttle!(cost: 1)
+      kind = read_request? ? :read : :write
+      count = Rails.cache.increment("api-rate-limit:#{kind}:#{current_user.id}", cost, expires_in: 1.minute)
 
-      render_error("API token requires one of these scopes: #{scopes.join(', ')}", :forbidden)
+      render_error("Rate limit exceeded", :too_many_requests) if count && count > RATE_LIMITS[kind]
     end
 
     def read_request?
       request.get? || request.head?
     end
 
-    def render_rate_limited
-      render_error("Rate limit exceeded", :too_many_requests)
+    def require_any_scope!(*scopes)
+      return if scopes.any? { |scope| current_api_token.allows?(scope) }
+
+      render_error("API token requires one of these scopes: #{scopes.join(', ')}", :forbidden)
     end
 
-    def render_error(message, status)
-      render json: { error: message }, status: status
+    def boolean_param(key)
+      case params[key]
+      when nil, "false" then false
+      when "true" then true
+      else raise BadRequest, "#{key} must be true or false"
+      end
+    end
+
+    def integer_param(key, default:, max: nil)
+      value = params[key]
+      return default if value.nil?
+      raise BadRequest, "#{key} must be a positive integer" unless value.to_s.match?(/\A[1-9]\d*\z/)
+
+      value = value.to_i
+      raise BadRequest, "#{key} must be at most #{max}" if max && value > max
+
+      value
+    end
+
+    def json_body
+      JSON.parse(request.raw_post)
+    rescue JSON::ParserError
+      raise BadRequest, "Request body must be valid JSON"
+    end
+
+    def render_error(message, status, details: nil)
+      render json: { error: message, details: details }.compact, status: status
     end
   end
 end

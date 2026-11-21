@@ -58,6 +58,15 @@ class User < ApplicationRecord
   validate :profile_style_overrides_are_allowed
   validate :profile_style_overrides_are_valid
 
+  # Usernames can't be all digits, so a numeric value is always an id.
+  # Checking that first stops "12abc" being cast to id 12.
+  def self.find_by_id_or_username(value)
+    value = value.to_s
+    return find_by(id: value) if value.match?(/\A\d+\z/)
+
+    find_by("lower(username) = ?", value.downcase)
+  end
+
   def show_view_count?
     show_view_count
   end

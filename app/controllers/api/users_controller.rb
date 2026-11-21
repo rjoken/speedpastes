@@ -4,8 +4,7 @@ module Api
 
     # GET /api/users/:id_or_username
     def show
-      user = User.find_by(id: params[:id_or_username]) ||
-             User.find_by("lower(username) = ?", params[:id_or_username].to_s.downcase)
+      user = User.find_by_id_or_username(params[:id_or_username])
 
       raise ActiveRecord::RecordNotFound if user.nil? || user.anonymized_at.present? || user.inactive?
 
