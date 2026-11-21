@@ -27,7 +27,7 @@ module Users
                 PatreonConnection.where(user_id: @user.id).delete_all
 
                 UserSession.where(user_id: @user.id).delete_all
-8888
+
                 ApiToken.where(user_id: @user.id).delete_all
 
                 AccountChangeRequest.where(user_id: @user.id).delete_all

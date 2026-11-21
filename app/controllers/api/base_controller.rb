@@ -6,6 +6,8 @@ module Api
 
     before_action :authenticate_api_token!
 
+    rescue_from ActiveRecord::RecordNotFound, with: -> { render_error("Not found", :not_found) }
+
     # Must stay below authenticate_api_token! so current_user is set
     rate_limit to: 120, within: 1.minute, scope: "api", name: "read",
       by: -> { current_user.id }, with: -> { render_rate_limited }, if: :read_request?
