@@ -254,7 +254,7 @@
 
             <details class="border border-[var(--border-muted)] bg-[var(--surface2)] p-3" <%= "open" if @raw_api_token %>>
                 <summary class="cursor-pointer font-bold">API tokens</summary>
-                <div class="text-sm text-[var(--muted)] mt-1">Create tokens to access your account through the API. Write access to a resource includes read access to it.</div>
+                <div class="text-sm text-[var(--muted)] mt-1">Create tokens to access your account through the API. Write access includes read access. Sharing this token is equivalent to sharing your password, so be careful!</div>
 
                 <% if @raw_api_token %>
                     <div class="mt-3 border border-[var(--border)] bg-[var(--surface)] p-3 space-y-2">
