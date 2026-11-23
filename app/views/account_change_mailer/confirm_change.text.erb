@@ -6,4 +6,9 @@ Click this link to confirm your <%= @request.kind.to_s.humanize.downcase %> chan
 
 This link expires in 2 hours.
 
+<% if @request.password? || @request.password_reset? %>
+Changing your password will revoke all of your API tokens and log you out of your active sessions.
+
+<% end %>
+
 If you didn't request this change, please ignore this email.

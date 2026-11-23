@@ -55,6 +55,8 @@ class User < ApplicationRecord
 
   before_validation :normalize_profile_style
 
+  after_update :revoke_api_tokens, if: :saved_change_to_password_digest?
+
   validate :profile_style_overrides_are_allowed
   validate :profile_style_overrides_are_valid
 
@@ -84,6 +86,10 @@ class User < ApplicationRecord
   end
 
   private
+
+  def revoke_api_tokens
+    api_tokens.active.update_all(revoked_at: Time.current)
+  end
 
   def normalize_profile_style
     self.profile_style = profile_style
