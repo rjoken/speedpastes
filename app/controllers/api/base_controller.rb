@@ -10,8 +10,8 @@ module Api
     RATE_LIMITS = { read: 120, write: 30 }.freeze
 
     before_action :authenticate_api_token!
-    before_action :require_json_content_type!, if: -> { request.post? || request.patch? || request.put? }
     before_action :throttle!
+    before_action :require_json_content_type!, if: -> { request.post? || request.patch? || request.put? }
     before_action :reject_invalid_url_params!
 
     rescue_from ActiveRecord::RecordNotFound, with: -> { render_error("Not found", :not_found) }
@@ -46,12 +46,14 @@ module Api
     end
 
     # Fixed one-minute window per user, shared across all API endpoints.
-    # cost lets a batch request count once per item.
     def throttle!(cost: 1)
       kind = read_request? ? :read : :write
-      count = Rails.cache.increment("api-rate-limit:#{kind}:#{current_user.id}", cost, expires_in: 1.minute)
+      key = "api-rate-limit:#{kind}:#{current_user.id}"
+      count = Rails.cache.increment(key, cost, expires_in: 1.minute)
+      return if count.nil? || count <= RATE_LIMITS[kind]
 
-      render_error("Rate limit exceeded", :too_many_requests) if count && count > RATE_LIMITS[kind]
+      Rails.cache.decrement(key, cost)
+      render_error("Rate limit exceeded", :too_many_requests)
     end
 
     def read_request?

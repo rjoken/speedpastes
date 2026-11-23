@@ -157,19 +157,61 @@ class Api::BaseControllerTest < ActionDispatch::IntegrationTest
 
   test "batch creates count once per paste against the write limit" do
     headers = json_headers(api_headers(@user, "pastes:write"))
-    pastes = ->(n) { Array.new(n) { |i| { body: "paste #{i}" } }.to_json }
 
     with_memory_cache do
-      post api_pastes_path, params: pastes.call(25), headers: headers
+      post api_pastes_path, params: paste_batch(25), headers: headers
       assert_response :created
 
-      post api_pastes_path, params: pastes.call(5), headers: headers
+      post api_pastes_path, params: paste_batch(5), headers: headers
       assert_response :created
 
       assert_no_difference -> { Paste.count } do
-        post api_pastes_path, params: pastes.call(1), headers: headers
+        post api_pastes_path, params: paste_batch(1), headers: headers
       end
       assert_response :too_many_requests
     end
+  end
+
+  test "a batch rejected by the rate limit does not block smaller writes" do
+    headers = json_headers(api_headers(@user, "pastes:write"))
+
+    with_memory_cache do
+      6.times { post api_pastes_path, params: paste_batch(1), headers: headers }
+
+      post api_pastes_path, params: paste_batch(25), headers: headers
+      assert_response :too_many_requests
+
+      # 6 writes plus 1 for the rejected request leaves exactly 23
+      post api_pastes_path, params: paste_batch(23), headers: headers
+      assert_response :created
+
+      post api_pastes_path, params: paste_batch(1), headers: headers
+      assert_response :too_many_requests
+    end
+  end
+
+  test "rejected writes still count against the write limit" do
+    no_scope = json_headers(api_headers(@user, "pastes:read"))
+    write = api_headers(@user, "pastes:write")
+
+    with_memory_cache do
+      10.times { post api_pastes_path, params: paste_batch(1), headers: no_scope }
+      assert_response :forbidden
+
+      10.times { post api_pastes_path, params: "[]", headers: json_headers(write) }
+      assert_response :bad_request
+
+      10.times { post api_pastes_path, params: paste_batch(1), headers: write.merge("Content-Type" => "text/plain") }
+      assert_response :unsupported_media_type
+
+      post api_pastes_path, params: paste_batch(1), headers: json_headers(write)
+      assert_response :too_many_requests
+    end
+  end
+
+  private
+
+  def paste_batch(size)
+    Array.new(size) { |i| { body: "paste #{i}" } }.to_json
   end
 end

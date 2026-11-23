@@ -18,8 +18,6 @@ module Api
     MAX_PER_PAGE = 100
     MAX_BATCH_SIZE = 25
 
-    # create throttles itself so a batch costs one per paste
-    skip_before_action :throttle!, only: :create
     before_action -> { require_any_scope!("pastes:read") }, only: [ :index, :show ]
     before_action -> { require_any_scope!("pastes:write") }, only: [ :create, :update, :destroy ]
     before_action :set_paste, only: [ :show, :update, :destroy ]
@@ -56,8 +54,11 @@ module Api
       raise BadRequest, "Request body must be a paste object or an array of them" if items.empty? || !items.all?(Hash)
       raise BadRequest, "Cannot create more than #{MAX_BATCH_SIZE} pastes at once" if items.size > MAX_BATCH_SIZE
 
-      throttle!(cost: items.size)
-      return if performed?
+      # The request itself was already charged 1, so a batch pays for its other pastes here
+      if items.size > 1
+        throttle!(cost: items.size - 1)
+        return if performed?
+      end
 
       pastes = items.each_with_index.map do |attrs, index|
         context = batch ? " (paste #{index})" : ""
