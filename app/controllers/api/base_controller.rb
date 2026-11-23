@@ -10,6 +10,7 @@ module Api
     RATE_LIMITS = { read: 120, write: 30 }.freeze
 
     before_action :authenticate_api_token!
+    before_action :require_json_content_type!, if: -> { request.post? || request.patch? || request.put? }
     before_action :throttle!
     before_action :reject_invalid_url_params!
 
@@ -88,6 +89,12 @@ module Api
       body
     rescue JSON::ParserError
       raise BadRequest, "Request body must be valid JSON"
+    end
+
+    def require_json_content_type!
+      return if request.media_type == "application/json"
+
+      render_error("Content-Type must be application/json", :unsupported_media_type)
     end
 
     def reject_invalid_url_params!
