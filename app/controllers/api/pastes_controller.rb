@@ -129,10 +129,7 @@ module Api
       scope = active_author_pastes
 
       if params[:user].present?
-        user = User.find_by_id_or_username(params[:user])
-        raise ActiveRecord::RecordNotFound if user.nil? || user.anonymized_at.present? || user.inactive?
-
-        scope = scope.where(user: user)
+        scope = scope.where(user: find_public_user!(params[:user]))
       end
 
       scope = if boolean_param(:unlisted)

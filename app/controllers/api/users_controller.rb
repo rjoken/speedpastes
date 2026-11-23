@@ -4,9 +4,7 @@ module Api
 
     # GET /api/users/:id_or_username
     def show
-      user = User.find_by_id_or_username(params[:id_or_username])
-
-      raise ActiveRecord::RecordNotFound if user.nil? || user.anonymized_at.present? || user.inactive?
+      user = find_public_user!(params[:id_or_username])
 
       open_pastes = user.pastes.where(visibility: :open)
 

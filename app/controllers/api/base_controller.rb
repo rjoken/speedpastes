@@ -58,6 +58,14 @@ module Api
       request.get? || request.head?
     end
 
+    # Unlike the web profile page, inactive users are hidden from everyone, including themselves and admins
+    def find_public_user!(id_or_username)
+      user = User.find_by_id_or_username(id_or_username)
+      raise ActiveRecord::RecordNotFound if user.nil? || user.anonymized_at.present? || user.inactive?
+
+      user
+    end
+
     def require_any_scope!(*scopes)
       return if scopes.any? { |scope| current_api_token.allows?(scope) }
 
