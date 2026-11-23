@@ -72,6 +72,11 @@ module Api
       end
     end
 
+    def page_param(count:, per_page:)
+      last_page = [ (count.to_f / per_page).ceil, 1 ].max
+      params[:page].to_s.to_i.clamp(1, last_page)
+    end
+
     def integer_param(key, default:, max: nil)
       value = params[key]
       return default if value.nil?

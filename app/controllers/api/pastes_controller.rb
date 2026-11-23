@@ -27,9 +27,11 @@ module Api
     # GET /api/pastes?user=&tags=&tag_filtering=&unlisted=&page=&per_page=
     def index
       per_page = integer_param(:per_page, default: DEFAULT_PER_PAGE, max: MAX_PER_PAGE)
-      page = integer_param(:page, default: 1)
+      scope = filtered_pastes.includes(:user).order(created_at: :desc)
+      count = scope.count
+      page = page_param(count: count, per_page: per_page)
 
-      pagy, pastes = pagy(:offset, filtered_pastes.includes(:user).order(created_at: :desc), limit: per_page, page: page)
+      pagy, pastes = pagy(:offset, scope, limit: per_page, page: page, count: count)
 
       render json: {
         pastes: serialize(pastes),
