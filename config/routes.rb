@@ -85,6 +85,7 @@ Rails.application.routes.draw do
     get :ping, to: "ping#show"
     get "users/:id_or_username", to: "users#show", as: :user
     resources :pastes, param: :shortcode, only: [ :index, :show, :create, :update, :destroy ]
+    resource :scratchpad, only: [ :show, :create, :update ]
   end
 
   match "/400", to: "errors#show", via: :all, defaults: { code: 400, message: "Bad Request" }
