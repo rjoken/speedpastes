@@ -13,6 +13,7 @@ class Paste < ApplicationRecord
   validates :body, presence: true
   validates :title, length: { maximum: 255, message: "is too long" }
   validates :body, length: { maximum: 500_000, message: "is too long" }
+  validates :body, :title, :tags, safe_text: true
 
   before_validation :ensure_shortcode, on: :create
 

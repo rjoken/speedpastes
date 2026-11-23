@@ -11,11 +11,13 @@ module Api
 
     before_action :authenticate_api_token!
     before_action :throttle!
+    before_action :reject_invalid_url_params!
 
     rescue_from ActiveRecord::RecordNotFound, with: -> { render_error("Not found", :not_found) }
     rescue_from BadRequest, with: ->(e) { render_error(e.message, :bad_request) }
     rescue_from Forbidden, with: ->(e) { render_error(e.message, :forbidden) }
     rescue_from ActionDispatch::Http::Parameters::ParseError, with: -> { render_error("Invalid JSON", :bad_request) }
+    rescue_from ActionController::BadRequest, with: -> { render_error("Invalid request parameters", :bad_request) }
 
     private
 
@@ -81,9 +83,21 @@ module Api
     end
 
     def json_body
-      JSON.parse(request.raw_post)
+      body = JSON.parse(request.raw_post)
+      check_strings!(body, "Request body")
+      body
     rescue JSON::ParserError
       raise BadRequest, "Request body must be valid JSON"
+    end
+
+    def reject_invalid_url_params!
+      check_strings!(request.query_parameters, "Query parameters")
+      check_strings!(request.path_parameters, "URL")
+    end
+    
+    def check_strings!(value, source)
+      error = SafeTextValidator.error_for(value)
+      raise BadRequest, "#{source} #{error}" if error
     end
 
     def render_error(message, status, details: nil)
