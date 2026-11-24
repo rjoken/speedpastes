@@ -1,7 +1,7 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 active:
-  user: regular
+  user_id: 1
   name: Active token
   token_digest: ApiTokenDigest1
   token_prefix: sp_abcdef
@@ -9,7 +9,7 @@ active:
   expires_at: <%= 30.days.from_now %>
 
 revoked:
-  user: regular
+  user_id: 1
   name: Revoked token
   token_digest: ApiTokenDigest2
   token_prefix: sp_ghijkl
@@ -17,7 +17,7 @@ revoked:
   revoked_at: <%= 1.day.ago %>
 
 other_user:
-  user: other
+  user_id: 3
   name: Other user's token
   token_digest: ApiTokenDigest3
   token_prefix: sp_mnopqr

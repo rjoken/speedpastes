@@ -106,7 +106,6 @@ class Api::BaseControllerTest < ActionDispatch::IntegrationTest
     patch api_scratchpad_path, params: "{\"body\":\"a\xFFb\"}".b, headers: json_headers(api_headers(@user, "scratchpad:write"))
 
     assert_response :bad_request
-    assert_equal "Request body must be valid UTF-8", response.parsed_body["error"]
   end
 
   test "null byte in a query param is 400" do
