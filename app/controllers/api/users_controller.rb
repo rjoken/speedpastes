@@ -14,7 +14,7 @@ module Api
         total_views: user.show_view_count? ? open_pastes.sum(:views) : 0,
         total_pastes: open_pastes.count,
         bio: user.bio,
-        website: user.link,
+        website: user.safe_link,
         is_supporter: user.is_supporter? && user.show_supporter
       }
     end

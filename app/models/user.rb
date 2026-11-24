@@ -20,6 +20,11 @@ class User < ApplicationRecord
   validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { in: 3..20 },
     format: { with: /\A(?!\d+\z)[a-zA-Z0-9_]+\z/, message: "May only contain letters (at least one), numbers, and underscores and must be between 3 and 20 characters long." }
 
+  # Anything else (e.g. javascript:) would run script when the profile link is clicked
+  WEB_URL_FORMAT = %r{\Ahttps?://\S+\z}i
+
+  validates :link, format: { with: WEB_URL_FORMAT, message: "must start with http:// or https://" }, allow_blank: true
+
   enum :role, { user: 0, pro: 1, deactivated: 2, banned: 3, admin: 999 }, default: :user
   # Pro is deprecated as a role in favour of using the is_supporter column
 
@@ -67,6 +72,11 @@ class User < ApplicationRecord
     return find_by(id: value) if value.match?(/\A\d+\z/)
 
     find_by("lower(username) = ?", value.downcase)
+  end
+
+  # Guards display against links saved before the format validation existed
+  def safe_link
+    link if link&.match?(WEB_URL_FORMAT)
   end
 
   def show_view_count?

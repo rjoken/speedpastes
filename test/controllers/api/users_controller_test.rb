@@ -75,6 +75,14 @@ class Api::UsersControllerTest < ActionDispatch::IntegrationTest
     assert_equal false, response.parsed_body["is_supporter"]
   end
 
+  test "website is null for a stored non-http link" do
+    @user.update_column(:link, "javascript:alert(1)")
+
+    get api_user_path(@user.username), headers: @headers
+
+    assert_nil response.parsed_body["website"]
+  end
+
   test "unknown user is 404" do
     get api_user_path("nobody"), headers: @headers
 

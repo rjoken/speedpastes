@@ -116,7 +116,7 @@ module Api
       check_strings!(request.query_parameters, "Query parameters")
       check_strings!(request.path_parameters, "URL")
     end
-    
+
     def check_strings!(value, source)
       error = SafeTextValidator.error_for(value)
       raise BadRequest, "#{source} #{error}" if error

@@ -12,8 +12,6 @@ module Api
       "collaborators" => ->(v) { v.is_a?(Array) && v.all?(Integer) }
     }.freeze
 
-    TAG_OPERATORS = { "or" => "&&", "and" => "@>" }.freeze
-
     DEFAULT_PER_PAGE = 20
     MAX_PER_PAGE = 100
     MAX_BATCH_SIZE = 25
@@ -147,8 +145,14 @@ module Api
       tags = normalize_tags(params[:tags])
       return scope if tags.empty?
 
-      operator = TAG_OPERATORS.fetch(params[:tag_filtering] || "or") { raise BadRequest, "tag_filtering must be or or and" }
-      scope.where("pastes.tags::text[] #{operator} ARRAY[?]::text[]", tags)
+      tags_column = Paste.arel_table[:tags]
+      condition = case params[:tag_filtering] || "or"
+      when "or" then tags_column.overlaps(tags)
+      when "and" then tags_column.contains(tags)
+      else raise BadRequest, "tag_filtering must be or or and"
+      end
+
+      scope.where(condition)
     end
 
     def paste_attributes(attrs, context = "")
