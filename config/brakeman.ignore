@@ -1,0 +1,39 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 4,
+      "fingerprint": "855c8659ea80ffa6faa952e921fd72bcc7b0643c8908aee5725e429a6ca3041e",
+      "check_name": "LinkToHref",
+      "message": "Potentially unsafe model attribute in `link_to` href",
+      "file": "app/views/profiles/show.html.erb",
+      "line": 38,
+      "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
+      "code": "link_to(User.find_by_id_or_username(params[:id_or_username]).safe_link, User.find_by_id_or_username(params[:id_or_username]).safe_link, :class => (\"#{link_class(:variant => :external, :size => :sm)} break-words\"), :target => \"_blank\", :rel => \"noopener\")",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "ProfilesController",
+          "method": "show",
+          "line": 55,
+          "file": "app/controllers/profiles_controller.rb",
+          "rendered": {
+            "name": "profiles/show",
+            "file": "app/views/profiles/show.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "profiles/show"
+      },
+      "user_input": "User.find_by_id_or_username(params[:id_or_username]).safe_link",
+      "confidence": "Weak",
+      "cwe_id": [
+        79
+      ],
+      "note": ""
+    }
+  ],
+  "brakeman_version": "8.1.1"
+}
