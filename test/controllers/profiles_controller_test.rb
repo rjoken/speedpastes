@@ -33,4 +33,22 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     get profile_path(user.id)
     assert_response :success
   end
+
+  test "renders an http link" do
+    @user.update!(link: "https://example.com")
+
+    get profile_path(@user.username)
+
+    assert_select "a[href='https://example.com']"
+  end
+
+  test "does not render a stored javascript: link" do
+    @user.update_column(:link, "javascript:alert(1)")
+
+    get profile_path(@user.username)
+
+    assert_response :success
+    assert_select "a[href^='javascript']", 0
+    assert_not_includes response.body, "javascript:alert(1)"
+  end
 end

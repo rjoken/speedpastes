@@ -32,14 +32,14 @@
           <div class="text-sm text-[var(--text)] [var(--surface)]space-pre-line"><%= h @user.bio %></div>
         <% end %>
 
-        <% if @user.link.present? %>
+        <% if @user.safe_link.present? %>
           <div class="text-xs font-bold uppercase tracking-wide text-[var(--muted)] mb-1 mt-4">Website</div>
           <div>
-            <%= link_to @user.link, @user.link, class: "#{link_class(variant: :external, size: :sm)} break-words", target: "_blank", rel: "noopener" %>
+            <%= link_to @user.safe_link, @user.safe_link, class: "#{link_class(variant: :external, size: :sm)} break-words", target: "_blank", rel: "noopener" %>
           </div>
         <% end %>
 
-        <% if !@user.bio.present? && !@user.link.present? %>
+        <% if !@user.bio.present? && !@user.safe_link.present? %>
           <div class="text-sm text-[var(--muted)]">This user has very little to share!</div>
         <% end %>
       </div>

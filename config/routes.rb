@@ -37,6 +37,9 @@ Rails.application.routes.draw do
     post :import_pastebin
 
     patch "revoke_session/:id", to: "settings#revoke_session", as: :revoke_session
+
+    post :add_api_token
+    patch "revoke_api_token/:id", to: "settings#revoke_api_token", as: :revoke_api_token
   end
 
   resource :settings, only: [ :show ] do
@@ -77,6 +80,13 @@ Rails.application.routes.draw do
   end
 
   post "/webhook/patreon", to: "webhooks/patreon#create", as: :patreon_webhook
+
+  namespace :api, defaults: { format: :json } do
+    get :ping, to: "ping#show"
+    get "users/:id_or_username", to: "users#show", as: :user
+    resources :pastes, param: :shortcode, only: [ :index, :show, :create, :update, :destroy ]
+    resource :scratchpad, only: [ :show, :create, :update ]
+  end
 
   match "/400", to: "errors#show", via: :all, defaults: { code: 400, message: "Bad Request" }
   match "/404", to: "errors#show", via: :all, defaults: { code: 404, message: "Not Found" }

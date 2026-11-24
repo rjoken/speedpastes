@@ -224,6 +224,40 @@ class SettingsController < ApplicationController
         redirect_to settings_path, notice: "Patreon account disconnected successfully"
     end
 
+    # POST /settings/add_api_token
+    # Renders instead of redirecting so the raw token never touches the flash or session cookie
+    def add_api_token
+        expiry = params[:expires_in].to_s
+        unless ApiToken::EXPIRY_OPTIONS.key?(expiry)
+            return redirect_to settings_path, alert: "Invalid expiry option"
+        end
+
+        @api_token, @raw_api_token = ApiToken.generate!(
+            user: current_user,
+            name: params[:name].to_s.strip,
+            scopes: Array(params[:scopes]).compact_blank,
+            expires_in: ApiToken::EXPIRY_OPTIONS[expiry]
+        )
+
+        @user = current_user
+        response.headers["Cache-Control"] = "no-store"
+        render :show
+    rescue ActiveRecord::RecordInvalid => e
+        redirect_to settings_path, alert: e.record.errors.full_messages.to_sentence
+    end
+
+    # PATCH /settings/revoke_api_token/:id
+    def revoke_api_token
+        token = current_user.api_tokens.active.find_by(id: params[:id])
+        if token
+            token.revoke!
+            notice = "API token revoked successfully"
+        else
+            notice = "API token not found or already revoked"
+        end
+        redirect_to settings_path, notice: notice
+    end
+
     private
 
     def profile_params

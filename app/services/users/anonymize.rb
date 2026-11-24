@@ -28,6 +28,8 @@ module Users
 
                 UserSession.where(user_id: @user.id).delete_all
 
+                ApiToken.where(user_id: @user.id).delete_all
+
                 AccountChangeRequest.where(user_id: @user.id).delete_all
 
                 # Purge avatar

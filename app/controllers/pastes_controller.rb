@@ -128,19 +128,12 @@ class PastesController < ApplicationController
 
     permitted = params.require(:paste).permit(*permitted_attrs)
     permitted[:tags] = normalize_tags(permitted[:tags]) if permitted[:tags].present?
-    permitted[:collaborators] = normalize_collaborators(permitted[:collaborators]) if can_manage_collaborators?
+    permitted[:collaborators] = Paste.collaborator_ids_for(permitted[:collaborators], owner: current_user) if can_manage_collaborators?
     permitted
   end
 
   def can_manage_collaborators?
-    action_name == "create" || (defined?(@paste) && @paste.present? && current_user == @paste.user)
-  end
-
-  def normalize_collaborators(raw_ids)
-    collaborator_ids = Array(raw_ids).map(&:to_i).uniq
-    return [] if collaborator_ids.empty?
-
-    User.activated.where(id: collaborator_ids).where.not(id: current_user.id).pluck(:id)
+    action_name == "create" || (defined?(@paste) && @paste.present? && @paste.owned_by?(current_user))
   end
 
   def set_paste_by_id
@@ -154,13 +147,11 @@ class PastesController < ApplicationController
   end
 
   def require_owner_or_admin!(paste)
-    raise ActiveRecord::RecordNotFound unless current_user == paste.user || current_user&.admin?
+    raise ActiveRecord::RecordNotFound unless paste.deletable_by?(current_user)
   end
 
   def require_editor_or_admin!(paste)
-    return if current_user == paste.user || current_user&.admin? || paste.collaborators.include?(current_user.id)
-
-    raise ActiveRecord::RecordNotFound
+    raise ActiveRecord::RecordNotFound unless paste.editable_by?(current_user)
   end
 
   def authorize_view!(paste)

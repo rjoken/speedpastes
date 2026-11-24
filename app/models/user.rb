@@ -5,6 +5,7 @@ class User < ApplicationRecord
   has_many_attached :paste_images
   has_many :pastes, dependent: :destroy
   has_many :user_sessions, dependent: :destroy
+  has_many :api_tokens, dependent: :destroy
   has_many :account_change_requests, dependent: :destroy
   has_many :user_pins, -> { order(:position) }, dependent: :destroy
   has_many :user_pin_records, through: :user_pins, source: :paste
@@ -18,6 +19,11 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: { case_sensitive: false }
   validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { in: 3..20 },
     format: { with: /\A(?!\d+\z)[a-zA-Z0-9_]+\z/, message: "May only contain letters (at least one), numbers, and underscores and must be between 3 and 20 characters long." }
+
+  # Anything else (e.g. javascript:) would run script when the profile link is clicked
+  WEB_URL_FORMAT = %r{\Ahttps?://\S+\z}i
+
+  validates :link, format: { with: WEB_URL_FORMAT, message: "must start with http:// or https://" }, allow_blank: true
 
   enum :role, { user: 0, pro: 1, deactivated: 2, banned: 3, admin: 999 }, default: :user
   # Pro is deprecated as a role in favour of using the is_supporter column
@@ -54,8 +60,24 @@ class User < ApplicationRecord
 
   before_validation :normalize_profile_style
 
+  after_update :revoke_api_tokens, if: :saved_change_to_password_digest?
+
   validate :profile_style_overrides_are_allowed
   validate :profile_style_overrides_are_valid
+
+  # Usernames can't be all digits, so a numeric value is always an id.
+  # Checking that first stops "12abc" being cast to id 12.
+  def self.find_by_id_or_username(value)
+    value = value.to_s
+    return find_by(id: value) if value.match?(/\A\d+\z/)
+
+    find_by("lower(username) = ?", value.downcase)
+  end
+
+  # Guards display against links saved before the format validation existed
+  def safe_link
+    link if link&.match?(WEB_URL_FORMAT)
+  end
 
   def show_view_count?
     show_view_count
@@ -74,6 +96,10 @@ class User < ApplicationRecord
   end
 
   private
+
+  def revoke_api_tokens
+    api_tokens.active.update_all(revoked_at: Time.current)
+  end
 
   def normalize_profile_style
     self.profile_style = profile_style
